@@ -1,11 +1,30 @@
 <script>
 	import { TinyGallery } from "svelte-tiny-gallery"
+
+	const items = [
+    `https://source.unsplash.com/random?cache=${Math.random() * 1000}`,
+    `https://source.unsplash.com/random?cache=${Math.random() * 1000}`,
+    `https://source.unsplash.com/random?cache=${Math.random() * 1000}`,
+    `https://source.unsplash.com/random?cache=${Math.random() * 1000}`
+	]
 </script>
 
 
 
 <div class="wrapper">
+	<TinyGallery let:active>
+		<svelte:fragment>
+			{#each items as item}
+				<img src={item} alt="" />
+			{/each}
+		</svelte:fragment>
 
+		<div slot="controls">
+			{active}
+
+			<div on:click={() => console.log(active)}>set active to 1</div>
+		</div>
+	</TinyGallery>
 </div>
 
 
