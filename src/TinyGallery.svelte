@@ -1,6 +1,4 @@
 <script>
-  export const setIndex = (i) => snapToPosition({ setIndex: i })
-
   export let currentIndex = 0
 
   let isDragging = false
@@ -12,16 +10,23 @@
   let contentElement
   let transitionDuration = 300
 
+  export function setIndex(i) {
+    const length = getItemSizes().length
+
+    if (i < 0) i = 0
+    if (i > length - 1) i = length - 1
+
+    return snapToPosition({ setIndex: i })
+  }
+
   function down(event) {
-    console.log('down')
-    if (!(event.target == galleryElement || event.target.closest(".gallery") == galleryElement)) return
+    if (event.target != galleryElement && event.target.closest(".gallery") != galleryElement) return
 
     movementStartX = event.pageX || event.touches[0].pageX
     isDragging = true
   }
 
   function up() {
-    console.log('up')
     if (!isDragging) return
 
     const direction = currentScrollPosition > finalScrollPosition ? 1 : -1
@@ -50,6 +55,7 @@
 
   function snapToPosition({ setIndex = -1, direction = 1 } = {}) {
     const sizes = getItemSizes()
+    const total = sizes.reduce((p, c) => p + c)
 
     currentIndex = 0
 
@@ -67,7 +73,9 @@
       sum += sizes[i]
     }
 
-    currentIndex = i
+    currentIndex = Math.min(i, sizes.length - 1)
+
+    sum = Math.min(sum, total - galleryWidth)
 
     setScrollPosition(sum)
 
@@ -104,6 +112,7 @@
 </div>
 
 <slot name="controls" {currentIndex} {setIndex} />
+
 
 
 

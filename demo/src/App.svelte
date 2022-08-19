@@ -2,38 +2,38 @@
 	import { TinyGallery } from "svelte-tiny-gallery"
 
 	const items = [
-    `https://source.unsplash.com/random?cache=${Math.random() * 1000}`,
-    `https://source.unsplash.com/random?cache=${Math.random() * 1000}`,
-    `https://source.unsplash.com/random?cache=${Math.random() * 1000}`,
-		`https://source.unsplash.com/random?cache=${Math.random() * 1000}`,
-    `https://source.unsplash.com/random?cache=${Math.random() * 1000}`,
-    `https://source.unsplash.com/random?cache=${Math.random() * 1000}`,
-		`https://source.unsplash.com/random?cache=${Math.random() * 1000}`,
-    `https://source.unsplash.com/random?cache=${Math.random() * 1000}`,
-    `https://source.unsplash.com/random?cache=${Math.random() * 1000}`,
-    `https://source.unsplash.com/random?cache=${Math.random() * 1000}`
+    `https://source.unsplash.com/random?3d-renders&1`,
+    `https://source.unsplash.com/random?3d-renders&2`,
+    `https://source.unsplash.com/random?3d-renders&3`,
+		`https://source.unsplash.com/random?3d-renders&4`,
+    `https://source.unsplash.com/random?3d-renders&5`,
+    `https://source.unsplash.com/random?3d-renders&6`,
+		`https://source.unsplash.com/random?3d-renders&7`,
+    `https://source.unsplash.com/random?3d-renders&8`,
+    `https://source.unsplash.com/random?3d-renders&9`,
+    `https://source.unsplash.com/random?3d-renders&10`
 	]
 
 	const portaitItems = [
-    `https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
-    `https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
-    `https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
-		`https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
-    `https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
-    `https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
-		`https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
-    `https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
-    `https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`
+    `https://source.unsplash.com/random/200x300?fashion&1`,
+    `https://source.unsplash.com/random/200x300?fashion&2`,
+    `https://source.unsplash.com/random/200x300?fashion&3`,
+		`https://source.unsplash.com/random/200x300?fashion&4`,
+    `https://source.unsplash.com/random/200x300?fashion&5`,
+    `https://source.unsplash.com/random/200x300?fashion&6`,
+		`https://source.unsplash.com/random/200x300?fashion&7`,
+    `https://source.unsplash.com/random/200x300?fashion&8`,
+    `https://source.unsplash.com/random/200x300?fashion&9`
 	]
 
-	// let setIndex
+	let setIndex
 	// let currentIndex
 </script>
 
 
 
 <div class="wrapper">
-	<TinyGallery let:setIndex let:currentIndex let:galleryWidth>
+	<TinyGallery bind:setIndex let:currentIndex let:galleryWidth>
 		{#each items as item}
 			<div
 				class="item"
@@ -60,13 +60,27 @@
 		<div on:click={() => setIndex(2)}>set active to 2</div>
 	</div> -->
 
-	<TinyGallery let:setIndex let:currentIndex let:galleryWidth>
-		{#each portaitItems as item}
-			<div class="item" style:--width="200px">
-				<img src={item} alt="" />
-			</div>
-		{/each}
-	</TinyGallery>
+	<div class="relative">
+		<div class="gallery-wrapper">
+			<TinyGallery let:setIndex let:currentIndex let:galleryWidth>
+				{#each portaitItems as item}
+					<div class="item" style:--width="200px">
+						<img src={item} alt="" />
+					</div>
+				{/each}
+
+				<svelte:fragment slot="controls">
+					{#if currentIndex > 0}
+						<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}>←</button>
+					{/if}
+
+					{#if currentIndex < portaitItems.length - 1}
+						<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}>→</button>
+					{/if}
+				</svelte:fragment>
+			</TinyGallery>
+		</div>
+	</div>
 </div>
 
 
@@ -109,9 +123,11 @@
 
 	:global(.gallery) {
 		margin: 0 -0.5rem;
-		border-radius: 0.25rem;
-		background: var(--bg-well);
+	}
+
+	.gallery-wrapper {
 		overflow: hidden;
+		border-radius: 0.25rem;
 	}
 
 	img {
@@ -147,6 +163,7 @@
 	.dot {
 		padding: 0;
 		margin: 0;
+		border: 0;
 		border-radius: 0.25rem;
 		background: gray;
 		overflow: hidden;
@@ -165,6 +182,33 @@
 	.dot img {
 		display: block;
 		width: auto;
+	}
+
+	.arrow {
+		position: absolute;
+		left: 0;
+		top: 50%;
+		width: 2rem;
+		height: 2rem;
+		padding: 0;
+		margin: 0;
+		border: 0;
+		border-radius: 50%;
+		background: var(--bg-well);
+		transform: translateX(-50%) translateY(-50%);
+		font-size: 1.5rem;
+		line-height: 1.65rem;
+		font-family: inherit;
+		text-align: center;
+		font-weight: bold;
+		color: white;
+		z-index: 2;
+	}
+
+	.arrow.right {
+		left: auto;
+		right: 0;
+		transform: translateX(50%) translateY(-50%);
 	}
 
 	h1 {
@@ -208,7 +252,7 @@
 		margin-top: 0;
 	}
 
-	button {
+	.button {
 		appearance: none;
 		-webkit-appearance: none;
 		background: var(--primary);
@@ -222,15 +266,15 @@
 		transition: outline 100ms, transform 100ms;
 	}
 
-	button:hover {
+	.button:hover {
 		background: var(--primary-light);
 	}
 
-	button:focus-visible:not(:active) {
+	.button:focus-visible:not(:active) {
 		outline: 3px solid var(--text-color-lightest);
 	}
 
-	button:active {
+	.button:active {
 		transform: scale(0.95);
 	}
 
@@ -306,5 +350,9 @@
 	.table code {
 		margin-top: 0;
 		line-height: 1.3rem;
+	}
+
+	.relative {
+		position: relative;
 	}
 </style>
