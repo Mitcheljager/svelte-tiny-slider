@@ -1,7 +1,7 @@
 <script>
-  export let index = 0
+  export const setIndex = (i) => snapToPosition({ setIndex: i })
 
-  let active = 0
+  let currentIndex = 0
   let isDragging = false
   let movementStartX = 0
   let currentScrollPosition = 0
@@ -10,8 +10,6 @@
   let galleryWidth = 0
   let galleryElement
   let transitionDuration = 300
-
-  // $: setActive(index)
 
   function down(event) {
     if (!(event.target == galleryWrapperElement || event.target.closest(".gallery-wrapper") == galleryWrapperElement)) return
@@ -23,9 +21,10 @@
   function up() {
     if (!isDragging) return
 
-    snapToPosition()
+    const direction = currentScrollPosition > finalScrollPosition ? 1 : -1
 
-    finalScrollPosition = currentScrollPosition
+    snapToPosition({ direction })
+
     isDragging = false
   }
 
@@ -40,21 +39,28 @@
     setScrollPosition(finalScrollPosition + (movementStartX - event.pageX))
   }
 
-  function snapToPosition() {
+  function snapToPosition({ setIndex = -1, direction = 1 } = {}) {
     const sizes = getItemSizes()
 
-    const direction = currentScrollPosition > finalScrollPosition ? 1 : -1
+    currentIndex = 0
+    let total = 0
 
-    active = 0
-    const total = sizes.reduce((previous, current, index) => {
-      if (((direction > 0 && previous - current > currentScrollPosition)) || (direction < 0 && previous > currentScrollPosition)) return previous
-      active = index
-      return previous + current
-    })
+    let i = 0;
+    for (i = 0; i < sizes.length; i++) {
+      if (setIndex != -1) {
+        if (i >= setIndex) break
+      } else if ((direction > 0 && total > currentScrollPosition) || (direction < 0 && total + sizes[currentIndex + 1] > currentScrollPosition)) {
+        break
+      }
 
-    const position = total - sizes[sizes.length - 1]
+      total += sizes[i]
+    }
 
-    setScrollPosition(position)
+    currentIndex = i
+
+    setScrollPosition(total)
+
+    finalScrollPosition = currentScrollPosition
   }
 
   function setScrollPosition(left) {
@@ -84,7 +90,7 @@
   </div>
 </div>
 
-<slot name="controls" {active} />
+<slot name="controls" {currentIndex} />
 
 
 
@@ -102,6 +108,5 @@
 
   .gallery :global(img) {
     pointer-events: none;
-    height: auto;
   }
 </style>

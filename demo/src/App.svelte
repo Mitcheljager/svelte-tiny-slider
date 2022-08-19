@@ -14,21 +14,23 @@
     `https://source.unsplash.com/random?cache=${Math.random() * 1000}`
 	]
 
-	let index = 0
+	let setIndex
 </script>
 
 
 
 <div class="wrapper">
-	<TinyGallery {index} let:active let:galleryWidth>
+	<TinyGallery bind:setIndex let:currentIndex let:galleryWidth>
 		{#each items as item}
-			<img src={item} alt="" width={galleryWidth / 3} />
+			<img src={item} alt="" width={galleryWidth / Math.ceil(Math.random() * 4)} />
 		{/each}
 
-		<div slot="controls">
-			{active}
+		<div slot="controls" class="dots">
+			{#each items as item, i}
+				<div class="dot" class:active={i == currentIndex} on:click={() => setIndex(i)} />
+			{/each}
 
-			<div on:click={() => index = 2}>set active to 1</div>
+			<div on:click={() => setIndex(2)}>set active to 2</div>
 		</div>
 	</TinyGallery>
 </div>
@@ -65,6 +67,31 @@
 		color: var(--text-color);
 		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 		overflow-x: hidden;
+	}
+
+	img {
+		height: 200px;
+		width: auto;
+	}
+
+	.dots {
+		display: flex;
+		gap: 0.25rem;
+	}
+
+	.dot {
+		width: 1rem;
+		height: 1rem;
+		border-radius: 50%;
+		background: gray;
+	}
+
+	.dot:hover {
+		background: darkgray;
+	}
+
+	.dot.active {
+		background: white;
 	}
 
 	h1 {
