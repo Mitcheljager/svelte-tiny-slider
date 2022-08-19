@@ -14,24 +14,58 @@
     `https://source.unsplash.com/random?cache=${Math.random() * 1000}`
 	]
 
-	let setIndex
+	const portaitItems = [
+    `https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
+    `https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
+    `https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
+		`https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
+    `https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
+    `https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
+		`https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
+    `https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`,
+    `https://source.unsplash.com/random/200x300?cache=${Math.random() * 1000}`
+	]
+
+	// let setIndex
+	// let currentIndex
 </script>
 
 
 
 <div class="wrapper">
-	<TinyGallery bind:setIndex let:currentIndex let:galleryWidth>
+	<TinyGallery let:setIndex let:currentIndex let:galleryWidth>
 		{#each items as item}
-			<img src={item} alt="" width={galleryWidth / Math.ceil(Math.random() * 4)} />
+			<div
+				class="item"
+				style:--width="{galleryWidth}px"
+				style:--height="400px">
+				<img src={item} alt="" />
+			</div>
 		{/each}
 
 		<div slot="controls" class="dots">
 			{#each items as item, i}
-				<div class="dot" class:active={i == currentIndex} on:click={() => setIndex(i)} />
+				<button
+					class="dot"
+					class:active={i == currentIndex}
+					on:click={() => setIndex(i)}
+					on:focus={() => setIndex(i)}>
+					<img src={item} alt="" height=40 />
+				</button>
 			{/each}
-
-			<div on:click={() => setIndex(2)}>set active to 2</div>
 		</div>
+	</TinyGallery>
+
+	<!-- <div>
+		<div on:click={() => setIndex(2)}>set active to 2</div>
+	</div> -->
+
+	<TinyGallery let:setIndex let:currentIndex let:galleryWidth>
+		{#each portaitItems as item}
+			<div class="item" style:--width="200px">
+				<img src={item} alt="" />
+			</div>
+		{/each}
 	</TinyGallery>
 </div>
 
@@ -69,29 +103,68 @@
 		overflow-x: hidden;
 	}
 
+	:global(*) {
+		box-sizing: border-box;
+	}
+
+	:global(.gallery) {
+		margin: 0 -0.5rem;
+		border-radius: 0.25rem;
+		background: var(--bg-well);
+		overflow: hidden;
+	}
+
 	img {
-		height: 200px;
-		width: auto;
+		display: block;
+	}
+
+	.item {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex: 0 0 var(--width);
+		width: var(--width);
+		height: var(--height);
+		padding: 0 0.5rem;
+		border-radius: 0.25rem;
+		overflow: hidden;
+	}
+
+	.item img {
+		max-width: 100%;
+		height: auto;
+		border-radius: 0.25rem;
+		overflow: hidden;
 	}
 
 	.dots {
 		display: flex;
-		gap: 0.25rem;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		padding: 0.5rem 0;
 	}
 
 	.dot {
-		width: 1rem;
-		height: 1rem;
-		border-radius: 50%;
+		padding: 0;
+		margin: 0;
+		border-radius: 0.25rem;
 		background: gray;
+		overflow: hidden;
 	}
 
 	.dot:hover {
 		background: darkgray;
 	}
 
-	.dot.active {
-		background: white;
+	.dot.active,
+	.dot:focus {
+		outline: 2px solid white;
+		outline-offset: 2px;
+	}
+
+	.dot img {
+		display: block;
+		width: auto;
 	}
 
 	h1 {
