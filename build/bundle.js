@@ -188,6 +188,9 @@ var app = (function () {
             detach(iframe);
         };
     }
+    function toggle_class(element, name, toggle) {
+        element.classList[toggle ? 'add' : 'remove'](name);
+    }
     function custom_event(type, detail, { bubbles = false, cancelable = false } = {}) {
         const e = document.createEvent('CustomEvent');
         e.initCustomEvent(type, bubbles, cancelable, detail);
@@ -213,6 +216,9 @@ var app = (function () {
     }
     function add_render_callback(fn) {
         render_callbacks.push(fn);
+    }
+    function add_flush_callback(fn) {
+        flush_callbacks.push(fn);
     }
     // flush() calls callbacks in this order:
     // 1. All beforeUpdate callbacks, in order: parents before children
@@ -313,6 +319,14 @@ var app = (function () {
         : typeof globalThis !== 'undefined'
             ? globalThis
             : global);
+
+    function bind(component, name, callback) {
+        const index = component.$$.props[name];
+        if (index !== undefined) {
+            component.$$.bound[index] = callback;
+            callback(component.$$.ctx[index]);
+        }
+    }
     function create_component(block) {
         block && block.c();
     }
@@ -477,13 +491,6 @@ var app = (function () {
         else
             dispatch_dev('SvelteDOMSetAttribute', { node, attribute, value });
     }
-    function set_data_dev(text, data) {
-        data = '' + data;
-        if (text.wholeText === data)
-            return;
-        dispatch_dev('SvelteDOMSetData', { node: text, data });
-        text.data = data;
-    }
     function validate_each_argument(arg) {
         if (typeof arg !== 'string' && !(arg && typeof arg === 'object' && 'length' in arg)) {
             let msg = '{#each} only iterates over array-like objects.';
@@ -526,12 +533,12 @@ var app = (function () {
     const file$1 = "..\\src\\TinyGallery.svelte";
 
     const get_controls_slot_changes = dirty => ({
-    	active: dirty & /*active*/ 1,
+    	currentIndex: dirty & /*currentIndex*/ 1,
     	galleryWidth: dirty & /*galleryWidth*/ 16
     });
 
     const get_controls_slot_context = ctx => ({
-    	active: /*active*/ ctx[0],
+    	currentIndex: /*currentIndex*/ ctx[0],
     	galleryWidth: /*galleryWidth*/ ctx[4]
     });
 
@@ -568,13 +575,13 @@ var app = (function () {
     			t = space();
     			if (controls_slot) controls_slot.c();
     			attr_dev(div0, "draggable", false);
-    			attr_dev(div0, "class", "gallery svelte-12mal55");
+    			attr_dev(div0, "class", "gallery svelte-1kgp6bg");
     			set_style(div0, "transform", style_transform, false);
     			set_style(div0, "transition-duration", style_transition_duration, false);
-    			add_location(div0, file$1, 76, 2, 1960);
-    			attr_dev(div1, "class", "gallery-wrapper svelte-12mal55");
+    			add_location(div0, file$1, 82, 2, 2077);
+    			attr_dev(div1, "class", "gallery-wrapper svelte-1kgp6bg");
     			add_render_callback(() => /*div1_elementresize_handler*/ ctx[15].call(div1));
-    			add_location(div1, file$1, 75, 0, 1861);
+    			add_location(div1, file$1, 81, 0, 1978);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -635,7 +642,7 @@ var app = (function () {
     			}
 
     			if (controls_slot) {
-    				if (controls_slot.p && (!current || dirty & /*$$scope, active, galleryWidth*/ 2065)) {
+    				if (controls_slot.p && (!current || dirty & /*$$scope, currentIndex, galleryWidth*/ 2065)) {
     					update_slot_base(
     						controls_slot,
     						controls_slot_template,
@@ -687,8 +694,8 @@ var app = (function () {
     function instance$1($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('TinyGallery', slots, ['default','controls']);
-    	let { index = 0 } = $$props;
-    	let active = 0;
+    	const setIndex = i => snapToPosition({ setIndex: i });
+    	let currentIndex = 0;
     	let isDragging = false;
     	let movementStartX = 0;
     	let currentScrollPosition = 0;
@@ -698,7 +705,6 @@ var app = (function () {
     	let galleryElement;
     	let transitionDuration = 300;
 
-    	// $: setActive(index)
     	function down(event) {
     		if (!(event.target == galleryWrapperElement || event.target.closest(".gallery-wrapper") == galleryWrapperElement)) return;
     		movementStartX = event.pageX;
@@ -707,8 +713,8 @@ var app = (function () {
 
     	function up() {
     		if (!isDragging) return;
-    		snapToPosition();
-    		finalScrollPosition = currentScrollPosition;
+    		const direction = currentScrollPosition > finalScrollPosition ? 1 : -1;
+    		snapToPosition({ direction });
     		$$invalidate(1, isDragging = false);
     	}
 
@@ -723,19 +729,25 @@ var app = (function () {
     		setScrollPosition(finalScrollPosition + (movementStartX - event.pageX));
     	}
 
-    	function snapToPosition() {
+    	function snapToPosition({ setIndex = -1, direction = 1 } = {}) {
     		const sizes = getItemSizes();
-    		const direction = currentScrollPosition > finalScrollPosition ? 1 : -1;
-    		$$invalidate(0, active = 0);
+    		$$invalidate(0, currentIndex = 0);
+    		let total = 0;
+    		let i = 0;
 
-    		const total = sizes.reduce((previous, current, index) => {
-    			if (direction > 0 && previous - current > currentScrollPosition || direction < 0 && previous > currentScrollPosition) return previous;
-    			$$invalidate(0, active = index);
-    			return previous + current;
-    		});
+    		for (i = 0; i < sizes.length; i++) {
+    			if (setIndex != -1) {
+    				if (i >= setIndex) break;
+    			} else if (direction > 0 && total > currentScrollPosition || direction < 0 && total + sizes[currentIndex + 1] > currentScrollPosition) {
+    				break;
+    			}
 
-    		const position = total - sizes[sizes.length - 1];
-    		setScrollPosition(position);
+    			total += sizes[i];
+    		}
+
+    		$$invalidate(0, currentIndex = i);
+    		setScrollPosition(total);
+    		finalScrollPosition = currentScrollPosition;
     	}
 
     	function setScrollPosition(left) {
@@ -748,7 +760,7 @@ var app = (function () {
     		return Array.from(galleryElement.children).map(item => item.width);
     	}
 
-    	const writable_props = ['index'];
+    	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<TinyGallery> was created with unknown prop '${key}'`);
@@ -774,13 +786,12 @@ var app = (function () {
     	}
 
     	$$self.$$set = $$props => {
-    		if ('index' in $$props) $$invalidate(10, index = $$props.index);
     		if ('$$scope' in $$props) $$invalidate(11, $$scope = $$props.$$scope);
     	};
 
     	$$self.$capture_state = () => ({
-    		index,
-    		active,
+    		setIndex,
+    		currentIndex,
     		isDragging,
     		movementStartX,
     		currentScrollPosition,
@@ -798,8 +809,7 @@ var app = (function () {
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('index' in $$props) $$invalidate(10, index = $$props.index);
-    		if ('active' in $$props) $$invalidate(0, active = $$props.active);
+    		if ('currentIndex' in $$props) $$invalidate(0, currentIndex = $$props.currentIndex);
     		if ('isDragging' in $$props) $$invalidate(1, isDragging = $$props.isDragging);
     		if ('movementStartX' in $$props) movementStartX = $$props.movementStartX;
     		if ('currentScrollPosition' in $$props) $$invalidate(2, currentScrollPosition = $$props.currentScrollPosition);
@@ -815,7 +825,7 @@ var app = (function () {
     	}
 
     	return [
-    		active,
+    		currentIndex,
     		isDragging,
     		currentScrollPosition,
     		galleryWrapperElement,
@@ -825,7 +835,7 @@ var app = (function () {
     		down,
     		up,
     		move,
-    		index,
+    		setIndex,
     		$$scope,
     		slots,
     		div0_binding,
@@ -837,7 +847,7 @@ var app = (function () {
     class TinyGallery extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$1, create_fragment$1, safe_not_equal, { index: 10 });
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, { setIndex: 10 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -847,11 +857,11 @@ var app = (function () {
     		});
     	}
 
-    	get index() {
-    		throw new Error("<TinyGallery>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	get setIndex() {
+    		return this.$$.ctx[10];
     	}
 
-    	set index(value) {
+    	set setIndex(value) {
     		throw new Error("<TinyGallery>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
@@ -859,14 +869,21 @@ var app = (function () {
     /* src\App.svelte generated by Svelte v3.49.0 */
     const file = "src\\App.svelte";
 
+    function get_each_context_1(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[7] = list[i];
+    	return child_ctx;
+    }
+
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[5] = list[i];
+    	child_ctx[7] = list[i];
+    	child_ctx[9] = i;
     	return child_ctx;
     }
 
     // (24:2) {#each items as item}
-    function create_each_block(ctx) {
+    function create_each_block_1(ctx) {
     	let img;
     	let img_src_value;
     	let img_width_value;
@@ -874,16 +891,17 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			img = element("img");
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[5])) attr_dev(img, "src", img_src_value);
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[7])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
-    			attr_dev(img, "width", img_width_value = /*galleryWidth*/ ctx[4] / 3);
-    			add_location(img, file, 24, 3, 949);
+    			attr_dev(img, "width", img_width_value = /*galleryWidth*/ ctx[6] / Math.ceil(Math.random() * 4));
+    			attr_dev(img, "class", "svelte-ez36ym");
+    			add_location(img, file, 24, 3, 960);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*galleryWidth*/ 16 && img_width_value !== (img_width_value = /*galleryWidth*/ ctx[4] / 3)) {
+    			if (dirty & /*galleryWidth*/ 64 && img_width_value !== (img_width_value = /*galleryWidth*/ ctx[6] / Math.ceil(Math.random() * 4))) {
     				attr_dev(img, "width", img_width_value);
     			}
     		},
@@ -894,7 +912,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block.name,
+    		id: create_each_block_1.name,
     		type: "each",
     		source: "(24:2) {#each items as item}",
     		ctx
@@ -903,15 +921,15 @@ var app = (function () {
     	return block;
     }
 
-    // (23:1) <TinyGallery {index} let:active let:galleryWidth>
+    // (23:1) <TinyGallery bind:setIndex let:currentIndex let:galleryWidth>
     function create_default_slot(ctx) {
     	let each_1_anchor;
-    	let each_value = /*items*/ ctx[1];
-    	validate_each_argument(each_value);
+    	let each_value_1 = /*items*/ ctx[1];
+    	validate_each_argument(each_value_1);
     	let each_blocks = [];
 
-    	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    	for (let i = 0; i < each_value_1.length; i += 1) {
+    		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
     	}
 
     	const block = {
@@ -930,18 +948,18 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*items, galleryWidth*/ 18) {
-    				each_value = /*items*/ ctx[1];
-    				validate_each_argument(each_value);
+    			if (dirty & /*items, galleryWidth, Math*/ 66) {
+    				each_value_1 = /*items*/ ctx[1];
+    				validate_each_argument(each_value_1);
     				let i;
 
-    				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context(ctx, each_value, i);
+    				for (i = 0; i < each_value_1.length; i += 1) {
+    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block(child_ctx);
+    						each_blocks[i] = create_each_block_1(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
     					}
@@ -951,7 +969,7 @@ var app = (function () {
     					each_blocks[i].d(1);
     				}
 
-    				each_blocks.length = each_value.length;
+    				each_blocks.length = each_value_1.length;
     			}
     		},
     		d: function destroy(detaching) {
@@ -964,7 +982,57 @@ var app = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(23:1) <TinyGallery {index} let:active let:galleryWidth>",
+    		source: "(23:1) <TinyGallery bind:setIndex let:currentIndex let:galleryWidth>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (29:3) {#each items as item, i}
+    function create_each_block(ctx) {
+    	let div;
+    	let mounted;
+    	let dispose;
+
+    	function click_handler() {
+    		return /*click_handler*/ ctx[2](/*i*/ ctx[9]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			attr_dev(div, "class", "dot svelte-ez36ym");
+    			toggle_class(div, "active", /*i*/ ctx[9] == /*currentIndex*/ ctx[5]);
+    			add_location(div, file, 29, 4, 1123);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(div, "click", click_handler, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+
+    			if (dirty & /*currentIndex*/ 32) {
+    				toggle_class(div, "active", /*i*/ ctx[9] == /*currentIndex*/ ctx[5]);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block.name,
+    		type: "each",
+    		source: "(29:3) {#each items as item, i}",
     		ctx
     	});
 
@@ -974,40 +1042,77 @@ var app = (function () {
     // (28:2) 
     function create_controls_slot(ctx) {
     	let div1;
-    	let t0_value = /*active*/ ctx[3] + "";
     	let t0;
-    	let t1;
     	let div0;
     	let mounted;
     	let dispose;
+    	let each_value = /*items*/ ctx[1];
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    	}
 
     	const block = {
     		c: function create() {
     			div1 = element("div");
-    			t0 = text(t0_value);
-    			t1 = space();
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			t0 = space();
     			div0 = element("div");
-    			div0.textContent = "set active to 1";
-    			add_location(div0, file, 30, 3, 1057);
+    			div0.textContent = "set active to 2";
+    			add_location(div0, file, 32, 3, 1223);
     			attr_dev(div1, "slot", "controls");
-    			add_location(div1, file, 27, 2, 1016);
+    			attr_dev(div1, "class", "dots svelte-ez36ym");
+    			add_location(div1, file, 27, 2, 1054);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(div1, null);
+    			}
+
     			append_dev(div1, t0);
-    			append_dev(div1, t1);
     			append_dev(div1, div0);
 
     			if (!mounted) {
-    				dispose = listen_dev(div0, "click", /*click_handler*/ ctx[2], false, false, false);
+    				dispose = listen_dev(div0, "click", /*click_handler_1*/ ctx[3], false, false, false);
     				mounted = true;
     			}
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*active*/ 8 && t0_value !== (t0_value = /*active*/ ctx[3] + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*currentIndex, setIndex*/ 33) {
+    				each_value = /*items*/ ctx[1];
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(div1, t0);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value.length;
+    			}
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div1);
+    			destroy_each(each_blocks, detaching);
     			mounted = false;
     			dispose();
     		}
@@ -1027,34 +1132,42 @@ var app = (function () {
     function create_fragment(ctx) {
     	let div;
     	let tinygallery;
+    	let updating_setIndex;
     	let current;
 
-    	tinygallery = new TinyGallery({
-    			props: {
-    				index: /*index*/ ctx[0],
-    				$$slots: {
-    					controls: [
-    						create_controls_slot,
-    						({ active, galleryWidth }) => ({ 3: active, 4: galleryWidth }),
-    						({ active, galleryWidth }) => (active ? 8 : 0) | (galleryWidth ? 16 : 0)
-    					],
-    					default: [
-    						create_default_slot,
-    						({ active, galleryWidth }) => ({ 3: active, 4: galleryWidth }),
-    						({ active, galleryWidth }) => (active ? 8 : 0) | (galleryWidth ? 16 : 0)
-    					]
-    				},
-    				$$scope: { ctx }
-    			},
-    			$$inline: true
-    		});
+    	function tinygallery_setIndex_binding(value) {
+    		/*tinygallery_setIndex_binding*/ ctx[4](value);
+    	}
+
+    	let tinygallery_props = {
+    		$$slots: {
+    			controls: [
+    				create_controls_slot,
+    				({ currentIndex, galleryWidth }) => ({ 5: currentIndex, 6: galleryWidth }),
+    				({ currentIndex, galleryWidth }) => (currentIndex ? 32 : 0) | (galleryWidth ? 64 : 0)
+    			],
+    			default: [
+    				create_default_slot,
+    				({ currentIndex, galleryWidth }) => ({ 5: currentIndex, 6: galleryWidth }),
+    				({ currentIndex, galleryWidth }) => (currentIndex ? 32 : 0) | (galleryWidth ? 64 : 0)
+    			]
+    		},
+    		$$scope: { ctx }
+    	};
+
+    	if (/*setIndex*/ ctx[0] !== void 0) {
+    		tinygallery_props.setIndex = /*setIndex*/ ctx[0];
+    	}
+
+    	tinygallery = new TinyGallery({ props: tinygallery_props, $$inline: true });
+    	binding_callbacks.push(() => bind(tinygallery, 'setIndex', tinygallery_setIndex_binding));
 
     	const block = {
     		c: function create() {
     			div = element("div");
     			create_component(tinygallery.$$.fragment);
-    			attr_dev(div, "class", "wrapper svelte-175r859");
-    			add_location(div, file, 21, 0, 846);
+    			attr_dev(div, "class", "wrapper svelte-ez36ym");
+    			add_location(div, file, 21, 0, 845);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1066,10 +1179,15 @@ var app = (function () {
     		},
     		p: function update(ctx, [dirty]) {
     			const tinygallery_changes = {};
-    			if (dirty & /*index*/ 1) tinygallery_changes.index = /*index*/ ctx[0];
 
-    			if (dirty & /*$$scope, index, active, galleryWidth*/ 281) {
+    			if (dirty & /*$$scope, setIndex, currentIndex, galleryWidth*/ 4193) {
     				tinygallery_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_setIndex && dirty & /*setIndex*/ 1) {
+    				updating_setIndex = true;
+    				tinygallery_changes.setIndex = /*setIndex*/ ctx[0];
+    				add_flush_callback(() => updating_setIndex = false);
     			}
 
     			tinygallery.$set(tinygallery_changes);
@@ -1117,25 +1235,32 @@ var app = (function () {
     		`https://source.unsplash.com/random?cache=${Math.random() * 1000}`
     	];
 
-    	let index = 0;
+    	let setIndex;
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<App> was created with unknown prop '${key}'`);
     	});
 
-    	const click_handler = () => $$invalidate(0, index = 2);
-    	$$self.$capture_state = () => ({ TinyGallery, items, index });
+    	const click_handler = i => setIndex(i);
+    	const click_handler_1 = () => setIndex(2);
+
+    	function tinygallery_setIndex_binding(value) {
+    		setIndex = value;
+    		$$invalidate(0, setIndex);
+    	}
+
+    	$$self.$capture_state = () => ({ TinyGallery, items, setIndex });
 
     	$$self.$inject_state = $$props => {
-    		if ('index' in $$props) $$invalidate(0, index = $$props.index);
+    		if ('setIndex' in $$props) $$invalidate(0, setIndex = $$props.setIndex);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [index, items, click_handler];
+    	return [setIndex, items, click_handler, click_handler_1, tinygallery_setIndex_binding];
     }
 
     class App extends SvelteComponentDev {
