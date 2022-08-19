@@ -1,3 +1,3 @@
-import TinyGallery from "./TinyGallery.svelte"
+import TinySlider from "./TinySlider.svelte"
 
-export { TinyGallery }
+export { TinySlider }

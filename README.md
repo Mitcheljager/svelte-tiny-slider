@@ -1,1 +1,1 @@
-# Svelte Tiny Gallery
+# Svelte Tiny Slider

@@ -5,7 +5,7 @@ import pkg from "./package.json"
 
 export default [
   {
-		input: "src/TinyGallery.svelte",
+		input: "src/TinySlider.svelte",
 		output: [
 			{
 				file: pkg.module,
@@ -14,7 +14,7 @@ export default [
 			{
 				file: pkg.main,
 				"format": "umd",
-				name: "TinyGallery"
+				name: "TinySlider"
 			}
 		],
 		plugins: [

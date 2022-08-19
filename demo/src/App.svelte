@@ -1,5 +1,5 @@
 <script>
-	import { TinyGallery } from "svelte-tiny-gallery"
+	import { TinySlider } from "svelte-tiny-slider"
 
 	const items = [
     `https://source.unsplash.com/random?3d-renders&1`,
@@ -33,11 +33,11 @@
 
 
 <div class="wrapper">
-	<TinyGallery bind:setIndex let:currentIndex let:galleryWidth>
+	<TinySlider bind:setIndex let:currentIndex let:sliderWidth>
 		{#each items as item}
 			<div
 				class="item"
-				style:--width="{galleryWidth}px"
+				style:--width="{sliderWidth}px"
 				style:--height="400px">
 				<img src={item} alt="" />
 			</div>
@@ -54,15 +54,15 @@
 				</button>
 			{/each}
 		</div>
-	</TinyGallery>
+	</TinySlider>
 
 	<!-- <div>
 		<div on:click={() => setIndex(2)}>set active to 2</div>
 	</div> -->
 
 	<div class="relative">
-		<div class="gallery-wrapper">
-			<TinyGallery let:setIndex let:currentIndex let:galleryWidth>
+		<div class="slider-wrapper">
+			<TinySlider let:setIndex let:currentIndex let:sliderWidth>
 				{#each portaitItems as item}
 					<div class="item" style:--width="200px">
 						<img src={item} alt="" />
@@ -78,7 +78,7 @@
 						<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}>→</button>
 					{/if}
 				</svelte:fragment>
-			</TinyGallery>
+			</TinySlider>
 		</div>
 	</div>
 </div>
@@ -121,11 +121,11 @@
 		box-sizing: border-box;
 	}
 
-	:global(.gallery) {
+	:global(.slider) {
 		margin: 0 -0.5rem;
 	}
 
-	.gallery-wrapper {
+	.slider-wrapper {
 		overflow: hidden;
 		border-radius: 0.25rem;
 	}

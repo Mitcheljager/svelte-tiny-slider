@@ -5,8 +5,8 @@
   let movementStartX = 0
   let currentScrollPosition = 0
   let finalScrollPosition = 0
-  let galleryElement
-  let galleryWidth = 0
+  let sliderElement
+  let sliderWidth = 0
   let contentElement
   let transitionDuration = 300
 
@@ -20,7 +20,7 @@
   }
 
   function down(event) {
-    if (event.target != galleryElement && event.target.closest(".gallery") != galleryElement) return
+    if (event.target != sliderElement && event.target.closest(".slider") != sliderElement) return
 
     movementStartX = event.pageX || event.touches[0].pageX
     isDragging = true
@@ -75,7 +75,7 @@
 
     currentIndex = Math.min(i, sizes.length - 1)
 
-    sum = Math.min(sum, total - galleryWidth)
+    sum = Math.min(sum, total - sliderWidth)
 
     setScrollPosition(sum)
 
@@ -100,14 +100,14 @@
 
 
 
-<div class="gallery" bind:this={galleryElement} bind:clientWidth={galleryWidth}>
+<div class="slider" bind:this={sliderElement} bind:clientWidth={sliderWidth}>
   <div
     bind:this={contentElement}
     draggable={false}
-    class="gallery-content"
+    class="slider-content"
     style:transform="translateX({currentScrollPosition * -1}px)"
     style:transition-duration="{isDragging ? 0 : transitionDuration}ms">
-    <slot {galleryWidth} />
+    <slot {sliderWidth} />
   </div>
 </div>
 
@@ -117,18 +117,18 @@
 
 
 <style>
-  .gallery {
+  .slider {
     overflow-x: hidden;
   }
 
-  .gallery-content {
+  .slider-content {
     display: flex;
     align-items: flex-start;
     user-select: none;
     transition: transform;
   }
 
-  .gallery :global(img) {
+  .slider :global(img) {
     pointer-events: none;
   }
 </style>
