@@ -1,40 +1,31 @@
 <script>
 	import { TinySlider } from "svelte-tiny-slider"
 
-	const items = [
-    `https://source.unsplash.com/random?3d-renders&1`,
-    `https://source.unsplash.com/random?3d-renders&2`,
-    `https://source.unsplash.com/random?3d-renders&3`,
-		`https://source.unsplash.com/random?3d-renders&4`,
-    `https://source.unsplash.com/random?3d-renders&5`,
-    `https://source.unsplash.com/random?3d-renders&6`,
-		`https://source.unsplash.com/random?3d-renders&7`,
-    `https://source.unsplash.com/random?3d-renders&8`,
-    `https://source.unsplash.com/random?3d-renders&9`,
-    `https://source.unsplash.com/random?3d-renders&10`
-	]
+	const items = getItems("3d-renders")
+	let portaitItems = getItems("fashion", "200x300")
 
-	const portaitItems = [
-    `https://source.unsplash.com/random/200x300?fashion&1`,
-    `https://source.unsplash.com/random/200x300?fashion&2`,
-    `https://source.unsplash.com/random/200x300?fashion&3`,
-		`https://source.unsplash.com/random/200x300?fashion&4`,
-    `https://source.unsplash.com/random/200x300?fashion&5`,
-    `https://source.unsplash.com/random/200x300?fashion&6`,
-		`https://source.unsplash.com/random/200x300?fashion&7`,
-    `https://source.unsplash.com/random/200x300?fashion&8`,
-    `https://source.unsplash.com/random/200x300?fashion&9`
-	]
+	function getItems(subject, size = "", count = 10, from = 0) {
+		const array = []
+		for (let i = 1; i <= count; i++) {
+			array.push(`https://source.unsplash.com/random${size ? `/${size}` : ''}?${subject}&${from + i}`)
+		}
 
-	let setIndex
-	// let currentIndex
+		return array
+	}
+
+	let sliderWidth
+	let maxWidth
+	let currentScrollPosition
+
+	$: if (maxWidth && currentScrollPosition + (sliderWidth * 2) >= maxWidth)
+		portaitItems = [...portaitItems, ...getItems("fashion", "200x300", 10, portaitItems.length)]
 </script>
 
 
 
 <div class="wrapper">
 	<div class="gallery">
-		<TinySlider bind:setIndex let:currentIndex let:sliderWidth>
+		<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:sliderWidth on:end={() => console.log('reached end')}>
 			{#each items as item}
 				<div
 					class="item"
@@ -64,7 +55,7 @@
 
 	<div class="relative">
 		<div class="slider-wrapper">
-			<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:sliderWidth let:shown on:end={() => console.log('reached end')}>
+			<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown bind:sliderWidth bind:currentScrollPosition bind:maxWidth>
 				{#each portaitItems as item, index}
 					<div class="item no-gap" style:--width="200px" style:--height="300px">
 						{#if [index, index + 1, index - 1].some(i => shown.includes(i))}
@@ -75,18 +66,29 @@
 
 				<svelte:fragment slot="controls">
 					{#if currentIndex > 0}
-						<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}>←</button>
+						<button class="arrow left" on:click={() => setIndex(currentIndex - 2)}>←</button>
 					{/if}
 
 					{#if currentIndex < portaitItems.length - 1}
-						<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}>→</button>
+						<button class="arrow right" on:click={() => setIndex(currentIndex + 2)}>→</button>
 					{/if}
 
-					{shown}
+					<div>{shown}</div>
+					<div>{maxWidth}</div>
+					<div>{currentScrollPosition}</div>
+					<div>{portaitItems.length}</div>
 				</svelte:fragment>
 			</TinySlider>
 		</div>
 	</div>
+
+	<TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex let:shown>
+		{#each { length: 20 } as _}
+			<div class="item no-gap" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px">
+				<strong>Word</strong>
+			</div>
+		{/each}
+	</TinySlider>
 </div>
 
 
@@ -127,10 +129,6 @@
 		box-sizing: border-box;
 	}
 
-	.gallery :global(.slider) {
-		margin: 0 -0.5rem;
-	}
-
 	.slider-wrapper {
 		overflow: hidden;
 		border-radius: 0.25rem;
@@ -147,14 +145,10 @@
 		flex: 0 0 var(--width);
 		width: var(--width);
 		height: var(--height, 100%);
-		padding: 0 0.5rem;
 		border-radius: 0.25rem;
-		overflow: hidden;
-	}
-
-	.item.no-gap {
-		padding: 0;
 		background: var(--bg-well);
+		overflow: hidden;
+		color: white;
 	}
 
 	.item img {
@@ -202,7 +196,7 @@
 	.arrow {
 		position: absolute;
 		left: 0;
-		top: 50%;
+		top: 150px;
 		width: 2rem;
 		height: 2rem;
 		padding: 0;
@@ -218,6 +212,10 @@
 		font-weight: bold;
 		color: white;
 		z-index: 2;
+	}
+
+	.arrow:hover {
+		background: var(--border-color);
 	}
 
 	.arrow.right {
