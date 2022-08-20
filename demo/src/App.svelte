@@ -33,28 +33,30 @@
 
 
 <div class="wrapper">
-	<TinySlider bind:setIndex let:currentIndex let:sliderWidth>
-		{#each items as item}
-			<div
-				class="item"
-				style:--width="{sliderWidth}px"
-				style:--height="400px">
-				<img src={item} alt="" />
-			</div>
-		{/each}
-
-		<div slot="controls" class="dots">
-			{#each items as item, i}
-				<button
-					class="dot"
-					class:active={i == currentIndex}
-					on:click={() => setIndex(i)}
-					on:focus={() => setIndex(i)}>
-					<img src={item} alt="" height=40 />
-				</button>
+	<div class="gallery">
+		<TinySlider bind:setIndex let:currentIndex let:sliderWidth>
+			{#each items as item}
+				<div
+					class="item"
+					style:--width="{sliderWidth}px"
+					style:--height="400px">
+					<img loading="lazy" src={item} alt="" />
+				</div>
 			{/each}
-		</div>
-	</TinySlider>
+
+			<div slot="controls" class="dots">
+				{#each items as item, i}
+					<button
+						class="dot"
+						class:active={i == currentIndex}
+						on:click={() => setIndex(i)}
+						on:focus={() => setIndex(i)}>
+						<img src={item} alt="" height=40 />
+					</button>
+				{/each}
+			</div>
+		</TinySlider>
+	</div>
 
 	<!-- <div>
 		<div on:click={() => setIndex(2)}>set active to 2</div>
@@ -62,10 +64,12 @@
 
 	<div class="relative">
 		<div class="slider-wrapper">
-			<TinySlider let:setIndex let:currentIndex let:sliderWidth>
-				{#each portaitItems as item}
-					<div class="item" style:--width="200px">
-						<img src={item} alt="" />
+			<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:sliderWidth let:shown on:end={() => console.log('reached end')}>
+				{#each portaitItems as item, index}
+					<div class="item no-gap" style:--width="200px" style:--height="300px">
+						{#if [index, index + 1, index - 1].some(i => shown.includes(i))}
+							<img src={item} alt="" />
+						{/if}
 					</div>
 				{/each}
 
@@ -77,6 +81,8 @@
 					{#if currentIndex < portaitItems.length - 1}
 						<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}>→</button>
 					{/if}
+
+					{shown}
 				</svelte:fragment>
 			</TinySlider>
 		</div>
@@ -121,7 +127,7 @@
 		box-sizing: border-box;
 	}
 
-	:global(.slider) {
+	.gallery :global(.slider) {
 		margin: 0 -0.5rem;
 	}
 
@@ -140,17 +146,26 @@
 		align-items: center;
 		flex: 0 0 var(--width);
 		width: var(--width);
-		height: var(--height);
+		height: var(--height, 100%);
 		padding: 0 0.5rem;
 		border-radius: 0.25rem;
 		overflow: hidden;
 	}
 
+	.item.no-gap {
+		padding: 0;
+		background: var(--bg-well);
+	}
+
 	.item img {
 		max-width: 100%;
 		height: auto;
+	}
+
+	.content {
 		border-radius: 0.25rem;
 		overflow: hidden;
+		background: red;
 	}
 
 	.dots {
