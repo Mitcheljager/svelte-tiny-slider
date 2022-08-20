@@ -24,30 +24,28 @@
 
 
 <div class="wrapper">
-	<div class="gallery">
-		<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:sliderWidth on:end={() => console.log('reached end')}>
-			{#each items as item}
-				<div
-					class="item"
-					style:--width="{sliderWidth}px"
-					style:--height="400px">
-					<img loading="lazy" src={item} alt="" />
-				</div>
-			{/each}
-
-			<div slot="controls" class="dots">
-				{#each items as item, i}
-					<button
-						class="dot"
-						class:active={i == currentIndex}
-						on:click={() => setIndex(i)}
-						on:focus={() => setIndex(i)}>
-						<img src={item} alt="" height=40 />
-					</button>
-				{/each}
+	<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:sliderWidth on:end={() => console.log('reached end')}>
+		{#each items as item}
+			<div
+				class="item"
+				style:--width="{sliderWidth}px"
+				style:--height="400px">
+				<img loading="lazy" src={item} alt="" />
 			</div>
-		</TinySlider>
-	</div>
+		{/each}
+
+		<div slot="controls" class="dots">
+			{#each items as item, i}
+				<button
+					class="dot"
+					class:active={i == currentIndex}
+					on:click={() => setIndex(i)}
+					on:focus={() => setIndex(i)}>
+					<img src={item} alt="" height=40 />
+				</button>
+			{/each}
+		</div>
+	</TinySlider>
 
 	<!-- <div>
 		<div on:click={() => setIndex(2)}>set active to 2</div>
@@ -154,12 +152,6 @@
 	.item img {
 		max-width: 100%;
 		height: auto;
-	}
-
-	.content {
-		border-radius: 0.25rem;
-		overflow: hidden;
-		background: red;
 	}
 
 	.dots {

@@ -1,5 +1,6 @@
 <script>
-  import { createEventDispatcher } from 'svelte'
+  import { createEventDispatcher } from "svelte"
+  import { onMount, onDestroy } from "svelte"
 
   export let gap = 0
   export let snap = true
@@ -16,10 +17,14 @@
   let finalScrollPosition = 0
   let sliderElement
   let contentElement
+  let observer
 
   const dispatch = createEventDispatcher()
 
   $: if (contentElement) setShown()
+
+  onMount(createResizeObserver)
+  onDestroy(() => observer.disconnect(contentElement))
 
   export function setIndex(i) {
     const length = contentElement.children.length
@@ -71,8 +76,6 @@
 
     currentIndex = 0
 
-    console.log('snap')
-
     let i;
     for (i = 0; i < offsets.length; i++) {
       if (setIndex != -1) {
@@ -114,6 +117,17 @@
   function getContentChildren() {
     return Array.from(contentElement.children).filter(c => c.src != "about:blank")
   }
+
+  function createResizeObserver() {
+    observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
+        maxWidth = contentBoxSize.inlineSize
+      }
+    })
+
+    observer.observe(contentElement)
+  }
 </script>
 
 
@@ -125,7 +139,6 @@
 <div class="slider" class:dragging={isDragging} bind:this={sliderElement} bind:clientWidth={sliderWidth}>
   <div
     bind:this={contentElement}
-    bind:clientWidth={maxWidth}
     draggable={false}
     class="slider-content"
     style:transform="translateX({currentScrollPosition * -1}px)"
