@@ -201,6 +201,27 @@ var app = (function () {
     function set_current_component(component) {
         current_component = component;
     }
+    function get_current_component() {
+        if (!current_component)
+            throw new Error('Function called outside component initialization');
+        return current_component;
+    }
+    function createEventDispatcher() {
+        const component = get_current_component();
+        return (type, detail, { cancelable = false } = {}) => {
+            const callbacks = component.$$.callbacks[type];
+            if (callbacks) {
+                // TODO are there situations where events could be dispatched
+                // in a server (non-DOM) environment?
+                const event = custom_event(type, detail, { cancelable });
+                callbacks.slice().forEach(fn => {
+                    fn.call(component, event);
+                });
+                return !event.defaultPrevented;
+            }
+            return true;
+        };
+    }
 
     const dirty_components = [];
     const binding_callbacks = [];
@@ -491,6 +512,13 @@ var app = (function () {
         else
             dispatch_dev('SvelteDOMSetAttribute', { node, attribute, value });
     }
+    function set_data_dev(text, data) {
+        data = '' + data;
+        if (text.wholeText === data)
+            return;
+        dispatch_dev('SvelteDOMSetData', { node: text, data });
+        text.data = data;
+    }
     function validate_each_argument(arg) {
         if (typeof arg !== 'string' && !(arg && typeof arg === 'object' && 'length' in arg)) {
             let msg = '{#each} only iterates over array-like objects.';
@@ -533,37 +561,49 @@ var app = (function () {
     const file$1 = "..\\src\\TinySlider.svelte";
 
     const get_controls_slot_changes = dirty => ({
-    	currentIndex: dirty & /*currentIndex*/ 1,
-    	sliderWidth: dirty & /*sliderWidth*/ 32
+    	sliderWidth: dirty & /*sliderWidth*/ 256,
+    	shown: dirty & /*shown*/ 2,
+    	currentIndex: dirty & /*currentIndex*/ 1
     });
 
     const get_controls_slot_context = ctx => ({
+    	sliderWidth: /*sliderWidth*/ ctx[8],
+    	shown: /*shown*/ ctx[1],
     	currentIndex: /*currentIndex*/ ctx[0],
-    	setIndex: /*setIndex*/ ctx[1],
-    	sliderWidth: /*sliderWidth*/ ctx[5]
+    	setIndex: /*setIndex*/ ctx[3]
     });
 
-    const get_default_slot_changes = dirty => ({ sliderWidth: dirty & /*sliderWidth*/ 32 });
-    const get_default_slot_context = ctx => ({ sliderWidth: /*sliderWidth*/ ctx[5] });
+    const get_default_slot_changes = dirty => ({
+    	sliderWidth: dirty & /*sliderWidth*/ 256,
+    	shown: dirty & /*shown*/ 2,
+    	currentIndex: dirty & /*currentIndex*/ 1
+    });
+
+    const get_default_slot_context = ctx => ({
+    	sliderWidth: /*sliderWidth*/ ctx[8],
+    	shown: /*shown*/ ctx[1],
+    	currentIndex: /*currentIndex*/ ctx[0],
+    	setIndex: /*setIndex*/ ctx[3]
+    });
 
     function create_fragment$1(ctx) {
     	let div1;
     	let div0;
-    	let style_transform = `translateX(${/*currentScrollPosition*/ ctx[3] * -1}px)`;
+    	let style_transform = `translateX(${/*currentScrollPosition*/ ctx[6] * -1}px)`;
 
-    	let style_transition_duration = `${/*isDragging*/ ctx[2]
+    	let style_transition_duration = `${/*isDragging*/ ctx[5]
 	? 0
-	: /*transitionDuration*/ ctx[7]}ms`;
+	: /*transitionDuration*/ ctx[9]}ms`;
 
     	let div1_resize_listener;
     	let t;
     	let current;
     	let mounted;
     	let dispose;
-    	const default_slot_template = /*#slots*/ ctx[12].default;
-    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[11], get_default_slot_context);
-    	const controls_slot_template = /*#slots*/ ctx[12].controls;
-    	const controls_slot = create_slot(controls_slot_template, ctx, /*$$scope*/ ctx[11], get_controls_slot_context);
+    	const default_slot_template = /*#slots*/ ctx[15].default;
+    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[14], get_default_slot_context);
+    	const controls_slot_template = /*#slots*/ ctx[15].controls;
+    	const controls_slot = create_slot(controls_slot_template, ctx, /*$$scope*/ ctx[14], get_controls_slot_context);
 
     	const block = {
     		c: function create() {
@@ -573,13 +613,14 @@ var app = (function () {
     			t = space();
     			if (controls_slot) controls_slot.c();
     			attr_dev(div0, "draggable", false);
-    			attr_dev(div0, "class", "slider-content svelte-f4j34j");
+    			attr_dev(div0, "class", "slider-content svelte-4tkin8");
     			set_style(div0, "transform", style_transform, false);
     			set_style(div0, "transition-duration", style_transition_duration, false);
-    			add_location(div0, file$1, 103, 2, 2537);
-    			attr_dev(div1, "class", "slider svelte-f4j34j");
-    			add_render_callback(() => /*div1_elementresize_handler*/ ctx[15].call(div1));
-    			add_location(div1, file$1, 102, 0, 2456);
+    			set_style(div0, "--gap", /*gap*/ ctx[2], false);
+    			add_location(div0, file$1, 118, 2, 2994);
+    			attr_dev(div1, "class", "slider svelte-4tkin8");
+    			add_render_callback(() => /*div1_elementresize_handler*/ ctx[18].call(div1));
+    			add_location(div1, file$1, 117, 0, 2913);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -592,9 +633,9 @@ var app = (function () {
     				default_slot.m(div0, null);
     			}
 
-    			/*div0_binding*/ ctx[13](div0);
-    			/*div1_binding*/ ctx[14](div1);
-    			div1_resize_listener = add_resize_listener(div1, /*div1_elementresize_handler*/ ctx[15].bind(div1));
+    			/*div0_binding*/ ctx[16](div0);
+    			/*div1_binding*/ ctx[17](div1);
+    			div1_resize_listener = add_resize_listener(div1, /*div1_elementresize_handler*/ ctx[18].bind(div1));
     			insert_dev(target, t, anchor);
 
     			if (controls_slot) {
@@ -605,12 +646,12 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(window_1, "mousedown", /*down*/ ctx[8], false, false, false),
-    					listen_dev(window_1, "mouseup", /*up*/ ctx[9], false, false, false),
-    					listen_dev(window_1, "mousemove", /*move*/ ctx[10], false, false, false),
-    					listen_dev(window_1, "touchstart", /*down*/ ctx[8], false, false, false),
-    					listen_dev(window_1, "touchend", /*up*/ ctx[9], false, false, false),
-    					listen_dev(window_1, "touchmove", /*move*/ ctx[10], false, false, false)
+    					listen_dev(window_1, "mousedown", /*down*/ ctx[10], false, false, false),
+    					listen_dev(window_1, "mouseup", /*up*/ ctx[11], false, false, false),
+    					listen_dev(window_1, "mousemove", /*move*/ ctx[12], false, false, false),
+    					listen_dev(window_1, "touchstart", /*down*/ ctx[10], false, false, false),
+    					listen_dev(window_1, "touchend", /*up*/ ctx[11], false, false, false),
+    					listen_dev(window_1, "touchmove", /*move*/ ctx[12], false, false, false)
     				];
 
     				mounted = true;
@@ -618,40 +659,44 @@ var app = (function () {
     		},
     		p: function update(ctx, [dirty]) {
     			if (default_slot) {
-    				if (default_slot.p && (!current || dirty & /*$$scope, sliderWidth*/ 2080)) {
+    				if (default_slot.p && (!current || dirty & /*$$scope, sliderWidth, shown, currentIndex*/ 16643)) {
     					update_slot_base(
     						default_slot,
     						default_slot_template,
     						ctx,
-    						/*$$scope*/ ctx[11],
+    						/*$$scope*/ ctx[14],
     						!current
-    						? get_all_dirty_from_scope(/*$$scope*/ ctx[11])
-    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[11], dirty, get_default_slot_changes),
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[14])
+    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[14], dirty, get_default_slot_changes),
     						get_default_slot_context
     					);
     				}
     			}
 
-    			if (dirty & /*currentScrollPosition*/ 8 && style_transform !== (style_transform = `translateX(${/*currentScrollPosition*/ ctx[3] * -1}px)`)) {
+    			if (dirty & /*currentScrollPosition*/ 64 && style_transform !== (style_transform = `translateX(${/*currentScrollPosition*/ ctx[6] * -1}px)`)) {
     				set_style(div0, "transform", style_transform, false);
     			}
 
-    			if (dirty & /*isDragging*/ 4 && style_transition_duration !== (style_transition_duration = `${/*isDragging*/ ctx[2]
+    			if (dirty & /*isDragging*/ 32 && style_transition_duration !== (style_transition_duration = `${/*isDragging*/ ctx[5]
 			? 0
-			: /*transitionDuration*/ ctx[7]}ms`)) {
+			: /*transitionDuration*/ ctx[9]}ms`)) {
     				set_style(div0, "transition-duration", style_transition_duration, false);
     			}
 
+    			if (dirty & /*gap*/ 4) {
+    				set_style(div0, "--gap", /*gap*/ ctx[2], false);
+    			}
+
     			if (controls_slot) {
-    				if (controls_slot.p && (!current || dirty & /*$$scope, currentIndex, sliderWidth*/ 2081)) {
+    				if (controls_slot.p && (!current || dirty & /*$$scope, sliderWidth, shown, currentIndex*/ 16643)) {
     					update_slot_base(
     						controls_slot,
     						controls_slot_template,
     						ctx,
-    						/*$$scope*/ ctx[11],
+    						/*$$scope*/ ctx[14],
     						!current
-    						? get_all_dirty_from_scope(/*$$scope*/ ctx[11])
-    						: get_slot_changes(controls_slot_template, /*$$scope*/ ctx[11], dirty, get_controls_slot_changes),
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[14])
+    						: get_slot_changes(controls_slot_template, /*$$scope*/ ctx[14], dirty, get_controls_slot_changes),
     						get_controls_slot_context
     					);
     				}
@@ -671,8 +716,8 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div1);
     			if (default_slot) default_slot.d(detaching);
-    			/*div0_binding*/ ctx[13](null);
-    			/*div1_binding*/ ctx[14](null);
+    			/*div0_binding*/ ctx[16](null);
+    			/*div1_binding*/ ctx[17](null);
     			div1_resize_listener();
     			if (detaching) detach_dev(t);
     			if (controls_slot) controls_slot.d(detaching);
@@ -695,7 +740,10 @@ var app = (function () {
     function instance$1($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('TinySlider', slots, ['default','controls']);
+    	let { gap = 0 } = $$props;
+    	let { snap = true } = $$props;
     	let { currentIndex = 0 } = $$props;
+    	let { shown = [] } = $$props;
     	let isDragging = false;
     	let movementStartX = 0;
     	let currentScrollPosition = 0;
@@ -704,9 +752,10 @@ var app = (function () {
     	let sliderWidth = 0;
     	let contentElement;
     	let transitionDuration = 300;
+    	const dispatch = createEventDispatcher();
 
     	function setIndex(i) {
-    		const length = getItemSizes().length;
+    		const length = contentElement.children.length;
     		if (i < 0) i = 0;
     		if (i > length - 1) i = length - 1;
     		return snapToPosition({ setIndex: i });
@@ -715,14 +764,14 @@ var app = (function () {
     	function down(event) {
     		if (event.target != sliderElement && event.target.closest(".slider") != sliderElement) return;
     		movementStartX = event.pageX || event.touches[0].pageX;
-    		$$invalidate(2, isDragging = true);
+    		$$invalidate(5, isDragging = true);
     	}
 
     	function up() {
     		if (!isDragging) return;
     		const direction = currentScrollPosition > finalScrollPosition ? 1 : -1;
-    		snapToPosition({ direction });
-    		$$invalidate(2, isDragging = false);
+    		if (snap) snapToPosition({ direction });
+    		$$invalidate(5, isDragging = false);
     	}
 
     	function move(event) {
@@ -739,42 +788,52 @@ var app = (function () {
     		}
 
     		setScrollPosition(finalScrollPosition + (movementStartX - event.pageX));
+    		setShown();
     	}
 
     	function snapToPosition({ setIndex = -1, direction = 1 } = {}) {
-    		const sizes = getItemSizes();
-    		const total = sizes.reduce((p, c) => p + c);
+    		const offsets = getItemOffsets();
     		$$invalidate(0, currentIndex = 0);
-    		let sum = 0;
     		let i = 0;
 
-    		for (i = 0; i < sizes.length; i++) {
+    		for (i = 0; i < offsets.length; i++) {
     			if (setIndex != -1) {
     				if (i >= setIndex) break;
-    			} else if (direction > 0 && sum > currentScrollPosition || direction < 0 && sum + sizes[currentIndex + 1] > currentScrollPosition) {
+    			} else if (direction > 0 && offsets[i] > currentScrollPosition || direction < 0 && offsets[i + 1] > currentScrollPosition) {
     				break;
     			}
-
-    			sum += sizes[i];
     		}
 
-    		$$invalidate(0, currentIndex = Math.min(i, sizes.length - 1));
-    		sum = Math.min(sum, total - sliderWidth);
-    		setScrollPosition(sum);
+    		$$invalidate(0, currentIndex = Math.min(i, offsets.length - 1));
+    		const maxWidth = contentElement.outerWidth - sliderWidth;
+
+    		if (offsets[i] > maxWidth) {
+    			$$invalidate(0, currentIndex = offsets.length - 1);
+    			dispatch("end");
+    		}
+
+    		setScrollPosition(offsets[currentIndex]);
     		finalScrollPosition = currentScrollPosition;
     	}
 
     	function setScrollPosition(left) {
-    		const sizes = getItemSizes();
-    		left = Math.min(left, sizes.reduce((p, c) => p + c));
-    		$$invalidate(3, currentScrollPosition = left);
+    		$$invalidate(6, currentScrollPosition = left);
     	}
 
-    	function getItemSizes() {
-    		return Array.from(contentElement.children).map(item => item.clientWidth);
+    	function setShown() {
+    		const offsets = getItemOffsets();
+
+    		Array.from(offsets).forEach((offset, index) => {
+    			if (currentScrollPosition + sliderWidth < offset) return;
+    			if (!shown.includes(index)) $$invalidate(1, shown = [...shown, index]);
+    		});
     	}
 
-    	const writable_props = ['currentIndex'];
+    	function getItemOffsets() {
+    		return Array.from(contentElement.children).map(item => item.offsetLeft);
+    	}
+
+    	const writable_props = ['gap', 'snap', 'currentIndex', 'shown'];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<TinySlider> was created with unknown prop '${key}'`);
@@ -783,29 +842,36 @@ var app = (function () {
     	function div0_binding($$value) {
     		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
     			contentElement = $$value;
-    			$$invalidate(6, contentElement);
+    			$$invalidate(4, contentElement);
     		});
     	}
 
     	function div1_binding($$value) {
     		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
     			sliderElement = $$value;
-    			$$invalidate(4, sliderElement);
+    			$$invalidate(7, sliderElement);
     		});
     	}
 
     	function div1_elementresize_handler() {
     		sliderWidth = this.clientWidth;
-    		$$invalidate(5, sliderWidth);
+    		$$invalidate(8, sliderWidth);
     	}
 
     	$$self.$$set = $$props => {
+    		if ('gap' in $$props) $$invalidate(2, gap = $$props.gap);
+    		if ('snap' in $$props) $$invalidate(13, snap = $$props.snap);
     		if ('currentIndex' in $$props) $$invalidate(0, currentIndex = $$props.currentIndex);
-    		if ('$$scope' in $$props) $$invalidate(11, $$scope = $$props.$$scope);
+    		if ('shown' in $$props) $$invalidate(1, shown = $$props.shown);
+    		if ('$$scope' in $$props) $$invalidate(14, $$scope = $$props.$$scope);
     	};
 
     	$$self.$capture_state = () => ({
+    		createEventDispatcher,
+    		gap,
+    		snap,
     		currentIndex,
+    		shown,
     		isDragging,
     		movementStartX,
     		currentScrollPosition,
@@ -814,43 +880,57 @@ var app = (function () {
     		sliderWidth,
     		contentElement,
     		transitionDuration,
+    		dispatch,
     		setIndex,
     		down,
     		up,
     		move,
     		snapToPosition,
     		setScrollPosition,
-    		getItemSizes
+    		setShown,
+    		getItemOffsets
     	});
 
     	$$self.$inject_state = $$props => {
+    		if ('gap' in $$props) $$invalidate(2, gap = $$props.gap);
+    		if ('snap' in $$props) $$invalidate(13, snap = $$props.snap);
     		if ('currentIndex' in $$props) $$invalidate(0, currentIndex = $$props.currentIndex);
-    		if ('isDragging' in $$props) $$invalidate(2, isDragging = $$props.isDragging);
+    		if ('shown' in $$props) $$invalidate(1, shown = $$props.shown);
+    		if ('isDragging' in $$props) $$invalidate(5, isDragging = $$props.isDragging);
     		if ('movementStartX' in $$props) movementStartX = $$props.movementStartX;
-    		if ('currentScrollPosition' in $$props) $$invalidate(3, currentScrollPosition = $$props.currentScrollPosition);
+    		if ('currentScrollPosition' in $$props) $$invalidate(6, currentScrollPosition = $$props.currentScrollPosition);
     		if ('finalScrollPosition' in $$props) finalScrollPosition = $$props.finalScrollPosition;
-    		if ('sliderElement' in $$props) $$invalidate(4, sliderElement = $$props.sliderElement);
-    		if ('sliderWidth' in $$props) $$invalidate(5, sliderWidth = $$props.sliderWidth);
-    		if ('contentElement' in $$props) $$invalidate(6, contentElement = $$props.contentElement);
-    		if ('transitionDuration' in $$props) $$invalidate(7, transitionDuration = $$props.transitionDuration);
+    		if ('sliderElement' in $$props) $$invalidate(7, sliderElement = $$props.sliderElement);
+    		if ('sliderWidth' in $$props) $$invalidate(8, sliderWidth = $$props.sliderWidth);
+    		if ('contentElement' in $$props) $$invalidate(4, contentElement = $$props.contentElement);
+    		if ('transitionDuration' in $$props) $$invalidate(9, transitionDuration = $$props.transitionDuration);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*contentElement*/ 16) {
+    			if (contentElement) setShown();
+    		}
+    	};
+
     	return [
     		currentIndex,
+    		shown,
+    		gap,
     		setIndex,
+    		contentElement,
     		isDragging,
     		currentScrollPosition,
     		sliderElement,
     		sliderWidth,
-    		contentElement,
     		transitionDuration,
     		down,
     		up,
     		move,
+    		snap,
     		$$scope,
     		slots,
     		div0_binding,
@@ -862,7 +942,14 @@ var app = (function () {
     class TinySlider extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$1, create_fragment$1, safe_not_equal, { currentIndex: 0, setIndex: 1 });
+
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, {
+    			gap: 2,
+    			snap: 13,
+    			currentIndex: 0,
+    			shown: 1,
+    			setIndex: 3
+    		});
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -870,6 +957,22 @@ var app = (function () {
     			options,
     			id: create_fragment$1.name
     		});
+    	}
+
+    	get gap() {
+    		throw new Error("<TinySlider>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set gap(value) {
+    		throw new Error("<TinySlider>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get snap() {
+    		throw new Error("<TinySlider>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set snap(value) {
+    		throw new Error("<TinySlider>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
     	get currentIndex() {
@@ -880,8 +983,16 @@ var app = (function () {
     		throw new Error("<TinySlider>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
+    	get shown() {
+    		throw new Error("<TinySlider>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set shown(value) {
+    		throw new Error("<TinySlider>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
     	get setIndex() {
-    		return this.$$.ctx[1];
+    		return this.$$.ctx[3];
     	}
 
     	set setIndex(value) {
@@ -890,48 +1001,52 @@ var app = (function () {
     }
 
     /* src\App.svelte generated by Svelte v3.49.0 */
+
+    const { console: console_1 } = globals;
     const file = "src\\App.svelte";
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[10] = list[i];
+    	child_ctx[13] = list[i];
+    	child_ctx[15] = i;
     	return child_ctx;
     }
 
     function get_each_context_2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[10] = list[i];
+    	child_ctx[13] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[10] = list[i];
-    	child_ctx[14] = i;
+    	child_ctx[13] = list[i];
+    	child_ctx[17] = i;
     	return child_ctx;
     }
 
-    // (37:2) {#each items as item}
+    // (38:3) {#each items as item}
     function create_each_block_2(ctx) {
     	let div;
     	let img;
     	let img_src_value;
     	let t;
-    	let style___width = `${/*sliderWidth*/ ctx[9]}px`;
+    	let style___width = `${/*sliderWidth*/ ctx[11]}px`;
 
     	const block = {
     		c: function create() {
     			div = element("div");
     			img = element("img");
     			t = space();
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[10])) attr_dev(img, "src", img_src_value);
+    			attr_dev(img, "loading", "lazy");
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[13])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "svelte-2yp90z");
-    			add_location(img, file, 41, 4, 1478);
-    			attr_dev(div, "class", "item svelte-2yp90z");
+    			attr_dev(img, "class", "svelte-16pqexi");
+    			add_location(img, file, 42, 5, 1509);
+    			attr_dev(div, "class", "item svelte-16pqexi");
     			set_style(div, "--width", style___width, false);
     			set_style(div, "--height", `400px`, false);
-    			add_location(div, file, 37, 3, 1384);
+    			add_location(div, file, 38, 4, 1411);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -939,7 +1054,7 @@ var app = (function () {
     			append_dev(div, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*sliderWidth*/ 512 && style___width !== (style___width = `${/*sliderWidth*/ ctx[9]}px`)) {
+    			if (dirty & /*sliderWidth*/ 2048 && style___width !== (style___width = `${/*sliderWidth*/ ctx[11]}px`)) {
     				set_style(div, "--width", style___width, false);
     			}
     		},
@@ -952,14 +1067,14 @@ var app = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(37:2) {#each items as item}",
+    		source: "(38:3) {#each items as item}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (36:1) <TinySlider bind:setIndex let:currentIndex let:sliderWidth>
+    // (37:2) <TinySlider bind:setIndex let:currentIndex let:sliderWidth>
     function create_default_slot_1(ctx) {
     	let each_1_anchor;
     	let each_value_2 = /*items*/ ctx[1];
@@ -986,7 +1101,7 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*sliderWidth, items*/ 514) {
+    			if (dirty & /*sliderWidth, items*/ 2050) {
     				each_value_2 = /*items*/ ctx[1];
     				validate_each_argument(each_value_2);
     				let i;
@@ -1020,14 +1135,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(36:1) <TinySlider bind:setIndex let:currentIndex let:sliderWidth>",
+    		source: "(37:2) <TinySlider bind:setIndex let:currentIndex let:sliderWidth>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (47:3) {#each items as item, i}
+    // (48:4) {#each items as item, i}
     function create_each_block_1(ctx) {
     	let button;
     	let img;
@@ -1037,11 +1152,11 @@ var app = (function () {
     	let dispose;
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[3](/*i*/ ctx[14]);
+    		return /*click_handler*/ ctx[4](/*i*/ ctx[17]);
     	}
 
     	function focus_handler() {
-    		return /*focus_handler*/ ctx[4](/*i*/ ctx[14]);
+    		return /*focus_handler*/ ctx[5](/*i*/ ctx[17]);
     	}
 
     	const block = {
@@ -1049,14 +1164,14 @@ var app = (function () {
     			button = element("button");
     			img = element("img");
     			t = space();
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[10])) attr_dev(img, "src", img_src_value);
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[13])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
     			attr_dev(img, "height", "40");
-    			attr_dev(img, "class", "svelte-2yp90z");
-    			add_location(img, file, 52, 5, 1742);
-    			attr_dev(button, "class", "dot svelte-2yp90z");
-    			toggle_class(button, "active", /*i*/ ctx[14] == /*currentIndex*/ ctx[8]);
-    			add_location(button, file, 47, 4, 1600);
+    			attr_dev(img, "class", "svelte-16pqexi");
+    			add_location(img, file, 53, 6, 1798);
+    			attr_dev(button, "class", "dot svelte-16pqexi");
+    			toggle_class(button, "active", /*i*/ ctx[17] == /*currentIndex*/ ctx[10]);
+    			add_location(button, file, 48, 5, 1651);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -1075,8 +1190,8 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
 
-    			if (dirty & /*currentIndex*/ 256) {
-    				toggle_class(button, "active", /*i*/ ctx[14] == /*currentIndex*/ ctx[8]);
+    			if (dirty & /*currentIndex*/ 1024) {
+    				toggle_class(button, "active", /*i*/ ctx[17] == /*currentIndex*/ ctx[10]);
     			}
     		},
     		d: function destroy(detaching) {
@@ -1090,14 +1205,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(47:3) {#each items as item, i}",
+    		source: "(48:4) {#each items as item, i}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (46:2) 
+    // (47:3) 
     function create_controls_slot_1(ctx) {
     	let div;
     	let each_value_1 = /*items*/ ctx[1];
@@ -1117,8 +1232,8 @@ var app = (function () {
     			}
 
     			attr_dev(div, "slot", "controls");
-    			attr_dev(div, "class", "dots svelte-2yp90z");
-    			add_location(div, file, 45, 2, 1531);
+    			attr_dev(div, "class", "dots svelte-16pqexi");
+    			add_location(div, file, 46, 3, 1580);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1128,7 +1243,7 @@ var app = (function () {
     			}
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*currentIndex, setIndex, items*/ 259) {
+    			if (dirty & /*currentIndex, setIndex, items*/ 1027) {
     				each_value_1 = /*items*/ ctx[1];
     				validate_each_argument(each_value_1);
     				let i;
@@ -1162,41 +1277,93 @@ var app = (function () {
     		block,
     		id: create_controls_slot_1.name,
     		type: "slot",
-    		source: "(46:2) ",
+    		source: "(47:3) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (66:4) {#each portaitItems as item}
-    function create_each_block(ctx) {
-    	let div;
+    // (70:6) {#if [index, index + 1, index - 1].some(i => shown.includes(i))}
+    function create_if_block_2(ctx) {
     	let img;
     	let img_src_value;
+
+    	const block = {
+    		c: function create() {
+    			img = element("img");
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[13])) attr_dev(img, "src", img_src_value);
+    			attr_dev(img, "alt", "");
+    			attr_dev(img, "class", "svelte-16pqexi");
+    			add_location(img, file, 70, 7, 2372);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, img, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(img);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_2.name,
+    		type: "if",
+    		source: "(70:6) {#if [index, index + 1, index - 1].some(i => shown.includes(i))}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (68:4) {#each portaitItems as item, index}
+    function create_each_block(ctx) {
+    	let div;
+    	let show_if = [/*index*/ ctx[15], /*index*/ ctx[15] + 1, /*index*/ ctx[15] - 1].some(func);
     	let t;
+
+    	function func(...args) {
+    		return /*func*/ ctx[3](/*shown*/ ctx[12], ...args);
+    	}
+
+    	let if_block = show_if && create_if_block_2(ctx);
 
     	const block = {
     		c: function create() {
     			div = element("div");
-    			img = element("img");
+    			if (if_block) if_block.c();
     			t = space();
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[10])) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "svelte-2yp90z");
-    			add_location(img, file, 67, 6, 2128);
-    			attr_dev(div, "class", "item svelte-2yp90z");
+    			attr_dev(div, "class", "item no-gap svelte-16pqexi");
     			set_style(div, "--width", `200px`, false);
-    			add_location(div, file, 66, 5, 2080);
+    			set_style(div, "--height", `300px`, false);
+    			add_location(div, file, 68, 5, 2221);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
-    			append_dev(div, img);
+    			if (if_block) if_block.m(div, null);
     			append_dev(div, t);
     		},
-    		p: noop,
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			if (dirty & /*shown*/ 4096) show_if = [/*index*/ ctx[15], /*index*/ ctx[15] + 1, /*index*/ ctx[15] - 1].some(func);
+
+    			if (show_if) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
+    					if_block = create_if_block_2(ctx);
+    					if_block.c();
+    					if_block.m(div, t);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
+    		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
+    			if (if_block) if_block.d();
     		}
     	};
 
@@ -1204,14 +1371,14 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(66:4) {#each portaitItems as item}",
+    		source: "(68:4) {#each portaitItems as item, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (65:3) <TinySlider let:setIndex let:currentIndex let:sliderWidth>
+    // (67:3) <TinySlider gap="0.5rem" let:setIndex let:currentIndex let:sliderWidth let:shown on:end={() => console.log('reached end')}>
     function create_default_slot(ctx) {
     	let each_1_anchor;
     	let each_value = /*portaitItems*/ ctx[2];
@@ -1238,7 +1405,7 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*portaitItems*/ 4) {
+    			if (dirty & /*portaitItems, shown*/ 4100) {
     				each_value = /*portaitItems*/ ctx[2];
     				validate_each_argument(each_value);
     				let i;
@@ -1272,29 +1439,29 @@ var app = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(65:3) <TinySlider let:setIndex let:currentIndex let:sliderWidth>",
+    		source: "(67:3) <TinySlider gap=\\\"0.5rem\\\" let:setIndex let:currentIndex let:sliderWidth let:shown on:end={() => console.log('reached end')}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (73:5) {#if currentIndex > 0}
+    // (77:5) {#if currentIndex > 0}
     function create_if_block_1(ctx) {
     	let button;
     	let mounted;
     	let dispose;
 
     	function click_handler_1() {
-    		return /*click_handler_1*/ ctx[6](/*setIndex*/ ctx[0], /*currentIndex*/ ctx[8]);
+    		return /*click_handler_1*/ ctx[7](/*setIndex*/ ctx[0], /*currentIndex*/ ctx[10]);
     	}
 
     	const block = {
     		c: function create() {
     			button = element("button");
     			button.textContent = "←";
-    			attr_dev(button, "class", "arrow left svelte-2yp90z");
-    			add_location(button, file, 73, 6, 2257);
+    			attr_dev(button, "class", "arrow left svelte-16pqexi");
+    			add_location(button, file, 77, 6, 2514);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -1318,29 +1485,29 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(73:5) {#if currentIndex > 0}",
+    		source: "(77:5) {#if currentIndex > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (77:5) {#if currentIndex < portaitItems.length - 1}
+    // (81:5) {#if currentIndex < portaitItems.length - 1}
     function create_if_block(ctx) {
     	let button;
     	let mounted;
     	let dispose;
 
     	function click_handler_2() {
-    		return /*click_handler_2*/ ctx[7](/*setIndex*/ ctx[0], /*currentIndex*/ ctx[8]);
+    		return /*click_handler_2*/ ctx[8](/*setIndex*/ ctx[0], /*currentIndex*/ ctx[10]);
     	}
 
     	const block = {
     		c: function create() {
     			button = element("button");
     			button.textContent = "→";
-    			attr_dev(button, "class", "arrow right svelte-2yp90z");
-    			add_location(button, file, 77, 6, 2411);
+    			attr_dev(button, "class", "arrow right svelte-16pqexi");
+    			add_location(button, file, 81, 6, 2668);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -1364,65 +1531,72 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(77:5) {#if currentIndex < portaitItems.length - 1}",
+    		source: "(81:5) {#if currentIndex < portaitItems.length - 1}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (72:4) <svelte:fragment slot="controls">
+    // (76:4) <svelte:fragment slot="controls">
     function create_controls_slot(ctx) {
-    	let t;
-    	let if_block1_anchor;
-    	let if_block0 = /*currentIndex*/ ctx[8] > 0 && create_if_block_1(ctx);
-    	let if_block1 = /*currentIndex*/ ctx[8] < /*portaitItems*/ ctx[2].length - 1 && create_if_block(ctx);
+    	let t0;
+    	let t1;
+    	let t2_value = /*shown*/ ctx[12] + "";
+    	let t2;
+    	let if_block0 = /*currentIndex*/ ctx[10] > 0 && create_if_block_1(ctx);
+    	let if_block1 = /*currentIndex*/ ctx[10] < /*portaitItems*/ ctx[2].length - 1 && create_if_block(ctx);
 
     	const block = {
     		c: function create() {
     			if (if_block0) if_block0.c();
-    			t = space();
+    			t0 = space();
     			if (if_block1) if_block1.c();
-    			if_block1_anchor = empty();
+    			t1 = space();
+    			t2 = text(t2_value);
     		},
     		m: function mount(target, anchor) {
     			if (if_block0) if_block0.m(target, anchor);
-    			insert_dev(target, t, anchor);
+    			insert_dev(target, t0, anchor);
     			if (if_block1) if_block1.m(target, anchor);
-    			insert_dev(target, if_block1_anchor, anchor);
+    			insert_dev(target, t1, anchor);
+    			insert_dev(target, t2, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (/*currentIndex*/ ctx[8] > 0) {
+    			if (/*currentIndex*/ ctx[10] > 0) {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
     					if_block0 = create_if_block_1(ctx);
     					if_block0.c();
-    					if_block0.m(t.parentNode, t);
+    					if_block0.m(t0.parentNode, t0);
     				}
     			} else if (if_block0) {
     				if_block0.d(1);
     				if_block0 = null;
     			}
 
-    			if (/*currentIndex*/ ctx[8] < /*portaitItems*/ ctx[2].length - 1) {
+    			if (/*currentIndex*/ ctx[10] < /*portaitItems*/ ctx[2].length - 1) {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
     				} else {
     					if_block1 = create_if_block(ctx);
     					if_block1.c();
-    					if_block1.m(if_block1_anchor.parentNode, if_block1_anchor);
+    					if_block1.m(t1.parentNode, t1);
     				}
     			} else if (if_block1) {
     				if_block1.d(1);
     				if_block1 = null;
     			}
+
+    			if (dirty & /*shown*/ 4096 && t2_value !== (t2_value = /*shown*/ ctx[12] + "")) set_data_dev(t2, t2_value);
     		},
     		d: function destroy(detaching) {
     			if (if_block0) if_block0.d(detaching);
-    			if (detaching) detach_dev(t);
+    			if (detaching) detach_dev(t0);
     			if (if_block1) if_block1.d(detaching);
-    			if (detaching) detach_dev(if_block1_anchor);
+    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(t2);
     		}
     	};
 
@@ -1430,7 +1604,7 @@ var app = (function () {
     		block,
     		id: create_controls_slot.name,
     		type: "slot",
-    		source: "(72:4) <svelte:fragment slot=\\\"controls\\\">",
+    		source: "(76:4) <svelte:fragment slot=\\\"controls\\\">",
     		ctx
     	});
 
@@ -1438,30 +1612,31 @@ var app = (function () {
     }
 
     function create_fragment(ctx) {
-    	let div2;
+    	let div3;
+    	let div0;
     	let tinyslider0;
     	let updating_setIndex;
     	let t;
+    	let div2;
     	let div1;
-    	let div0;
     	let tinyslider1;
     	let current;
 
     	function tinyslider0_setIndex_binding(value) {
-    		/*tinyslider0_setIndex_binding*/ ctx[5](value);
+    		/*tinyslider0_setIndex_binding*/ ctx[6](value);
     	}
 
     	let tinyslider0_props = {
     		$$slots: {
     			controls: [
     				create_controls_slot_1,
-    				({ currentIndex, sliderWidth }) => ({ 8: currentIndex, 9: sliderWidth }),
-    				({ currentIndex, sliderWidth }) => (currentIndex ? 256 : 0) | (sliderWidth ? 512 : 0)
+    				({ currentIndex, sliderWidth }) => ({ 10: currentIndex, 11: sliderWidth }),
+    				({ currentIndex, sliderWidth }) => (currentIndex ? 1024 : 0) | (sliderWidth ? 2048 : 0)
     			],
     			default: [
     				create_default_slot_1,
-    				({ currentIndex, sliderWidth }) => ({ 8: currentIndex, 9: sliderWidth }),
-    				({ currentIndex, sliderWidth }) => (currentIndex ? 256 : 0) | (sliderWidth ? 512 : 0)
+    				({ currentIndex, sliderWidth }) => ({ 10: currentIndex, 11: sliderWidth }),
+    				({ currentIndex, sliderWidth }) => (currentIndex ? 1024 : 0) | (sliderWidth ? 2048 : 0)
     			]
     		},
     		$$scope: { ctx }
@@ -1476,24 +1651,27 @@ var app = (function () {
 
     	tinyslider1 = new TinySlider({
     			props: {
+    				gap: "0.5rem",
     				$$slots: {
     					controls: [
     						create_controls_slot,
-    						({ setIndex, currentIndex, sliderWidth }) => ({
+    						({ setIndex, currentIndex, sliderWidth, shown }) => ({
     							0: setIndex,
-    							8: currentIndex,
-    							9: sliderWidth
+    							10: currentIndex,
+    							11: sliderWidth,
+    							12: shown
     						}),
-    						({ setIndex, currentIndex, sliderWidth }) => (setIndex ? 1 : 0) | (currentIndex ? 256 : 0) | (sliderWidth ? 512 : 0)
+    						({ setIndex, currentIndex, sliderWidth, shown }) => (setIndex ? 1 : 0) | (currentIndex ? 1024 : 0) | (sliderWidth ? 2048 : 0) | (shown ? 4096 : 0)
     					],
     					default: [
     						create_default_slot,
-    						({ setIndex, currentIndex, sliderWidth }) => ({
+    						({ setIndex, currentIndex, sliderWidth, shown }) => ({
     							0: setIndex,
-    							8: currentIndex,
-    							9: sliderWidth
+    							10: currentIndex,
+    							11: sliderWidth,
+    							12: shown
     						}),
-    						({ setIndex, currentIndex, sliderWidth }) => (setIndex ? 1 : 0) | (currentIndex ? 256 : 0) | (sliderWidth ? 512 : 0)
+    						({ setIndex, currentIndex, sliderWidth, shown }) => (setIndex ? 1 : 0) | (currentIndex ? 1024 : 0) | (sliderWidth ? 2048 : 0) | (shown ? 4096 : 0)
     					]
     				},
     				$$scope: { ctx }
@@ -1501,37 +1679,43 @@ var app = (function () {
     			$$inline: true
     		});
 
+    	tinyslider1.$on("end", /*end_handler*/ ctx[9]);
+
     	const block = {
     		c: function create() {
-    			div2 = element("div");
+    			div3 = element("div");
+    			div0 = element("div");
     			create_component(tinyslider0.$$.fragment);
     			t = space();
+    			div2 = element("div");
     			div1 = element("div");
-    			div0 = element("div");
     			create_component(tinyslider1.$$.fragment);
-    			attr_dev(div0, "class", "slider-wrapper svelte-2yp90z");
-    			add_location(div0, file, 63, 2, 1948);
-    			attr_dev(div1, "class", "relative svelte-2yp90z");
-    			add_location(div1, file, 62, 1, 1922);
-    			attr_dev(div2, "class", "wrapper svelte-2yp90z");
-    			add_location(div2, file, 34, 0, 1271);
+    			attr_dev(div0, "class", "gallery svelte-16pqexi");
+    			add_location(div0, file, 35, 1, 1295);
+    			attr_dev(div1, "class", "slider-wrapper svelte-16pqexi");
+    			add_location(div1, file, 65, 2, 2017);
+    			attr_dev(div2, "class", "relative svelte-16pqexi");
+    			add_location(div2, file, 64, 1, 1991);
+    			attr_dev(div3, "class", "wrapper svelte-16pqexi");
+    			add_location(div3, file, 34, 0, 1271);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div2, anchor);
-    			mount_component(tinyslider0, div2, null);
-    			append_dev(div2, t);
+    			insert_dev(target, div3, anchor);
+    			append_dev(div3, div0);
+    			mount_component(tinyslider0, div0, null);
+    			append_dev(div3, t);
+    			append_dev(div3, div2);
     			append_dev(div2, div1);
-    			append_dev(div1, div0);
-    			mount_component(tinyslider1, div0, null);
+    			mount_component(tinyslider1, div1, null);
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
     			const tinyslider0_changes = {};
 
-    			if (dirty & /*$$scope, currentIndex, setIndex, sliderWidth*/ 131841) {
+    			if (dirty & /*$$scope, currentIndex, setIndex, sliderWidth*/ 1051649) {
     				tinyslider0_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1544,7 +1728,7 @@ var app = (function () {
     			tinyslider0.$set(tinyslider0_changes);
     			const tinyslider1_changes = {};
 
-    			if (dirty & /*$$scope, setIndex, currentIndex*/ 131329) {
+    			if (dirty & /*$$scope, shown, setIndex, currentIndex*/ 1053697) {
     				tinyslider1_changes.$$scope = { dirty, ctx };
     			}
 
@@ -1562,7 +1746,7 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div2);
+    			if (detaching) detach_dev(div3);
     			destroy_component(tinyslider0);
     			destroy_component(tinyslider1);
     		}
@@ -1612,9 +1796,10 @@ var app = (function () {
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<App> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<App> was created with unknown prop '${key}'`);
     	});
 
+    	const func = (shown, i) => shown.includes(i);
     	const click_handler = i => setIndex(i);
     	const focus_handler = i => setIndex(i);
 
@@ -1625,6 +1810,7 @@ var app = (function () {
 
     	const click_handler_1 = (setIndex, currentIndex) => setIndex(currentIndex - 1);
     	const click_handler_2 = (setIndex, currentIndex) => setIndex(currentIndex + 1);
+    	const end_handler = () => console.log('reached end');
 
     	$$self.$capture_state = () => ({
     		TinySlider,
@@ -1645,11 +1831,13 @@ var app = (function () {
     		setIndex,
     		items,
     		portaitItems,
+    		func,
     		click_handler,
     		focus_handler,
     		tinyslider0_setIndex_binding,
     		click_handler_1,
-    		click_handler_2
+    		click_handler_2,
+    		end_handler
     	];
     }
 
