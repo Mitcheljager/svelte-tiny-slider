@@ -6,6 +6,7 @@
   export let snap = true
   export let fill = true
   export let transitionDuration = 300
+  export let threshold = 30
   export let currentIndex = 0
   export let shown = []
   export let sliderWidth = 0
@@ -49,7 +50,8 @@
     const difference  = currentScrollPosition - finalScrollPosition
     const direction = difference > 0 ? 1 : -1
 
-    if (difference != 0 && snap) snapToPosition({ direction })
+    if (Math.abs(difference) < threshold) snapToPosition({ setIndex: currentIndex })
+    else if (difference != 0 && snap) snapToPosition({ direction })
 
     isDragging = false
   }

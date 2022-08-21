@@ -567,11 +567,11 @@ var app = (function () {
     const file$1 = "..\\src\\TinySlider.svelte";
 
     const get_controls_slot_changes = dirty => ({
-    	sliderWidth: dirty & /*sliderWidth*/ 4,
-    	shown: dirty & /*shown*/ 2,
-    	currentIndex: dirty & /*currentIndex*/ 1,
-    	currentScrollPosition: dirty & /*currentScrollPosition*/ 8,
-    	maxWidth: dirty & /*maxWidth*/ 16
+    	sliderWidth: dirty[0] & /*sliderWidth*/ 4,
+    	shown: dirty[0] & /*shown*/ 2,
+    	currentIndex: dirty[0] & /*currentIndex*/ 1,
+    	currentScrollPosition: dirty[0] & /*currentScrollPosition*/ 8,
+    	maxWidth: dirty[0] & /*maxWidth*/ 16
     });
 
     const get_controls_slot_context = ctx => ({
@@ -584,11 +584,11 @@ var app = (function () {
     });
 
     const get_default_slot_changes = dirty => ({
-    	sliderWidth: dirty & /*sliderWidth*/ 4,
-    	shown: dirty & /*shown*/ 2,
-    	currentIndex: dirty & /*currentIndex*/ 1,
-    	currentScrollPosition: dirty & /*currentScrollPosition*/ 8,
-    	maxWidth: dirty & /*maxWidth*/ 16
+    	sliderWidth: dirty[0] & /*sliderWidth*/ 4,
+    	shown: dirty[0] & /*shown*/ 2,
+    	currentIndex: dirty[0] & /*currentIndex*/ 1,
+    	currentScrollPosition: dirty[0] & /*currentScrollPosition*/ 8,
+    	maxWidth: dirty[0] & /*maxWidth*/ 16
     });
 
     const get_default_slot_context = ctx => ({
@@ -614,10 +614,10 @@ var app = (function () {
     	let current;
     	let mounted;
     	let dispose;
-    	const default_slot_template = /*#slots*/ ctx[17].default;
-    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[16], get_default_slot_context);
-    	const controls_slot_template = /*#slots*/ ctx[17].controls;
-    	const controls_slot = create_slot(controls_slot_template, ctx, /*$$scope*/ ctx[16], get_controls_slot_context);
+    	const default_slot_template = /*#slots*/ ctx[18].default;
+    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[17], get_default_slot_context);
+    	const controls_slot_template = /*#slots*/ ctx[18].controls;
+    	const controls_slot = create_slot(controls_slot_template, ctx, /*$$scope*/ ctx[17], get_controls_slot_context);
 
     	const block = {
     		c: function create() {
@@ -631,11 +631,11 @@ var app = (function () {
     			set_style(div0, "transform", style_transform, false);
     			set_style(div0, "transition-duration", style_transition_duration, false);
     			set_style(div0, "--gap", /*gap*/ ctx[5], false);
-    			add_location(div0, file$1, 139, 2, 3798);
+    			add_location(div0, file$1, 141, 2, 3918);
     			attr_dev(div1, "class", "slider svelte-54x6yi");
-    			add_render_callback(() => /*div1_elementresize_handler*/ ctx[20].call(div1));
+    			add_render_callback(() => /*div1_elementresize_handler*/ ctx[21].call(div1));
     			toggle_class(div1, "dragging", /*isDragging*/ ctx[9]);
-    			add_location(div1, file$1, 138, 0, 3689);
+    			add_location(div1, file$1, 140, 0, 3809);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -648,9 +648,9 @@ var app = (function () {
     				default_slot.m(div0, null);
     			}
 
-    			/*div0_binding*/ ctx[18](div0);
-    			/*div1_binding*/ ctx[19](div1);
-    			div1_resize_listener = add_resize_listener(div1, /*div1_elementresize_handler*/ ctx[20].bind(div1));
+    			/*div0_binding*/ ctx[19](div0);
+    			/*div1_binding*/ ctx[20](div1);
+    			div1_resize_listener = add_resize_listener(div1, /*div1_elementresize_handler*/ ctx[21].bind(div1));
     			insert_dev(target, t, anchor);
 
     			if (controls_slot) {
@@ -672,50 +672,50 @@ var app = (function () {
     				mounted = true;
     			}
     		},
-    		p: function update(ctx, [dirty]) {
+    		p: function update(ctx, dirty) {
     			if (default_slot) {
-    				if (default_slot.p && (!current || dirty & /*$$scope, sliderWidth, shown, currentIndex, currentScrollPosition, maxWidth*/ 65567)) {
+    				if (default_slot.p && (!current || dirty[0] & /*$$scope, sliderWidth, shown, currentIndex, currentScrollPosition, maxWidth*/ 131103)) {
     					update_slot_base(
     						default_slot,
     						default_slot_template,
     						ctx,
-    						/*$$scope*/ ctx[16],
+    						/*$$scope*/ ctx[17],
     						!current
-    						? get_all_dirty_from_scope(/*$$scope*/ ctx[16])
-    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[16], dirty, get_default_slot_changes),
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[17])
+    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[17], dirty, get_default_slot_changes),
     						get_default_slot_context
     					);
     				}
     			}
 
-    			if (dirty & /*currentScrollPosition*/ 8 && style_transform !== (style_transform = `translateX(${/*currentScrollPosition*/ ctx[3] * -1}px)`)) {
+    			if (dirty[0] & /*currentScrollPosition*/ 8 && style_transform !== (style_transform = `translateX(${/*currentScrollPosition*/ ctx[3] * -1}px)`)) {
     				set_style(div0, "transform", style_transform, false);
     			}
 
-    			if (dirty & /*isDragging, transitionDuration*/ 576 && style_transition_duration !== (style_transition_duration = `${/*isDragging*/ ctx[9]
+    			if (dirty[0] & /*isDragging, transitionDuration*/ 576 && style_transition_duration !== (style_transition_duration = `${/*isDragging*/ ctx[9]
 			? 0
 			: /*transitionDuration*/ ctx[6]}ms`)) {
     				set_style(div0, "transition-duration", style_transition_duration, false);
     			}
 
-    			if (dirty & /*gap*/ 32) {
+    			if (dirty[0] & /*gap*/ 32) {
     				set_style(div0, "--gap", /*gap*/ ctx[5], false);
     			}
 
-    			if (dirty & /*isDragging*/ 512) {
+    			if (dirty[0] & /*isDragging*/ 512) {
     				toggle_class(div1, "dragging", /*isDragging*/ ctx[9]);
     			}
 
     			if (controls_slot) {
-    				if (controls_slot.p && (!current || dirty & /*$$scope, sliderWidth, shown, currentIndex, currentScrollPosition, maxWidth*/ 65567)) {
+    				if (controls_slot.p && (!current || dirty[0] & /*$$scope, sliderWidth, shown, currentIndex, currentScrollPosition, maxWidth*/ 131103)) {
     					update_slot_base(
     						controls_slot,
     						controls_slot_template,
     						ctx,
-    						/*$$scope*/ ctx[16],
+    						/*$$scope*/ ctx[17],
     						!current
-    						? get_all_dirty_from_scope(/*$$scope*/ ctx[16])
-    						: get_slot_changes(controls_slot_template, /*$$scope*/ ctx[16], dirty, get_controls_slot_changes),
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[17])
+    						: get_slot_changes(controls_slot_template, /*$$scope*/ ctx[17], dirty, get_controls_slot_changes),
     						get_controls_slot_context
     					);
     				}
@@ -735,8 +735,8 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div1);
     			if (default_slot) default_slot.d(detaching);
-    			/*div0_binding*/ ctx[18](null);
-    			/*div1_binding*/ ctx[19](null);
+    			/*div0_binding*/ ctx[19](null);
+    			/*div1_binding*/ ctx[20](null);
     			div1_resize_listener();
     			if (detaching) detach_dev(t);
     			if (controls_slot) controls_slot.d(detaching);
@@ -763,6 +763,7 @@ var app = (function () {
     	let { snap = true } = $$props;
     	let { fill = true } = $$props;
     	let { transitionDuration = 300 } = $$props;
+    	let { threshold = 30 } = $$props;
     	let { currentIndex = 0 } = $$props;
     	let { shown = [] } = $$props;
     	let { sliderWidth = 0 } = $$props;
@@ -796,7 +797,7 @@ var app = (function () {
     		if (!isDragging) return;
     		const difference = currentScrollPosition - finalScrollPosition;
     		const direction = difference > 0 ? 1 : -1;
-    		if (difference != 0 && snap) snapToPosition({ direction });
+    		if (Math.abs(difference) < threshold) snapToPosition({ setIndex: currentIndex }); else if (difference != 0 && snap) snapToPosition({ direction });
     		$$invalidate(9, isDragging = false);
     	}
 
@@ -879,6 +880,7 @@ var app = (function () {
     		'snap',
     		'fill',
     		'transitionDuration',
+    		'threshold',
     		'currentIndex',
     		'shown',
     		'sliderWidth',
@@ -914,12 +916,13 @@ var app = (function () {
     		if ('snap' in $$props) $$invalidate(14, snap = $$props.snap);
     		if ('fill' in $$props) $$invalidate(15, fill = $$props.fill);
     		if ('transitionDuration' in $$props) $$invalidate(6, transitionDuration = $$props.transitionDuration);
+    		if ('threshold' in $$props) $$invalidate(16, threshold = $$props.threshold);
     		if ('currentIndex' in $$props) $$invalidate(0, currentIndex = $$props.currentIndex);
     		if ('shown' in $$props) $$invalidate(1, shown = $$props.shown);
     		if ('sliderWidth' in $$props) $$invalidate(2, sliderWidth = $$props.sliderWidth);
     		if ('currentScrollPosition' in $$props) $$invalidate(3, currentScrollPosition = $$props.currentScrollPosition);
     		if ('maxWidth' in $$props) $$invalidate(4, maxWidth = $$props.maxWidth);
-    		if ('$$scope' in $$props) $$invalidate(16, $$scope = $$props.$$scope);
+    		if ('$$scope' in $$props) $$invalidate(17, $$scope = $$props.$$scope);
     	};
 
     	$$self.$capture_state = () => ({
@@ -930,6 +933,7 @@ var app = (function () {
     		snap,
     		fill,
     		transitionDuration,
+    		threshold,
     		currentIndex,
     		shown,
     		sliderWidth,
@@ -959,6 +963,7 @@ var app = (function () {
     		if ('snap' in $$props) $$invalidate(14, snap = $$props.snap);
     		if ('fill' in $$props) $$invalidate(15, fill = $$props.fill);
     		if ('transitionDuration' in $$props) $$invalidate(6, transitionDuration = $$props.transitionDuration);
+    		if ('threshold' in $$props) $$invalidate(16, threshold = $$props.threshold);
     		if ('currentIndex' in $$props) $$invalidate(0, currentIndex = $$props.currentIndex);
     		if ('shown' in $$props) $$invalidate(1, shown = $$props.shown);
     		if ('sliderWidth' in $$props) $$invalidate(2, sliderWidth = $$props.sliderWidth);
@@ -977,7 +982,7 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*contentElement*/ 256) {
+    		if ($$self.$$.dirty[0] & /*contentElement*/ 256) {
     			if (contentElement) setShown();
     		}
     	};
@@ -999,6 +1004,7 @@ var app = (function () {
     		move,
     		snap,
     		fill,
+    		threshold,
     		$$scope,
     		slots,
     		div0_binding,
@@ -1011,18 +1017,28 @@ var app = (function () {
     	constructor(options) {
     		super(options);
 
-    		init(this, options, instance$1, create_fragment$1, safe_not_equal, {
-    			gap: 5,
-    			snap: 14,
-    			fill: 15,
-    			transitionDuration: 6,
-    			currentIndex: 0,
-    			shown: 1,
-    			sliderWidth: 2,
-    			currentScrollPosition: 3,
-    			maxWidth: 4,
-    			setIndex: 7
-    		});
+    		init(
+    			this,
+    			options,
+    			instance$1,
+    			create_fragment$1,
+    			safe_not_equal,
+    			{
+    				gap: 5,
+    				snap: 14,
+    				fill: 15,
+    				transitionDuration: 6,
+    				threshold: 16,
+    				currentIndex: 0,
+    				shown: 1,
+    				sliderWidth: 2,
+    				currentScrollPosition: 3,
+    				maxWidth: 4,
+    				setIndex: 7
+    			},
+    			null,
+    			[-1, -1]
+    		);
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -1061,6 +1077,14 @@ var app = (function () {
     	}
 
     	set transitionDuration(value) {
+    		throw new Error("<TinySlider>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get threshold() {
+    		throw new Error("<TinySlider>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set threshold(value) {
     		throw new Error("<TinySlider>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
