@@ -14,6 +14,7 @@
   export let maxWidth = 0
 
   let isDragging = false
+  let passedThreshold = false
   let movementStartX = 0
   let finalScrollPosition = 0
   let sliderElement
@@ -23,6 +24,7 @@
   const dispatch = createEventDispatcher()
 
   $: if (contentElement) setShown()
+  $: console.log(passedThreshold)
 
   onMount(createResizeObserver)
   onDestroy(() => observer.disconnect(contentElement))
@@ -46,27 +48,26 @@
     isDragging = true
   }
 
-  function up(event) {
+  function up() {
     if (!isDragging) return
 
-    console.log(event)
-
-    isDragging = false
-
-    const difference = currentScrollPosition - finalScrollPosition
-    const direction = difference > 0 ? 1 : -1
-
-    if (Math.abs(difference) < threshold) {
+    if (passedThreshold) {
       snapToPosition({ setIndex: currentIndex })
+    } else {
+      const difference = currentScrollPosition - finalScrollPosition
+      const direction = difference > 0 ? 1 : -1
 
-      return
+      if (difference != 0 && snap) snapToPosition({ direction })
     }
 
-    if (difference != 0 && snap) snapToPosition({ direction })
+    isDragging = false
+    passedThreshold = false
   }
 
   function move(event) {
     if (!isDragging) return
+
+    passedThreshold = Math.abs(currentScrollPosition - finalScrollPosition) > threshold
 
     if (event.touches?.length) {
       event.pageX = event.touches[0].pageX
@@ -147,7 +148,7 @@
 
 
 
-<div class="slider" class:dragging={isDragging} bind:this={sliderElement} bind:clientWidth={sliderWidth}>
+<div class="slider" class:dragging={isDragging} class:passed-threshold={passedThreshold} bind:this={sliderElement} bind:clientWidth={sliderWidth}>
   <div
     bind:this={contentElement}
     draggable={false}
@@ -167,6 +168,10 @@
 <style>
   .slider {
     overflow-x: hidden;
+  }
+
+  .slider.passed-threshold {
+    pointer-events: none;
   }
 
   .slider-content {

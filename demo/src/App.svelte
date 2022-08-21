@@ -93,7 +93,7 @@
 	<div class="slider-wrapper">
 		<TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex let:shown>
 			{#each { length: 20 } as _}
-				<div class="item" style:--width="200px" style:--height="200px">
+				<div class="item" style:--width="200px" style:--height="200px" on:click={() => console.log('click')}>
 					<a href="https://google.com" target="_blank">Link</a>
 				</div>
 			{/each}
