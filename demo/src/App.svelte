@@ -55,7 +55,7 @@
 		<div class="slider-wrapper">
 			<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown bind:sliderWidth bind:currentScrollPosition bind:maxWidth>
 				{#each portaitItems as item, index}
-					<div class="item no-gap" style:--width="200px" style:--height="300px">
+					<div class="item" style:--width="200px" style:--height="300px">
 						{#if [index, index + 1, index - 1].some(i => shown.includes(i))}
 							<img src={item} alt="" />
 						{/if}
@@ -80,13 +80,25 @@
 		</div>
 	</div>
 
-	<TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex let:shown>
-		{#each { length: 20 } as _}
-			<div class="item no-gap" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px">
-				<strong>Word</strong>
-			</div>
-		{/each}
-	</TinySlider>
+	<div class="slider-wrapper">
+		<TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex let:shown>
+			{#each { length: 20 } as _}
+				<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px">
+					<strong>Word</strong>
+				</div>
+			{/each}
+		</TinySlider>
+	</div>
+
+	<div class="slider-wrapper">
+		<TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex let:shown>
+			{#each { length: 20 } as _}
+				<div class="item" style:--width="200px" style:--height="200px">
+					<a href="https://google.com" target="_blank">Link</a>
+				</div>
+			{/each}
+		</TinySlider>
+	</div>
 </div>
 
 

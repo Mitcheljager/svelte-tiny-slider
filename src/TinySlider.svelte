@@ -38,22 +38,31 @@
   }
 
   function down(event) {
+    event.preventDefault()
+
     if (event.target != sliderElement && event.target.closest(".slider") != sliderElement) return
 
     movementStartX = event.pageX || event.touches[0].pageX
     isDragging = true
   }
 
-  function up() {
+  function up(event) {
     if (!isDragging) return
 
-    const difference  = currentScrollPosition - finalScrollPosition
-    const direction = difference > 0 ? 1 : -1
-
-    if (Math.abs(difference) < threshold) snapToPosition({ setIndex: currentIndex })
-    else if (difference != 0 && snap) snapToPosition({ direction })
+    console.log(event)
 
     isDragging = false
+
+    const difference = currentScrollPosition - finalScrollPosition
+    const direction = difference > 0 ? 1 : -1
+
+    if (Math.abs(difference) < threshold) {
+      snapToPosition({ setIndex: currentIndex })
+
+      return
+    }
+
+    if (difference != 0 && snap) snapToPosition({ direction })
   }
 
   function move(event) {
@@ -158,10 +167,6 @@
 <style>
   .slider {
     overflow-x: hidden;
-  }
-
-  .slider.dragging {
-    pointer-events: none;
   }
 
   .slider-content {
