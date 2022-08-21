@@ -24,7 +24,6 @@
   const dispatch = createEventDispatcher()
 
   $: if (contentElement) setShown()
-  $: console.log(passedThreshold)
 
   onMount(createResizeObserver)
   onDestroy(() => observer.disconnect(contentElement))
@@ -51,7 +50,7 @@
   function up() {
     if (!isDragging) return
 
-    if (passedThreshold) {
+    if (!passedThreshold) {
       snapToPosition({ setIndex: currentIndex })
     } else {
       const difference = currentScrollPosition - finalScrollPosition
