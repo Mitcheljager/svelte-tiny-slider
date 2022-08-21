@@ -24,80 +24,88 @@
 
 
 <div class="wrapper">
-	<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:sliderWidth on:end={() => console.log('reached end')}>
-		{#each items as item}
-			<div
-				class="item"
-				style:--width="{sliderWidth}px"
-				style:--height="400px">
-				<img loading="lazy" src={item} alt="" />
-			</div>
-		{/each}
-
-		<div slot="controls" class="dots">
-			{#each items as item, i}
-				<button
-					class="dot"
-					class:active={i == currentIndex}
-					on:click={() => setIndex(i)}
-					on:focus={() => setIndex(i)}>
-					<img src={item} alt="" height=40 />
-				</button>
+	<div class="block">
+		<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:sliderWidth on:end={() => console.log('reached end')}>
+			{#each items as item}
+				<div
+					class="item"
+					style:--width="{sliderWidth}px"
+					style:--height="400px">
+					<img loading="lazy" src={item} alt="" />
+				</div>
 			{/each}
-		</div>
-	</TinySlider>
+
+			<div slot="controls" class="dots">
+				{#each items as item, i}
+					<button
+						class="dot"
+						class:active={i == currentIndex}
+						on:click={() => setIndex(i)}
+						on:focus={() => setIndex(i)}>
+						<img loading="lazy" src={item} alt="" height=60 />
+					</button>
+				{/each}
+			</div>
+		</TinySlider>
+	</div>
 
 	<!-- <div>
 		<div on:click={() => setIndex(2)}>set active to 2</div>
 	</div> -->
 
-	<div class="relative">
-		<div class="slider-wrapper">
-			<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown bind:sliderWidth bind:currentScrollPosition bind:maxWidth>
-				{#each portaitItems as item, index}
-					<div class="item" style:--width="200px" style:--height="300px">
-						{#if [index, index + 1, index - 1].some(i => shown.includes(i))}
-							<img src={item} alt="" />
+	<div class="block">
+		<div class="relative">
+			<div class="slider-wrapper">
+				<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown bind:sliderWidth bind:currentScrollPosition bind:maxWidth>
+					{#each portaitItems as item, index}
+						<div class="item" style:--width="200px" style:--height="300px">
+							{#if [index, index + 1, index - 1].some(i => shown.includes(i))}
+								<img loading="lazy" src={item} alt="" />
+							{/if}
+						</div>
+					{/each}
+
+					<svelte:fragment slot="controls">
+						{#if currentIndex > 0}
+							<button class="arrow left" on:click={() => setIndex(currentIndex - 2)}>←</button>
 						{/if}
+
+						{#if currentIndex < portaitItems.length - 1}
+							<button class="arrow right" on:click={() => setIndex(currentIndex + 2)}>→</button>
+						{/if}
+
+						<div>{shown}</div>
+						<div>{maxWidth}</div>
+						<div>{currentScrollPosition}</div>
+						<div>{portaitItems.length}</div>
+					</svelte:fragment>
+				</TinySlider>
+			</div>
+		</div>
+	</div>
+
+	<div class="block">
+		<div class="slider-wrapper">
+			<TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex let:shown>
+				{#each { length: 20 } as _}
+					<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px">
+						<strong>Word</strong>
 					</div>
 				{/each}
-
-				<svelte:fragment slot="controls">
-					{#if currentIndex > 0}
-						<button class="arrow left" on:click={() => setIndex(currentIndex - 2)}>←</button>
-					{/if}
-
-					{#if currentIndex < portaitItems.length - 1}
-						<button class="arrow right" on:click={() => setIndex(currentIndex + 2)}>→</button>
-					{/if}
-
-					<div>{shown}</div>
-					<div>{maxWidth}</div>
-					<div>{currentScrollPosition}</div>
-					<div>{portaitItems.length}</div>
-				</svelte:fragment>
 			</TinySlider>
 		</div>
 	</div>
 
-	<div class="slider-wrapper">
-		<TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex let:shown>
-			{#each { length: 20 } as _}
-				<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px">
-					<strong>Word</strong>
-				</div>
-			{/each}
-		</TinySlider>
-	</div>
-
-	<div class="slider-wrapper">
-		<TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex let:shown>
-			{#each { length: 20 } as _}
-				<div class="item" style:--width="200px" style:--height="200px" on:click={() => console.log('click')}>
-					<a href="https://google.com" target="_blank">Link</a>
-				</div>
-			{/each}
-		</TinySlider>
+	<div class="block">
+		<div class="slider-wrapper">
+			<TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex let:shown>
+				{#each { length: 20 } as _}
+					<div class="item" style:--width="200px" style:--height="200px" on:click={() => console.log('click')}>
+						<a href="https://google.com" target="_blank">Link</a>
+					</div>
+				{/each}
+			</TinySlider>
+		</div>
 	</div>
 </div>
 
@@ -143,6 +151,12 @@
 		overflow: hidden;
 		border-radius: 0.25rem;
 	}
+
+	:global(.slider:focus-within),
+	.slider-wrapper:focus-within {
+    outline: 2px solid white;
+		outline-offset: 2px;
+  }
 
 	img {
 		display: block;

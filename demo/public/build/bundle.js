@@ -614,10 +614,10 @@ var app = (function () {
     	let current;
     	let mounted;
     	let dispose;
-    	const default_slot_template = /*#slots*/ ctx[19].default;
-    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[18], get_default_slot_context);
-    	const controls_slot_template = /*#slots*/ ctx[19].controls;
-    	const controls_slot = create_slot(controls_slot_template, ctx, /*$$scope*/ ctx[18], get_controls_slot_context);
+    	const default_slot_template = /*#slots*/ ctx[20].default;
+    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[19], get_default_slot_context);
+    	const controls_slot_template = /*#slots*/ ctx[20].controls;
+    	const controls_slot = create_slot(controls_slot_template, ctx, /*$$scope*/ ctx[19], get_controls_slot_context);
 
     	const block = {
     		c: function create() {
@@ -626,17 +626,18 @@ var app = (function () {
     			if (default_slot) default_slot.c();
     			t = space();
     			if (controls_slot) controls_slot.c();
-    			attr_dev(div0, "draggable", false);
-    			attr_dev(div0, "class", "slider-content svelte-13q27op");
+    			attr_dev(div0, "tabindex", "0");
+    			attr_dev(div0, "class", "slider-content svelte-1qdlq75");
     			set_style(div0, "transform", style_transform, false);
     			set_style(div0, "transition-duration", style_transition_duration, false);
     			set_style(div0, "--gap", /*gap*/ ctx[5], false);
-    			add_location(div0, file$1, 150, 2, 4154);
-    			attr_dev(div1, "class", "slider svelte-13q27op");
-    			add_render_callback(() => /*div1_elementresize_handler*/ ctx[22].call(div1));
+    			add_location(div0, file$1, 170, 2, 4583);
+    			attr_dev(div1, "class", "slider svelte-1qdlq75");
+    			attr_dev(div1, "tabindex", "-1");
+    			add_render_callback(() => /*div1_elementresize_handler*/ ctx[23].call(div1));
     			toggle_class(div1, "dragging", /*isDragging*/ ctx[9]);
     			toggle_class(div1, "passed-threshold", /*passedThreshold*/ ctx[10]);
-    			add_location(div1, file$1, 149, 0, 4004);
+    			add_location(div1, file$1, 169, 0, 4419);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -649,9 +650,9 @@ var app = (function () {
     				default_slot.m(div0, null);
     			}
 
-    			/*div0_binding*/ ctx[20](div0);
-    			/*div1_binding*/ ctx[21](div1);
-    			div1_resize_listener = add_resize_listener(div1, /*div1_elementresize_handler*/ ctx[22].bind(div1));
+    			/*div0_binding*/ ctx[21](div0);
+    			/*div1_binding*/ ctx[22](div1);
+    			div1_resize_listener = add_resize_listener(div1, /*div1_elementresize_handler*/ ctx[23].bind(div1));
     			insert_dev(target, t, anchor);
 
     			if (controls_slot) {
@@ -667,7 +668,8 @@ var app = (function () {
     					listen_dev(window_1, "mousemove", /*move*/ ctx[14], false, false, false),
     					listen_dev(window_1, "touchstart", /*down*/ ctx[12], false, false, false),
     					listen_dev(window_1, "touchend", /*up*/ ctx[13], false, false, false),
-    					listen_dev(window_1, "touchmove", /*move*/ ctx[14], false, false, false)
+    					listen_dev(window_1, "touchmove", /*move*/ ctx[14], false, false, false),
+    					listen_dev(window_1, "keydown", /*keydown*/ ctx[15], false, false, false)
     				];
 
     				mounted = true;
@@ -675,15 +677,15 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			if (default_slot) {
-    				if (default_slot.p && (!current || dirty[0] & /*$$scope, sliderWidth, shown, currentIndex, currentScrollPosition, maxWidth*/ 262175)) {
+    				if (default_slot.p && (!current || dirty[0] & /*$$scope, sliderWidth, shown, currentIndex, currentScrollPosition, maxWidth*/ 524319)) {
     					update_slot_base(
     						default_slot,
     						default_slot_template,
     						ctx,
-    						/*$$scope*/ ctx[18],
+    						/*$$scope*/ ctx[19],
     						!current
-    						? get_all_dirty_from_scope(/*$$scope*/ ctx[18])
-    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[18], dirty, get_default_slot_changes),
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[19])
+    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[19], dirty, get_default_slot_changes),
     						get_default_slot_context
     					);
     				}
@@ -712,15 +714,15 @@ var app = (function () {
     			}
 
     			if (controls_slot) {
-    				if (controls_slot.p && (!current || dirty[0] & /*$$scope, sliderWidth, shown, currentIndex, currentScrollPosition, maxWidth*/ 262175)) {
+    				if (controls_slot.p && (!current || dirty[0] & /*$$scope, sliderWidth, shown, currentIndex, currentScrollPosition, maxWidth*/ 524319)) {
     					update_slot_base(
     						controls_slot,
     						controls_slot_template,
     						ctx,
-    						/*$$scope*/ ctx[18],
+    						/*$$scope*/ ctx[19],
     						!current
-    						? get_all_dirty_from_scope(/*$$scope*/ ctx[18])
-    						: get_slot_changes(controls_slot_template, /*$$scope*/ ctx[18], dirty, get_controls_slot_changes),
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[19])
+    						: get_slot_changes(controls_slot_template, /*$$scope*/ ctx[19], dirty, get_controls_slot_changes),
     						get_controls_slot_context
     					);
     				}
@@ -740,8 +742,8 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div1);
     			if (default_slot) default_slot.d(detaching);
-    			/*div0_binding*/ ctx[20](null);
-    			/*div1_binding*/ ctx[21](null);
+    			/*div0_binding*/ ctx[21](null);
+    			/*div1_binding*/ ctx[22](null);
     			div1_resize_listener();
     			if (detaching) detach_dev(t);
     			if (controls_slot) controls_slot.d(detaching);
@@ -795,7 +797,7 @@ var app = (function () {
 
     	function down(event) {
     		event.preventDefault();
-    		if (event.target != sliderElement && event.target.closest(".slider") != sliderElement) return;
+    		if (!isCurrentSlider(event.target)) return;
     		movementStartX = event.pageX || event.touches[0].pageX;
     		$$invalidate(9, isDragging = true);
     	}
@@ -831,6 +833,13 @@ var app = (function () {
 
     		setScrollPosition(finalScrollPosition + (movementStartX - event.pageX));
     		setShown();
+    	}
+
+    	function keydown(event) {
+    		if (!isCurrentSlider(document.activeElement)) return;
+    		if (event.key != "ArrowLeft" && event.key != "ArrowRight") return;
+    		if (event.key == "ArrowLeft") setIndex(currentIndex - 1);
+    		if (event.key == "ArrowRight") setIndex(currentIndex + 1);
     	}
 
     	function snapToPosition({ setIndex = -1, direction = 1 } = {}) {
@@ -890,6 +899,10 @@ var app = (function () {
     		observer.observe(contentElement);
     	}
 
+    	function isCurrentSlider(element) {
+    		return element == sliderElement || element.closest(".slider") == sliderElement;
+    	}
+
     	const writable_props = [
     		'gap',
     		'snap',
@@ -928,16 +941,16 @@ var app = (function () {
 
     	$$self.$$set = $$props => {
     		if ('gap' in $$props) $$invalidate(5, gap = $$props.gap);
-    		if ('snap' in $$props) $$invalidate(15, snap = $$props.snap);
-    		if ('fill' in $$props) $$invalidate(16, fill = $$props.fill);
+    		if ('snap' in $$props) $$invalidate(16, snap = $$props.snap);
+    		if ('fill' in $$props) $$invalidate(17, fill = $$props.fill);
     		if ('transitionDuration' in $$props) $$invalidate(6, transitionDuration = $$props.transitionDuration);
-    		if ('threshold' in $$props) $$invalidate(17, threshold = $$props.threshold);
+    		if ('threshold' in $$props) $$invalidate(18, threshold = $$props.threshold);
     		if ('currentIndex' in $$props) $$invalidate(0, currentIndex = $$props.currentIndex);
     		if ('shown' in $$props) $$invalidate(1, shown = $$props.shown);
     		if ('sliderWidth' in $$props) $$invalidate(2, sliderWidth = $$props.sliderWidth);
     		if ('currentScrollPosition' in $$props) $$invalidate(3, currentScrollPosition = $$props.currentScrollPosition);
     		if ('maxWidth' in $$props) $$invalidate(4, maxWidth = $$props.maxWidth);
-    		if ('$$scope' in $$props) $$invalidate(18, $$scope = $$props.$$scope);
+    		if ('$$scope' in $$props) $$invalidate(19, $$scope = $$props.$$scope);
     	};
 
     	$$self.$capture_state = () => ({
@@ -966,20 +979,22 @@ var app = (function () {
     		down,
     		up,
     		move,
+    		keydown,
     		snapToPosition,
     		setScrollPosition,
     		setShown,
     		getItemOffsets,
     		getContentChildren,
-    		createResizeObserver
+    		createResizeObserver,
+    		isCurrentSlider
     	});
 
     	$$self.$inject_state = $$props => {
     		if ('gap' in $$props) $$invalidate(5, gap = $$props.gap);
-    		if ('snap' in $$props) $$invalidate(15, snap = $$props.snap);
-    		if ('fill' in $$props) $$invalidate(16, fill = $$props.fill);
+    		if ('snap' in $$props) $$invalidate(16, snap = $$props.snap);
+    		if ('fill' in $$props) $$invalidate(17, fill = $$props.fill);
     		if ('transitionDuration' in $$props) $$invalidate(6, transitionDuration = $$props.transitionDuration);
-    		if ('threshold' in $$props) $$invalidate(17, threshold = $$props.threshold);
+    		if ('threshold' in $$props) $$invalidate(18, threshold = $$props.threshold);
     		if ('currentIndex' in $$props) $$invalidate(0, currentIndex = $$props.currentIndex);
     		if ('shown' in $$props) $$invalidate(1, shown = $$props.shown);
     		if ('sliderWidth' in $$props) $$invalidate(2, sliderWidth = $$props.sliderWidth);
@@ -1020,6 +1035,7 @@ var app = (function () {
     		down,
     		up,
     		move,
+    		keydown,
     		snap,
     		fill,
     		threshold,
@@ -1043,10 +1059,10 @@ var app = (function () {
     			safe_not_equal,
     			{
     				gap: 5,
-    				snap: 15,
-    				fill: 16,
+    				snap: 16,
+    				fill: 17,
     				transitionDuration: 6,
-    				threshold: 17,
+    				threshold: 18,
     				currentIndex: 0,
     				shown: 1,
     				sliderWidth: 2,
@@ -1192,7 +1208,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (28:2) {#each items as item}
+    // (29:3) {#each items as item}
     function create_each_block_4(ctx) {
     	let div;
     	let img;
@@ -1208,12 +1224,12 @@ var app = (function () {
     			attr_dev(img, "loading", "lazy");
     			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[23])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "svelte-1bhvovo");
-    			add_location(img, file, 32, 4, 920);
-    			attr_dev(div, "class", "item svelte-1bhvovo");
+    			attr_dev(img, "class", "svelte-1uf17ze");
+    			add_location(img, file, 33, 5, 949);
+    			attr_dev(div, "class", "item svelte-1uf17ze");
     			set_style(div, "--width", style___width, false);
     			set_style(div, "--height", `400px`, false);
-    			add_location(div, file, 28, 3, 826);
+    			add_location(div, file, 29, 4, 851);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1234,14 +1250,14 @@ var app = (function () {
     		block,
     		id: create_each_block_4.name,
     		type: "each",
-    		source: "(28:2) {#each items as item}",
+    		source: "(29:3) {#each items as item}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (27:1) <TinySlider gap="0.5rem" let:setIndex let:currentIndex let:sliderWidth on:end={() => console.log('reached end')}>
+    // (28:2) <TinySlider gap="0.5rem" let:setIndex let:currentIndex let:sliderWidth on:end={() => console.log('reached end')}>
     function create_default_slot_3(ctx) {
     	let each_1_anchor;
     	let each_value_4 = /*items*/ ctx[4];
@@ -1302,14 +1318,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(27:1) <TinySlider gap=\\\"0.5rem\\\" let:setIndex let:currentIndex let:sliderWidth on:end={() => console.log('reached end')}>",
+    		source: "(28:2) <TinySlider gap=\\\"0.5rem\\\" let:setIndex let:currentIndex let:sliderWidth on:end={() => console.log('reached end')}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (38:3) {#each items as item, i}
+    // (39:4) {#each items as item, i}
     function create_each_block_3(ctx) {
     	let button;
     	let img;
@@ -1331,14 +1347,15 @@ var app = (function () {
     			button = element("button");
     			img = element("img");
     			t = space();
+    			attr_dev(img, "loading", "lazy");
     			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[23])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
-    			attr_dev(img, "height", "40");
-    			attr_dev(img, "class", "svelte-1bhvovo");
-    			add_location(img, file, 43, 5, 1199);
-    			attr_dev(button, "class", "dot svelte-1bhvovo");
+    			attr_dev(img, "height", "60");
+    			attr_dev(img, "class", "svelte-1uf17ze");
+    			add_location(img, file, 44, 6, 1238);
+    			attr_dev(button, "class", "dot svelte-1uf17ze");
     			toggle_class(button, "active", /*i*/ ctx[27] == /*currentIndex*/ ctx[16]);
-    			add_location(button, file, 38, 4, 1057);
+    			add_location(button, file, 39, 5, 1091);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -1372,14 +1389,14 @@ var app = (function () {
     		block,
     		id: create_each_block_3.name,
     		type: "each",
-    		source: "(38:3) {#each items as item, i}",
+    		source: "(39:4) {#each items as item, i}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (37:2) 
+    // (38:3) 
     function create_controls_slot_1(ctx) {
     	let div;
     	let each_value_3 = /*items*/ ctx[4];
@@ -1399,8 +1416,8 @@ var app = (function () {
     			}
 
     			attr_dev(div, "slot", "controls");
-    			attr_dev(div, "class", "dots svelte-1bhvovo");
-    			add_location(div, file, 36, 2, 988);
+    			attr_dev(div, "class", "dots svelte-1uf17ze");
+    			add_location(div, file, 37, 3, 1020);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1444,14 +1461,14 @@ var app = (function () {
     		block,
     		id: create_controls_slot_1.name,
     		type: "slot",
-    		source: "(37:2) ",
+    		source: "(38:3) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (59:6) {#if [index, index + 1, index - 1].some(i => shown.includes(i))}
+    // (62:7) {#if [index, index + 1, index - 1].some(i => shown.includes(i))}
     function create_if_block_2(ctx) {
     	let img;
     	let img_src_value;
@@ -1459,10 +1476,11 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			img = element("img");
+    			attr_dev(img, "loading", "lazy");
     			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[23])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "svelte-1bhvovo");
-    			add_location(img, file, 59, 7, 1753);
+    			attr_dev(img, "class", "svelte-1uf17ze");
+    			add_location(img, file, 62, 8, 1849);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
@@ -1481,14 +1499,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(59:6) {#if [index, index + 1, index - 1].some(i => shown.includes(i))}",
+    		source: "(62:7) {#if [index, index + 1, index - 1].some(i => shown.includes(i))}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (57:4) {#each portaitItems as item, index}
+    // (60:5) {#each portaitItems as item, index}
     function create_each_block_2(ctx) {
     	let div;
     	let show_if = [/*index*/ ctx[25], /*index*/ ctx[25] + 1, /*index*/ ctx[25] - 1].some(func);
@@ -1505,10 +1523,10 @@ var app = (function () {
     			div = element("div");
     			if (if_block) if_block.c();
     			t = space();
-    			attr_dev(div, "class", "item svelte-1bhvovo");
+    			attr_dev(div, "class", "item svelte-1uf17ze");
     			set_style(div, "--width", `200px`, false);
     			set_style(div, "--height", `300px`, false);
-    			add_location(div, file, 57, 5, 1609);
+    			add_location(div, file, 60, 6, 1703);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1542,14 +1560,14 @@ var app = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(57:4) {#each portaitItems as item, index}",
+    		source: "(60:5) {#each portaitItems as item, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (56:3) <TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown bind:sliderWidth bind:currentScrollPosition bind:maxWidth>
+    // (59:4) <TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown bind:sliderWidth bind:currentScrollPosition bind:maxWidth>
     function create_default_slot_2(ctx) {
     	let each_1_anchor;
     	let each_value_2 = /*portaitItems*/ ctx[0];
@@ -1610,14 +1628,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_2.name,
     		type: "slot",
-    		source: "(56:3) <TinySlider gap=\\\"0.5rem\\\" let:setIndex let:currentIndex let:shown bind:sliderWidth bind:currentScrollPosition bind:maxWidth>",
+    		source: "(59:4) <TinySlider gap=\\\"0.5rem\\\" let:setIndex let:currentIndex let:shown bind:sliderWidth bind:currentScrollPosition bind:maxWidth>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (66:5) {#if currentIndex > 0}
+    // (69:6) {#if currentIndex > 0}
     function create_if_block_1(ctx) {
     	let button;
     	let mounted;
@@ -1631,8 +1649,8 @@ var app = (function () {
     		c: function create() {
     			button = element("button");
     			button.textContent = "←";
-    			attr_dev(button, "class", "arrow left svelte-1bhvovo");
-    			add_location(button, file, 66, 6, 1895);
+    			attr_dev(button, "class", "arrow left svelte-1uf17ze");
+    			add_location(button, file, 69, 7, 2012);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -1656,14 +1674,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(66:5) {#if currentIndex > 0}",
+    		source: "(69:6) {#if currentIndex > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (70:5) {#if currentIndex < portaitItems.length - 1}
+    // (73:6) {#if currentIndex < portaitItems.length - 1}
     function create_if_block(ctx) {
     	let button;
     	let mounted;
@@ -1677,8 +1695,8 @@ var app = (function () {
     		c: function create() {
     			button = element("button");
     			button.textContent = "→";
-    			attr_dev(button, "class", "arrow right svelte-1bhvovo");
-    			add_location(button, file, 70, 6, 2049);
+    			attr_dev(button, "class", "arrow right svelte-1uf17ze");
+    			add_location(button, file, 73, 7, 2169);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -1702,14 +1720,14 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(70:5) {#if currentIndex < portaitItems.length - 1}",
+    		source: "(73:6) {#if currentIndex < portaitItems.length - 1}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (65:4) <svelte:fragment slot="controls">
+    // (68:5) <svelte:fragment slot="controls">
     function create_controls_slot(ctx) {
     	let t0;
     	let t1;
@@ -1746,10 +1764,10 @@ var app = (function () {
     			t7 = space();
     			div3 = element("div");
     			t8 = text(t8_value);
-    			add_location(div0, file, 73, 5, 2152);
-    			add_location(div1, file, 74, 5, 2177);
-    			add_location(div2, file, 75, 5, 2205);
-    			add_location(div3, file, 76, 5, 2246);
+    			add_location(div0, file, 76, 6, 2274);
+    			add_location(div1, file, 77, 6, 2300);
+    			add_location(div2, file, 78, 6, 2329);
+    			add_location(div3, file, 79, 6, 2371);
     		},
     		m: function mount(target, anchor) {
     			if (if_block0) if_block0.m(target, anchor);
@@ -1819,14 +1837,14 @@ var app = (function () {
     		block,
     		id: create_controls_slot.name,
     		type: "slot",
-    		source: "(65:4) <svelte:fragment slot=\\\"controls\\\">",
+    		source: "(68:5) <svelte:fragment slot=\\\"controls\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (85:3) {#each { length: 20 } as _}
+    // (90:4) {#each { length: 20 } as _}
     function create_each_block_1(ctx) {
     	let div;
     	let strong;
@@ -1839,12 +1857,12 @@ var app = (function () {
     			strong = element("strong");
     			strong.textContent = "Word";
     			t1 = space();
-    			add_location(strong, file, 86, 5, 2636);
-    			attr_dev(div, "class", "item svelte-1bhvovo");
+    			add_location(strong, file, 91, 6, 2801);
+    			attr_dev(div, "class", "item svelte-1uf17ze");
     			set_style(div, "background-color", style_background_color, false);
     			set_style(div, "--width", `200px`, false);
     			set_style(div, "--height", `200px`, false);
-    			add_location(div, file, 85, 4, 2492);
+    			add_location(div, file, 90, 5, 2656);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1861,14 +1879,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(85:3) {#each { length: 20 } as _}",
+    		source: "(90:4) {#each { length: 20 } as _}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (84:2) <TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex let:shown>
+    // (89:3) <TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex let:shown>
     function create_default_slot_1(ctx) {
     	let each_1_anchor;
     	let each_value_1 = { length: 20 };
@@ -1929,14 +1947,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(84:2) <TinySlider gap=\\\"0.5rem\\\" fill={false} let:setIndex let:currentIndex let:shown>",
+    		source: "(89:3) <TinySlider gap=\\\"0.5rem\\\" fill={false} let:setIndex let:currentIndex let:shown>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (95:3) {#each { length: 20 } as _}
+    // (102:4) {#each { length: 20 } as _}
     function create_each_block(ctx) {
     	let div;
     	let a;
@@ -1952,12 +1970,12 @@ var app = (function () {
     			t1 = space();
     			attr_dev(a, "href", "https://google.com");
     			attr_dev(a, "target", "_blank");
-    			attr_dev(a, "class", "svelte-1bhvovo");
-    			add_location(a, file, 96, 5, 2968);
-    			attr_dev(div, "class", "item svelte-1bhvovo");
+    			attr_dev(a, "class", "svelte-1uf17ze");
+    			add_location(a, file, 103, 6, 3173);
+    			attr_dev(div, "class", "item svelte-1uf17ze");
     			set_style(div, "--width", `200px`, false);
     			set_style(div, "--height", `200px`, false);
-    			add_location(div, file, 95, 4, 2860);
+    			add_location(div, file, 102, 5, 3064);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1981,14 +1999,14 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(95:3) {#each { length: 20 } as _}",
+    		source: "(102:4) {#each { length: 20 } as _}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (94:2) <TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex let:shown>
+    // (101:3) <TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex let:shown>
     function create_default_slot(ctx) {
     	let each_1_anchor;
     	let each_value = { length: 20 };
@@ -2049,7 +2067,7 @@ var app = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(94:2) <TinySlider gap=\\\"0.5rem\\\" fill={false} let:setIndex let:currentIndex let:shown>",
+    		source: "(101:3) <TinySlider gap=\\\"0.5rem\\\" fill={false} let:setIndex let:currentIndex let:shown>",
     		ctx
     	});
 
@@ -2057,20 +2075,24 @@ var app = (function () {
     }
 
     function create_fragment(ctx) {
-    	let div4;
+    	let div8;
+    	let div0;
     	let tinyslider0;
     	let t0;
+    	let div3;
+    	let div2;
     	let div1;
-    	let div0;
     	let tinyslider1;
     	let updating_sliderWidth;
     	let updating_currentScrollPosition;
     	let updating_maxWidth;
     	let t1;
-    	let div2;
+    	let div5;
+    	let div4;
     	let tinyslider2;
     	let t2;
-    	let div3;
+    	let div7;
+    	let div6;
     	let tinyslider3;
     	let current;
 
@@ -2200,45 +2222,61 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			div4 = element("div");
+    			div8 = element("div");
+    			div0 = element("div");
     			create_component(tinyslider0.$$.fragment);
     			t0 = space();
+    			div3 = element("div");
+    			div2 = element("div");
     			div1 = element("div");
-    			div0 = element("div");
     			create_component(tinyslider1.$$.fragment);
     			t1 = space();
-    			div2 = element("div");
+    			div5 = element("div");
+    			div4 = element("div");
     			create_component(tinyslider2.$$.fragment);
     			t2 = space();
-    			div3 = element("div");
+    			div7 = element("div");
+    			div6 = element("div");
     			create_component(tinyslider3.$$.fragment);
-    			attr_dev(div0, "class", "slider-wrapper svelte-1bhvovo");
-    			add_location(div0, file, 54, 2, 1405);
-    			attr_dev(div1, "class", "relative svelte-1bhvovo");
-    			add_location(div1, file, 53, 1, 1379);
-    			attr_dev(div2, "class", "slider-wrapper svelte-1bhvovo");
-    			add_location(div2, file, 82, 1, 2344);
-    			attr_dev(div3, "class", "slider-wrapper svelte-1bhvovo");
-    			add_location(div3, file, 92, 1, 2712);
-    			attr_dev(div4, "class", "wrapper svelte-1bhvovo");
-    			add_location(div4, file, 25, 0, 659);
+    			attr_dev(div0, "class", "block svelte-1uf17ze");
+    			add_location(div0, file, 26, 1, 683);
+    			attr_dev(div1, "class", "slider-wrapper svelte-1uf17ze");
+    			add_location(div1, file, 57, 3, 1496);
+    			attr_dev(div2, "class", "relative svelte-1uf17ze");
+    			add_location(div2, file, 56, 2, 1469);
+    			attr_dev(div3, "class", "block svelte-1uf17ze");
+    			add_location(div3, file, 55, 1, 1446);
+    			attr_dev(div4, "class", "slider-wrapper svelte-1uf17ze");
+    			add_location(div4, file, 87, 2, 2505);
+    			attr_dev(div5, "class", "block svelte-1uf17ze");
+    			add_location(div5, file, 86, 1, 2482);
+    			attr_dev(div6, "class", "slider-wrapper svelte-1uf17ze");
+    			add_location(div6, file, 99, 2, 2913);
+    			attr_dev(div7, "class", "block svelte-1uf17ze");
+    			add_location(div7, file, 98, 1, 2890);
+    			attr_dev(div8, "class", "wrapper svelte-1uf17ze");
+    			add_location(div8, file, 25, 0, 659);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div4, anchor);
-    			mount_component(tinyslider0, div4, null);
-    			append_dev(div4, t0);
-    			append_dev(div4, div1);
-    			append_dev(div1, div0);
-    			mount_component(tinyslider1, div0, null);
-    			append_dev(div4, t1);
-    			append_dev(div4, div2);
-    			mount_component(tinyslider2, div2, null);
-    			append_dev(div4, t2);
-    			append_dev(div4, div3);
-    			mount_component(tinyslider3, div3, null);
+    			insert_dev(target, div8, anchor);
+    			append_dev(div8, div0);
+    			mount_component(tinyslider0, div0, null);
+    			append_dev(div8, t0);
+    			append_dev(div8, div3);
+    			append_dev(div3, div2);
+    			append_dev(div2, div1);
+    			mount_component(tinyslider1, div1, null);
+    			append_dev(div8, t1);
+    			append_dev(div8, div5);
+    			append_dev(div5, div4);
+    			mount_component(tinyslider2, div4, null);
+    			append_dev(div8, t2);
+    			append_dev(div8, div7);
+    			append_dev(div7, div6);
+    			mount_component(tinyslider3, div6, null);
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
@@ -2305,7 +2343,7 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div4);
+    			if (detaching) detach_dev(div8);
     			destroy_component(tinyslider0);
     			destroy_component(tinyslider1);
     			destroy_component(tinyslider2);

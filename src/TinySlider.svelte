@@ -41,7 +41,7 @@
   function down(event) {
     event.preventDefault()
 
-    if (event.target != sliderElement && event.target.closest(".slider") != sliderElement) return
+    if (!isCurrentSlider(event.target)) return
 
     movementStartX = event.pageX || event.touches[0].pageX
     isDragging = true
@@ -80,6 +80,15 @@
 
     setScrollPosition(finalScrollPosition + (movementStartX - event.pageX))
     setShown()
+  }
+
+  function keydown(event) {
+    if (!isCurrentSlider(document.activeElement)) return
+
+    if (event.key != "ArrowLeft" && event.key != "ArrowRight") return
+
+    if (event.key == "ArrowLeft") setIndex(currentIndex - 1)
+    if (event.key == "ArrowRight") setIndex(currentIndex + 1)
   }
 
   function snapToPosition({ setIndex = -1, direction = 1 } = {}) {
@@ -139,18 +148,29 @@
 
     observer.observe(contentElement)
   }
+
+  function isCurrentSlider(element) {
+    return element == sliderElement || element.closest(".slider") == sliderElement
+  }
 </script>
 
 
 
-<svelte:window on:mousedown={down} on:mouseup={up} on:mousemove={move} on:touchstart={down} on:touchend={up} on:touchmove={move} />
+<svelte:window
+  on:mousedown={down}
+  on:mouseup={up}
+  on:mousemove={move}
+  on:touchstart={down}
+  on:touchend={up}
+  on:touchmove={move}
+  on:keydown={keydown} />
 
 
 
-<div class="slider" class:dragging={isDragging} class:passed-threshold={passedThreshold} bind:this={sliderElement} bind:clientWidth={sliderWidth}>
+<div class="slider" class:dragging={isDragging} class:passed-threshold={passedThreshold} bind:this={sliderElement} bind:clientWidth={sliderWidth} tabindex="-1">
   <div
     bind:this={contentElement}
-    draggable={false}
+    tabindex="0"
     class="slider-content"
     style:transform="translateX({currentScrollPosition * -1}px)"
     style:transition-duration="{isDragging ? 0 : transitionDuration}ms"
@@ -180,9 +200,5 @@
     gap: var(--gap, 0);
     user-select: none;
     transition: transform;
-  }
-
-  .slider :global(img) {
-    pointer-events: none;
   }
 </style>
