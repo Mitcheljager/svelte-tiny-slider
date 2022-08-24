@@ -1,8 +1,11 @@
 <script>
+	import Arrow from "./Arrow.svelte"
 	import { TinySlider } from "svelte-tiny-slider"
 
-	const items = getItems("3d-renders")
-	let portaitItems = getItems("fashion", "200x300")
+	const items = getItems("editorial")
+	const headerItems = getItems("3d-render", "200x150", 30)
+	const cardItems = getItems("architecture", "320x180", 20)
+	let portaitItems = getItems("food-drink", "200x300")
 
 	function getItems(subject, size = "", count = 10, from = 0) {
 		const array = []
@@ -14,14 +17,23 @@
 	}
 
 	let sliderWidth
-	let maxWidth
-	let currentScrollPosition
+	let distanceToEnd
 
-	$: if (maxWidth && currentScrollPosition + (sliderWidth * 2) >= maxWidth)
+	$: if (distanceToEnd < sliderWidth)
 		portaitItems = [...portaitItems, ...getItems("fashion", "200x300", 10, portaitItems.length)]
 </script>
 
 
+
+<header>
+	<h1><mark>Svelte</mark>&nbsp;Tiny&nbsp;Slider</h1>
+
+	<TinySlider>
+		{#each headerItems as item}
+			<img loading="lazy" src={item} width="200" height="150" alt="" />
+		{/each}
+	</TinySlider>
+</header>
 
 <div class="wrapper">
 	<div class="block">
@@ -56,7 +68,7 @@
 	<div class="block">
 		<div class="relative">
 			<div class="slider-wrapper">
-				<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown bind:sliderWidth bind:currentScrollPosition bind:maxWidth>
+				<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown bind:distanceToEnd bind:sliderWidth>
 					{#each portaitItems as item, index}
 						<div class="item" style:--width="200px" style:--height="300px">
 							{#if [index, index + 1, index - 1].some(i => shown.includes(i))}
@@ -67,17 +79,12 @@
 
 					<svelte:fragment slot="controls">
 						{#if currentIndex > 0}
-							<button class="arrow left" on:click={() => setIndex(currentIndex - 2)}>←</button>
+							<button class="arrow left" on:click={() => setIndex(currentIndex - 2)}><Arrow /></button>
 						{/if}
 
 						{#if currentIndex < portaitItems.length - 1}
-							<button class="arrow right" on:click={() => setIndex(currentIndex + 2)}>→</button>
+							<button class="arrow right" on:click={() => setIndex(currentIndex + 2)}><Arrow direction="right" /></button>
 						{/if}
-
-						<div>{shown}</div>
-						<div>{maxWidth}</div>
-						<div>{currentScrollPosition}</div>
-						<div>{portaitItems.length}</div>
 					</svelte:fragment>
 				</TinySlider>
 			</div>
@@ -98,7 +105,7 @@
 
 	<div class="block">
 		<div class="slider-wrapper">
-			<TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex let:shown>
+			<TinySlider gap="0.5rem" fill={false}>
 				{#each { length: 20 } as _}
 					<div class="item" style:--width="200px" style:--height="200px" on:click={() => console.log('click')}>
 						<a href="https://google.com" target="_blank">Link</a>
@@ -107,6 +114,42 @@
 			</TinySlider>
 		</div>
 	</div>
+</div>
+
+<div class="cards">
+	<TinySlider gap="1rem" let:setIndex let:currentIndex let:shown let:reachedEnd>
+		{#each cardItems as item, index}
+			<div class="card" style:--width="200px" style:--height="200px" on:click={() => console.log('click')}>
+				<a class="thumbnail" href="https://google.com" target="_blank">
+					{#if [index, index + 1, index - 1].some(i => shown.includes(i))}
+						<img loading="lazy" src={item} alt="" />
+					{/if}
+				</a>
+
+				<a class="title" href="https://google.com" target="_blank">Card with links</a>
+
+				<p>
+					I am some description to some topic that spans multiple lines.
+				</p>
+
+				<a class="button" href="#" on:click|preventDefault>Take me there!</a>
+			</div>
+		{/each}
+
+		<svelte:fragment slot="controls">
+			{#if currentIndex > 0}
+				<button class="arrow left" on:click={() => setIndex(currentIndex - 2)}><Arrow /></button>
+			{/if}
+
+			{#if !reachedEnd}
+				<button class="arrow right" on:click={() => setIndex(currentIndex + 2)}><Arrow direction="right" /></button>
+			{/if}
+		</svelte:fragment>
+	</TinySlider>
+</div>
+
+<div class="wrapper">
+
 </div>
 
 
@@ -143,8 +186,26 @@
 		overflow-x: hidden;
 	}
 
-	:global(*) {
+	* {
 		box-sizing: border-box;
+	}
+
+	header {
+		position: relative;
+	}
+
+	header h1 {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateY(-50%) translateX(-50%);
+		padding: 0.5rem 1rem;
+		margin: 0;
+		background: var(--bg-body);
+		text-align: center;
+		font-size: clamp(2rem, 7vw, 3rem);
+		pointer-events: none;
+		z-index: 10;
 	}
 
 	.slider-wrapper {
@@ -178,6 +239,90 @@
 	.item img {
 		max-width: 100%;
 		height: auto;
+	}
+
+	.cards {
+		position: relative;
+		padding: 3rem 0;
+	}
+
+	.cards :global(.slider) {
+		padding: 0 1rem;
+	}
+
+	.cards .arrow {
+		left: 3rem;
+		background: var(--border-color);
+	}
+
+	.cards .arrow.right {
+		right: 3rem;
+	}
+
+	.card {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		padding: 1rem;
+		width: clamp(200px, 20vw, 300px);
+		border-radius: 1rem;
+		background: var(--bg-well);
+	}
+
+	.card a:focus-visible {
+		outline: 2px solid white;
+		outline-offset: 2px;
+	}
+
+	.card p {
+		margin: 0;
+	}
+
+	@keyframes gradient-shine {
+		from { transform: translateX(-100%) }
+		to { transform: translateX(100%) }
+	}
+
+	.card .thumbnail {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 16/9;
+		border-radius: 1rem;
+		background: var(--bg-body);
+		overflow: hidden;
+	}
+
+	.card .thumbnail::after {
+		content: '';
+		display: block;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background: linear-gradient(to right, var(--bg-body), var(--border-color), var(--bg-body));
+		animation: gradient-shine 500ms infinite;
+	}
+
+	.card .title {
+		font-size: 1.25rem;
+		font-weight: bold;
+		color: var(--text-color-lightest);
+		text-decoration: none;
+	}
+
+	.card .title:hover {
+		text-decoration: underline
+	}
+
+	.card img {
+		position: relative;
+		width: 100%;
+		z-index: 2;
+	}
+
+	.card img:hover {
+		filter: brightness(1.2);
 	}
 
 	.dots {
@@ -214,7 +359,7 @@
 	.arrow {
 		position: absolute;
 		left: 0;
-		top: 150px;
+		top: 50%;
 		width: 2rem;
 		height: 2rem;
 		padding: 0;
@@ -224,12 +369,18 @@
 		background: var(--bg-well);
 		transform: translateX(-50%) translateY(-50%);
 		font-size: 1.5rem;
-		line-height: 1.65rem;
+		line-height: 1.5rem;
 		font-family: inherit;
 		text-align: center;
 		font-weight: bold;
 		color: white;
 		z-index: 2;
+		cursor: pointer;
+	}
+
+	.arrow :global(svg) {
+		height: 18px;
+		width: 18px;
 	}
 
 	.arrow:hover {
@@ -293,6 +444,8 @@
 		border-radius: 0.25rem;
 		font-size: 1rem;
 		color: white;
+		text-decoration: none;
+		text-align: center;
 		cursor: pointer;
 		transition: outline 100ms, transform 100ms;
 	}
@@ -350,7 +503,7 @@
 	.wrapper {
 		max-width: 540px;
 		margin: 0 auto;
-		padding: 0 1rem 6rem;
+		padding: 0 1rem;
 	}
 
 	.block {

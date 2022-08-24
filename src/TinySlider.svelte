@@ -12,6 +12,8 @@
   export let sliderWidth = 0
   export let currentScrollPosition = 0
   export let maxWidth = 0
+  export let reachedEnd = false
+  export let distanceToEnd = 0
 
   let isDragging = false
   let passedThreshold = false
@@ -24,6 +26,7 @@
   const dispatch = createEventDispatcher()
 
   $: if (contentElement) setShown()
+  $: if (contentElement) distanceToEnd = maxWidth - currentScrollPosition - sliderWidth
 
   onMount(createResizeObserver)
   onDestroy(() => observer.disconnect(contentElement))
@@ -116,7 +119,9 @@
     currentScrollPosition = left
 
     const end = maxWidth - sliderWidth
-    if (currentScrollPosition < end) return
+
+    reachedEnd = currentScrollPosition >= end
+    if (!reachedEnd) return
     dispatch("end")
     if (fill && limit) currentScrollPosition = end
   }
@@ -175,7 +180,7 @@
     style:transform="translateX({currentScrollPosition * -1}px)"
     style:transition-duration="{isDragging ? 0 : transitionDuration}ms"
     style:--gap={gap}>
-    <slot {sliderWidth} {shown} {currentIndex} {setIndex} {currentScrollPosition} {maxWidth} />
+    <slot {sliderWidth} {shown} {currentIndex} {setIndex} {currentScrollPosition} {maxWidth} {reachedEnd} {distanceToEnd} />
   </div>
 </div>
 
