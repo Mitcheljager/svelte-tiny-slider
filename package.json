@@ -1,6 +1,6 @@
 {
   "name": "svelte-tiny-slider",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": false,
   "scripts": {
     "build": "rollup -c",
@@ -28,7 +28,7 @@
     "svelte-jester": "^2.0.1"
   },
   "description": "",
-  "keywords": [],
+  "keywords": ["slider", "carousel", "gallery"],
   "files": [
     "src/"
   ],
@@ -42,7 +42,7 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/Mitcheljager/svelte-tiny-slider"
   },
-  "homepage": ""
+  "homepage": "https://mitcheljager.github.io/svelte-tiny-slider/"
 }
