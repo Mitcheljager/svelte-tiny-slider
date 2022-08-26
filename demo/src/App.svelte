@@ -3,6 +3,7 @@
 	import { TinySlider } from "svelte-tiny-slider"
 
 	const items = getItems("editorial")
+	const fixedItems = getItems("editorial", "508x350")
 	const headerItems = getItems("3d-render", "200x150", 30)
 	const cardItems = getItems("architecture", "320x180", 20)
 	let portaitItems = getItems("food-drink", "200x300")
@@ -36,6 +37,113 @@
 </header>
 
 <div class="wrapper">
+	<div class="block">
+		<p>Svelte Tiny Slider is an easy to use highly customizable and unopinionated carousel or slider. There is little to no styling and how you structure your content is up to you. Works with touch and keyboard controls. Made with accessiblity in mind.</p>
+
+		<p><a href="https://github.com/Mitcheljager/svelte-tiny-linked-charts">GitHub</a></p>
+
+		<h2>Installation</h2>
+
+		<p>Install using Yarn or NPM.</p>
+
+		<code class="well">
+			yarn add <mark>svelte-tiny-slider</mark>
+		</code>
+
+		<code class="well">
+			npm install --save <mark>svelte-tiny-slider</mark>
+		</code>
+
+		<p>Include the slider in your app.</p>
+
+		<code class="well">
+			import &#123; <mark>TinySlider</mark> &#125; from "<mark>svelte-tiny-slider</mark>"
+		</code>
+
+		<code class="well">
+			&lt;<mark>TinySlider</mark>&gt;
+				...
+			&lt;/<mark>TinySlider</mark>&gt;
+		</code>
+	</div>
+
+	<h2>Usage</h2>
+
+	<div class="block">
+		<p>In it's most basic state the slider is just a horizontal carousel that can only be controlled through dragging the image either with your mouse or with touch controls. The carousel items can be whatever you want them to be, in this case we're using images.</p>
+
+		<p>
+			<code class="well">
+				&lt;<mark>TinySlider</mark>&gt; <br>
+				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
+				&nbsp;&nbsp;&#123;/each&#125; <br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			</code>
+		</p>
+
+		<TinySlider>
+			{#each fixedItems as item}
+				<img src={item} alt="" />
+			{/each}
+		</TinySlider>
+	</div>
+
+	<div class="block">
+		<h3>Controls</h3>
+
+		<p>
+			From this point there are several options to any kind of controls you can think of. There are several ways you can add controls. The easiest way is to use <code class="inline">slot="<mark>controls</mark>"</code> and use it's slot props.
+		</p>
+
+		<ul>
+			<li><mark>setIndex</mark> is a function that accepts an index of the slide you want to navigate to.</li>
+			<li><mark>currentIndex</mark> is an integer of the index you are current only on.</li>
+		</ul>
+
+		<p>
+			In this example we are using <code class="inline">svelte:fragment</code> but it could be any element you want it to be. Styling isn't included in this code example.
+		</p>
+
+		<p>
+			<code class="well">
+				&lt;<mark>TinySlider</mark> let:<mark>setIndex</mark> let:<mark>currentIndex</mark>&gt; <br>
+				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
+				&nbsp;&nbsp;&#123;/each&#125; <br>
+				<br>
+				&nbsp;&nbsp;&lt;svelte:fragment slot="<mark>controls</mark>"&gt; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if <mark>currentIndex</mark> &gt; 0&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button on:click=&#123;() =&gt; <mark>setIndex</mark>(<mark>currentIndex</mark> - 1)&#125;&gt;...&lt;/button&gt; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125; <br>
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if <mark>currentIndex</mark> &lt; portaitItems.length - 1&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button on:click=&#123;() =&gt; <mark>setIndex</mark>(<mark>currentIndex</mark> + 1)&#125;&gt;...&lt;/button&gt; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125; <br>
+				&nbsp;&nbsp;&lt;/svelte:fragment&gt; <br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			</code>
+		</p>
+
+		<div class="relative">
+			<TinySlider let:setIndex let:currentIndex>
+				{#each fixedItems as item}
+					<img src={item} alt="" />
+				{/each}
+
+				<svelte:fragment slot="controls">
+					{#if currentIndex > 0}
+						<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
+					{/if}
+
+					{#if currentIndex < items.length - 1}
+						<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
+					{/if}
+				</svelte:fragment>
+			</TinySlider>
+		</div>
+	</div>
+
 	<div class="block">
 		<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:sliderWidth on:end={() => console.log('reached end')}>
 			{#each items as item}
@@ -366,7 +474,7 @@
 		margin: 0;
 		border: 0;
 		border-radius: 50%;
-		background: var(--bg-well);
+		background: var(--text-color-lightest);
 		transform: translateX(-50%) translateY(-50%);
 		font-size: 1.5rem;
 		line-height: 1.5rem;
@@ -383,8 +491,12 @@
 		width: 18px;
 	}
 
+	.arrow :global(svg path) {
+		fill: var(--bg-body);
+	}
+
 	.arrow:hover {
-		background: var(--border-color);
+		background: var(--text-color-light);
 	}
 
 	.arrow.right {
