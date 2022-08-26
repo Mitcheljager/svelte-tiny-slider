@@ -206,4 +206,10 @@
     user-select: none;
     transition: transform;
   }
+
+  @media (prefers-reduced-motion) {
+    .slider-content {
+      transition: none;
+    }
+  }
 </style>
