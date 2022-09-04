@@ -4,6 +4,12 @@
 
 	const items = getItems("editorial")
 	const fixedItems = getItems("editorial", "508x350")
+	const fixedItems2 = getItems("food", "508x350")
+	const fixedItems3 = getItems("3d-render", "508x350")
+	const fixedItems4 = getItems("nature", "508x350")
+	const fixedItems5 = getItems("food-drink", "200x300")
+	const fixedItems6 = getItems("experimental", "508x350")
+	const fixedItems7 = getItems("fashion", "200x300", 20)
 	const headerItems = getItems("3d-render", "200x150", 30)
 	const cardItems = getItems("architecture", "320x180", 20)
 	let portaitItems = getItems("food-drink", "200x300")
@@ -17,11 +23,14 @@
 		return array
 	}
 
+	let setIndex
+	let currentIndex
+
 	let sliderWidth
 	let distanceToEnd
 
 	$: if (distanceToEnd < sliderWidth)
-		portaitItems = [...portaitItems, ...getItems("fashion", "200x300", 10, portaitItems.length)]
+		portaitItems = [...portaitItems, ...getItems("food-drink", "200x300", 10, portaitItems.length)]
 </script>
 
 
@@ -38,9 +47,9 @@
 
 <div class="wrapper">
 	<div class="block">
-		<p>Svelte Tiny Slider is an easy to use highly customizable and unopinionated carousel or slider. There is little to no styling and how you structure your content is up to you. Works with touch and keyboard controls. Made with accessiblity in mind.</p>
+		<p>Svelte Tiny Slider is an easy to use highly customizable and unopinionated carousel or slider. There is little to no styling and how you structure your content is up to you. Images, videos, or any other element will work. Works with touch and keyboard controls. Made with accessiblity in mind.</p>
 
-		<p><a href="https://github.com/Mitcheljager/svelte-tiny-linked-charts">GitHub</a></p>
+		<p><a href="https://github.com/Mitcheljager/svelte-tiny-slider">GitHub</a></p>
 
 		<h2>Installation</h2>
 
@@ -93,8 +102,11 @@
 		<h3>Controls</h3>
 
 		<p>
-			From this point there are several options to any kind of controls you can think of. There are several ways you can add controls. The easiest way is to use <code class="inline">slot="<mark>controls</mark>"</code> and use it's slot props.
-		</p>
+			From this point there are several options to add any kind of controls you can think of. There two ways you can add controls. Either via slot props or via exported props using two way binds.
+
+		<h4>Controls via slot props</h4>
+
+		<p>The easiest way is to use <code class="inline">slot="<mark>controls</mark>"</code> and use it's slot props. There are several available props, but for controls the most relevant are:</p>
 
 		<ul>
 			<li><mark>setIndex</mark> is a function that accepts an index of the slide you want to navigate to.</li>
@@ -127,7 +139,7 @@
 
 		<div class="relative">
 			<TinySlider let:setIndex let:currentIndex>
-				{#each fixedItems as item}
+				{#each fixedItems2 as item}
 					<img src={item} alt="" />
 				{/each}
 
@@ -142,45 +154,283 @@
 				</svelte:fragment>
 			</TinySlider>
 		</div>
+
+		<p>We could use the same props to implement some type of dots navigation.</p>
+
+		<p>
+			<code class="well">
+				&lt;<mark>TinySlider</mark> let:<mark>setIndex</mark> let:<mark>currentIndex</mark>&gt; <br>
+				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
+				&nbsp;&nbsp;&#123;/each&#125; <br>
+				<br>
+				&nbsp;&nbsp;&lt;div slot="controls"&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#each items as _, i&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class:active=&#123;i == <mark>currentIndex</mark>&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on:click=&#123;() =&gt; <mark>setIndex</mark>(i)&#125; /&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/each&#125;<br>
+				&nbsp;&nbsp;&lt;/div&gt;<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			</code>
+		</p>
+
+		<div class="relative">
+			<TinySlider let:setIndex let:currentIndex>
+				{#each fixedItems4 as item}
+					<img src={item} alt="" />
+				{/each}
+
+				<div slot="controls" class="dots">
+					{#each fixedItems4 as _, i}
+						<button
+							class="dot"
+							class:active={i == currentIndex}
+							on:click={() => setIndex(i)} />
+					{/each}
+				</div>
+			</TinySlider>
+		</div>
+
+		<p>In a similar way we can also add thumbnail navigation.</p>
+
+		<p>
+			<code class="well">
+				&lt;<mark>TinySlider</mark> let:<mark>setIndex</mark> let:<mark>currentIndex</mark>&gt; <br>
+				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
+				&nbsp;&nbsp;&#123;/each&#125; <br>
+				<br>
+				&nbsp;&nbsp;&lt;div slot="controls"&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#each items as _, i&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class:active=&#123;i == <mark>currentIndex</mark>&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on:click=&#123;() =&gt; <mark>setIndex</mark>(i)&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on:focus=&#123;() =&gt; <mark>setIndex</mark>(i)&#125;&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" height=60 /&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/each&#125;<br>
+				&nbsp;&nbsp;&lt;/div&gt;<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			</code>
+		</p>
+
+		<div class="relative">
+			<TinySlider let:setIndex let:currentIndex>
+				{#each fixedItems3 as item}
+					<img src={item} alt="" />
+				{/each}
+
+				<div slot="controls" class="thumbnails grid">
+					{#each fixedItems3 as item, i}
+						<button
+							class="thumbnail"
+							class:active={i == currentIndex}
+							on:click={() => setIndex(i)}
+							on:focus={() => setIndex(i)}>
+							<img src={item} alt="" height=60 />
+						</button>
+					{/each}
+				</div>
+			</TinySlider>
+		</div>
+
+		<h4>Controls via exported props</h4>
+
+		<p>You don't have to control the component from a slot, you can control it from anywhere using two way binds. Declare any variable you want and bind them using <code class="inline">bind</code> instead of <code class="inline">let</code>. The variable <code class="inline">currentIndex</code> can not be directly modified, it should only be used as a reference.</p>
+
+		<p>
+			<code class="well">
+				&lt;script&gt;<br>
+				&nbsp;&nbsp;let <mark>setIndex</mark><br>
+				&lt;/script&gt;<br>
+				<br>
+				&lt;<mark>TinySlider</mark> <mark>bind</mark>:<mark>setIndex</mark>&gt; <br>
+				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
+				&nbsp;&nbsp;&#123;/each&#125; <br>
+				&lt;/<mark>TinySlider</mark>&gt;<br>
+				<br>
+				&lt;button on:click=&#123;() =&gt; <mark>setIndex</mark>(2)&#125;&gt;...&lt;/button&gt;<br>
+				&lt;button on:click=&#123;() =&gt; <mark>setIndex</mark>(5)&#125;&gt;...&lt;/button&gt;<br>
+				&lt;button on:click=&#123;() =&gt; <mark>setIndex</mark>(9)&#125;&gt;...&lt;/button&gt;<br>
+			</code>
+		</p>
+
+		<TinySlider bind:setIndex bind:currentIndex>
+			{#each fixedItems4 as item}
+				<img src={item} alt="" />
+			{/each}
+		</TinySlider>
+
+		<p>These buttons are not in a <code class="inline">slot</code> and could be placed anywhere on your page.</p>
+
+		<button class="button" on:click={() => setIndex(2)}>Set index to 2</button>
+		<button class="button" on:click={() => setIndex(5)}>Set index to 5</button>
+		<button class="button" on:click={() => setIndex(9)}>Set index to 9</button>
 	</div>
 
-	<div class="block">
-		<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:sliderWidth on:end={() => console.log('reached end')}>
-			{#each items as item}
-				<div
-					class="item"
-					style:--width="{sliderWidth}px"
-					style:--height="400px">
-					<img loading="lazy" src={item} alt="" />
-				</div>
-			{/each}
 
-			<div slot="controls" class="dots">
-				{#each items as item, i}
-					<button
-						class="dot"
-						class:active={i == currentIndex}
-						on:click={() => setIndex(i)}
-						on:focus={() => setIndex(i)}>
-						<img loading="lazy" src={item} alt="" height=60 />
-					</button>
-				{/each}
-			</div>
+	<div class="block">
+		<h3>Styling</h3>
+
+		<p>There is very little css set by default, you're expected to bring your own. But to help you out there's a handful of props that might be of use. You don't need to use any of these, you could do it all with regular css, which we will also go over.</p>
+
+		<h4>Size</h4>
+
+		<p>So far we've only been using one slide at a time. The number of sliders shown is not controlled by a prop, instead you can do it via css. To help you out there's the slot prop <code class="inline">sliderWidth</code>. This is simply the document width of the slider element. Setting the width of your items to <code class="inline">sliderWidth / 3</code> would cause 3 items to show at once. Once again this could be done with a slot prop or a two way bind, which ever you prefer.</p>
+
+		<p>
+			<code class="well">
+				&lt;<mark>TinySlider</mark> let:<mark>sliderWidth</mark>&gt;<br>
+				&nbsp;&nbsp;&#123;#each items as item&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; width=&#123;<mark>sliderWidth</mark> / 3&#125; /&gt;<br>
+				&nbsp;&nbsp;&#123;/each&#125;<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			</code>
+		</p>
+
+
+		<TinySlider let:sliderWidth>
+			{#each fixedItems5 as item}
+				<img loading="lazy" src={item} alt="" width={sliderWidth / 3} />
+			{/each}
+		</TinySlider>
+
+		<h4>Gap</h4>
+
+		<p>
+			The gap prop allows you to set a gap between items. All this does is set the css property <code class="inline">gap</code>, so alternatively you could do something like:
+		</p>
+			<code class="well">
+				:global(.slider-content) &#123; <br>
+				&nbsp;&nbsp;gap: 10px; <br>
+				&#125;
+			</code>
+
+		<p>
+			But using the <code class="inline">gap</code> prop might be more convenient. Accepts any css value.
+		</p>
+
+		<p>
+			<code class="well">
+				&lt;<mark>TinySlider</mark> <mark>gap</mark>="10px"&gt; <br>
+				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>
+				&nbsp;&nbsp;&#123;/each&#125; <br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			</code>
+		</p>
+
+		<TinySlider gap="10px" let:sliderWidth>
+			{#each fixedItems5 as item}
+				<img loading="lazy" src={item} alt="" width={(sliderWidth - 20) / 3} />
+			{/each}
 		</TinySlider>
 	</div>
 
-	<!-- <div>
-		<div on:click={() => setIndex(2)}>set active to 2</div>
-	</div> -->
+	<div class="block">
+		<h3>Content</h3>
+
+		<p>We've been using images as examples so far, but the content can be anything. Any direct child of the slider will be considered a slide. Links and click events will not fire while dragging to prevent accidental clicks.</p>
+
+		<p>
+			<code class="well">
+				&lt;<mark>TinySlider</mark> gap="0.5rem"&gt;<br>
+				&nbsp;&nbsp;&#123;#each &#123; length: 20 &#125; as _&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="item"&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="https://svelte.dev" target="_blank"&gt;Link&lt;/a&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+				&nbsp;&nbsp;&#123;/each&#125;<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			</code>
+		</p>
+
+		<TinySlider gap="0.5rem">
+			{#each { length: 20 } as _}
+				<div class="item" style:--width="200px" style:--height="200px">
+					<a href="https://svelte.dev" target="_blank">Link</a>
+				</div>
+			{/each}
+		</TinySlider>
+	</div>
 
 	<div class="block">
+		<h3>Lazy Loading</h3>
+
+		<p>When using images you might want to lazy load any images that are not visible. This can be done using native <code class="inline">loading="lazy"</code>, but this comes with some drawbacks. To overcome these drawback there are several properties you can use.</p>
+
+		<p>For a simple slider you might use <code class="inline">currentIndex</code> to hide any images that are above the current index.
+
+		<p>
+			<code class="well">
+				&lt;<mark>TinySlider</mark> let:<mark>currentIndex</mark>&gt;<br>
+				&nbsp;&nbsp;&#123;#each items as item, i&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if <mark>currentIndex + 1 &gt;= i</mark>&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+				&nbsp;&nbsp;&#123;/each&#125;<br>
+				<br>
+				&nbsp;&nbsp;...
+				&lt;/<mark>TinySlider</mark>&gt;<br>
+			</code>
+		</p>
+
+		<p>
+			Note how this is using currentIndex + 1 to preload one image ahead.
+		</p>
+
+		<div class="relative">
+			<TinySlider let:setIndex let:currentIndex let:sliderWidth>
+				{#each fixedItems6 as item, i}
+					<div style:width="{sliderWidth}px">
+						{#if currentIndex + 1 >= i}
+							<img src={item} alt="" />
+						{/if}
+					</div>
+				{/each}
+
+				<svelte:fragment slot="controls">
+					{#if currentIndex > 0}
+						<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
+					{/if}
+
+					{#if currentIndex < portaitItems.length - 1}
+						<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
+					{/if}
+				</svelte:fragment>
+			</TinySlider>
+		</div>
+
+		<p>
+			For sliders with multiple slides shown at once it might get more complicated when using <mark>currentIndex</mark>, especially when you might have different amounts of slides depending on the screen size. For that purpose you could use the <mark>shown</mark> property. This property returns an array of all indexes that have been onscreen at some point. Just like before this can be used either as <mark>let:shown</mark> or <mark>bind:shown</mark>.
+		</p>
+
+		<p>
+			<code class="well">
+				&lt;<mark>TinySlider</mark> let:<mark>shown</mark>&gt;<br>
+				&nbsp;&nbsp;&#123;#each items as item, index&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if <mark>shown</mark>.includes(index)&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+				&nbsp;&nbsp;&#123;/each&#125;<br>
+				<br>
+				&nbsp;&nbsp;...<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			</code>
+		</p>
+
 		<div class="relative">
 			<div class="slider-wrapper">
-				<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown bind:distanceToEnd bind:sliderWidth>
-					{#each portaitItems as item, index}
+				<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown>
+					{#each fixedItems7 as item, index}
 						<div class="item" style:--width="200px" style:--height="300px">
-							{#if [index, index + 1, index - 1].some(i => shown.includes(i))}
-								<img loading="lazy" src={item} alt="" />
+							{#if shown.includes(index)}
+								<img src={item} alt="" />
 							{/if}
 						</div>
 					{/each}
@@ -200,15 +450,28 @@
 	</div>
 
 	<div class="block">
-		<div class="slider-wrapper">
-			<TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex let:shown>
-				{#each { length: 20 } as _}
-					<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px">
-						<strong>Word</strong>
-					</div>
+		<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:sliderWidth>
+			{#each fixedItems5 as item}
+				<div
+					class="item"
+					style:--width="{sliderWidth}px"
+					style:--height="400px">
+					<img loading="lazy" src={item} alt="" />
+				</div>
+			{/each}
+
+			<div slot="controls" class="thumbnails">
+				{#each items as item, i}
+					<button
+						class="thumbnail"
+						class:active={i == currentIndex}
+						on:click={() => setIndex(i)}
+						on:focus={() => setIndex(i)}>
+						<img loading="lazy" src={item} alt="" height=60 />
+					</button>
 				{/each}
-			</TinySlider>
-		</div>
+			</div>
+		</TinySlider>
 	</div>
 
 	<div class="block">
@@ -227,7 +490,7 @@
 <div class="cards">
 	<TinySlider gap="1rem" let:setIndex let:currentIndex let:shown let:reachedEnd>
 		{#each cardItems as item, index}
-			<div class="card" style:--width="200px" style:--height="200px" on:click={() => console.log('click')}>
+			<div class="card" on:click={() => console.log('click')}>
 				<a class="thumbnail" href="https://google.com" target="_blank">
 					{#if [index, index + 1, index - 1].some(i => shown.includes(i))}
 						<img loading="lazy" src={item} alt="" />
@@ -360,7 +623,6 @@
 
 	.cards .arrow {
 		left: 3rem;
-		background: var(--border-color);
 	}
 
 	.cards .arrow.right {
@@ -435,12 +697,39 @@
 
 	.dots {
 		display: flex;
-		flex-wrap: wrap;
+		justify-content: center;
 		gap: 0.5rem;
 		padding: 0.5rem 0;
 	}
 
 	.dot {
+		width: 0.75rem;
+		height: 0.75rem;
+		border: 0;
+		border-radius: 50%;
+		background: var(--border-color);
+		cursor: pointer;
+	}
+
+	.dot.active,
+	.dot:hover,
+	.dot:focus-visible {
+		background: white;
+	}
+
+	.thumbnails {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		padding: 0.5rem 0;
+	}
+
+	.thumbnails.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+	}
+
+	.thumbnail {
 		padding: 0;
 		margin: 0;
 		border: 0;
@@ -449,17 +738,21 @@
 		overflow: hidden;
 	}
 
-	.dot:hover {
+	.thumbnail:hover {
 		background: darkgray;
 	}
 
-	.dot.active,
-	.dot:focus {
+	.thumbnail:hover img {
+		filter: brightness(1.2);
+	}
+
+	.thumbnail.active,
+	.thumbnail:focus {
 		outline: 2px solid white;
 		outline-offset: 2px;
 	}
 
-	.dot img {
+	.thumbnail img {
 		display: block;
 		width: auto;
 	}
@@ -549,7 +842,7 @@
 	.button {
 		appearance: none;
 		-webkit-appearance: none;
-		background: var(--primary);
+		background: var(--border-color);
 		padding: 0.5rem 0.75rem;
 		margin: 0.25rem 0;
 		border: 0;
@@ -563,7 +856,7 @@
 	}
 
 	.button:hover {
-		background: var(--primary-light);
+		filter: brightness(1.2);
 	}
 
 	.button:focus-visible:not(:active) {
