@@ -3,7 +3,6 @@
   import { onMount, onDestroy } from "svelte"
 
   export let gap = 0
-  export let snap = true
   export let fill = true
   export let transitionDuration = 300
   export let threshold = 30
@@ -59,7 +58,7 @@
       const difference = currentScrollPosition - finalScrollPosition
       const direction = difference > 0 ? 1 : -1
 
-      if (difference != 0 && snap) snapToPosition({ direction })
+      if (difference != 0) snapToPosition({ direction })
     }
 
     isDragging = false
