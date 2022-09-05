@@ -10,7 +10,6 @@
 	const fixedItems5 = getItems("food-drink", "200x300")
 	const fixedItems6 = getItems("experimental", "508x350")
 	const fixedItems7 = getItems("fashion", "200x300", 20)
-	const fixedItems8 = getItems("nature", "200x300")
 	const headerItems = getItems("3d-render", "200x150", 30)
 	const cardItems = getItems("architecture", "320x180", 20)
 	let portaitItems = getItems("food-drink", "200x300")
@@ -50,7 +49,9 @@
 	<div class="block">
 		<p>Svelte Tiny Slider is an easy to use highly customizable and unopinionated carousel or slider. There is little to no styling and how you structure your content is up to you. Images, videos, or any other element will work. Works with touch and keyboard controls. Made with accessiblity in mind.</p>
 
-		<p><a href="https://github.com/Mitcheljager/svelte-tiny-slider">GitHub</a></p>
+		<p>The package is less than 250 bytes gzipped (<a target="_blank" href="https://bundlephobia.com/package/svelte-tiny-slider">Bundlephobia</a>) and has no dependencies.</p>
+
+		<p><a target="_blank" href="https://github.com/Mitcheljager/svelte-tiny-slider">GitHub</a></p>
 
 		<h2>Installation</h2>
 
