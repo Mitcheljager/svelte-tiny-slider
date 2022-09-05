@@ -746,10 +746,10 @@ var app = (function () {
     	let current;
     	let mounted;
     	let dispose;
-    	const default_slot_template = /*#slots*/ ctx[22].default;
-    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[21], get_default_slot_context);
-    	const controls_slot_template = /*#slots*/ ctx[22].controls;
-    	const controls_slot = create_slot(controls_slot_template, ctx, /*$$scope*/ ctx[21], get_controls_slot_context);
+    	const default_slot_template = /*#slots*/ ctx[21].default;
+    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[20], get_default_slot_context);
+    	const controls_slot_template = /*#slots*/ ctx[21].controls;
+    	const controls_slot = create_slot(controls_slot_template, ctx, /*$$scope*/ ctx[20], get_controls_slot_context);
 
     	const block = {
     		c: function create() {
@@ -763,13 +763,13 @@ var app = (function () {
     			set_style(div0, "transform", style_transform, false);
     			set_style(div0, "transition-duration", style_transition_duration, false);
     			set_style(div0, "--gap", /*gap*/ ctx[7], false);
-    			add_location(div0, file$1, 175, 2, 4770);
+    			add_location(div0, file$1, 174, 2, 4736);
     			attr_dev(div1, "class", "slider svelte-45yjjo");
     			attr_dev(div1, "tabindex", "-1");
-    			add_render_callback(() => /*div1_elementresize_handler*/ ctx[25].call(div1));
+    			add_render_callback(() => /*div1_elementresize_handler*/ ctx[24].call(div1));
     			toggle_class(div1, "dragging", /*isDragging*/ ctx[11]);
     			toggle_class(div1, "passed-threshold", /*passedThreshold*/ ctx[12]);
-    			add_location(div1, file$1, 174, 0, 4606);
+    			add_location(div1, file$1, 173, 0, 4572);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -782,9 +782,9 @@ var app = (function () {
     				default_slot.m(div0, null);
     			}
 
-    			/*div0_binding*/ ctx[23](div0);
-    			/*div1_binding*/ ctx[24](div1);
-    			div1_resize_listener = add_resize_listener(div1, /*div1_elementresize_handler*/ ctx[25].bind(div1));
+    			/*div0_binding*/ ctx[22](div0);
+    			/*div1_binding*/ ctx[23](div1);
+    			div1_resize_listener = add_resize_listener(div1, /*div1_elementresize_handler*/ ctx[24].bind(div1));
     			insert_dev(target, t, anchor);
 
     			if (controls_slot) {
@@ -809,15 +809,15 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			if (default_slot) {
-    				if (default_slot.p && (!current || dirty[0] & /*$$scope, sliderWidth, shown, currentIndex, currentScrollPosition, maxWidth, reachedEnd, distanceToEnd*/ 2097279)) {
+    				if (default_slot.p && (!current || dirty[0] & /*$$scope, sliderWidth, shown, currentIndex, currentScrollPosition, maxWidth, reachedEnd, distanceToEnd*/ 1048703)) {
     					update_slot_base(
     						default_slot,
     						default_slot_template,
     						ctx,
-    						/*$$scope*/ ctx[21],
+    						/*$$scope*/ ctx[20],
     						!current
-    						? get_all_dirty_from_scope(/*$$scope*/ ctx[21])
-    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[21], dirty, get_default_slot_changes),
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[20])
+    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[20], dirty, get_default_slot_changes),
     						get_default_slot_context
     					);
     				}
@@ -846,15 +846,15 @@ var app = (function () {
     			}
 
     			if (controls_slot) {
-    				if (controls_slot.p && (!current || dirty[0] & /*$$scope, sliderWidth, shown, currentIndex, currentScrollPosition, maxWidth, reachedEnd, distanceToEnd*/ 2097279)) {
+    				if (controls_slot.p && (!current || dirty[0] & /*$$scope, sliderWidth, shown, currentIndex, currentScrollPosition, maxWidth, reachedEnd, distanceToEnd*/ 1048703)) {
     					update_slot_base(
     						controls_slot,
     						controls_slot_template,
     						ctx,
-    						/*$$scope*/ ctx[21],
+    						/*$$scope*/ ctx[20],
     						!current
-    						? get_all_dirty_from_scope(/*$$scope*/ ctx[21])
-    						: get_slot_changes(controls_slot_template, /*$$scope*/ ctx[21], dirty, get_controls_slot_changes),
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[20])
+    						: get_slot_changes(controls_slot_template, /*$$scope*/ ctx[20], dirty, get_controls_slot_changes),
     						get_controls_slot_context
     					);
     				}
@@ -874,8 +874,8 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div1);
     			if (default_slot) default_slot.d(detaching);
-    			/*div0_binding*/ ctx[23](null);
-    			/*div1_binding*/ ctx[24](null);
+    			/*div0_binding*/ ctx[22](null);
+    			/*div1_binding*/ ctx[23](null);
     			div1_resize_listener();
     			if (detaching) detach_dev(t);
     			if (controls_slot) controls_slot.d(detaching);
@@ -899,7 +899,6 @@ var app = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('TinySlider', slots, ['default','controls']);
     	let { gap = 0 } = $$props;
-    	let { snap = true } = $$props;
     	let { fill = true } = $$props;
     	let { transitionDuration = 300 } = $$props;
     	let { threshold = 30 } = $$props;
@@ -944,7 +943,7 @@ var app = (function () {
     		} else {
     			const difference = currentScrollPosition - finalScrollPosition;
     			const direction = difference > 0 ? 1 : -1;
-    			if (difference != 0 && snap) snapToPosition({ direction });
+    			if (difference != 0) snapToPosition({ direction });
     		}
 
     		$$invalidate(11, isDragging = false);
@@ -1040,7 +1039,6 @@ var app = (function () {
 
     	const writable_props = [
     		'gap',
-    		'snap',
     		'fill',
     		'transitionDuration',
     		'threshold',
@@ -1078,10 +1076,9 @@ var app = (function () {
 
     	$$self.$$set = $$props => {
     		if ('gap' in $$props) $$invalidate(7, gap = $$props.gap);
-    		if ('snap' in $$props) $$invalidate(18, snap = $$props.snap);
-    		if ('fill' in $$props) $$invalidate(19, fill = $$props.fill);
+    		if ('fill' in $$props) $$invalidate(18, fill = $$props.fill);
     		if ('transitionDuration' in $$props) $$invalidate(8, transitionDuration = $$props.transitionDuration);
-    		if ('threshold' in $$props) $$invalidate(20, threshold = $$props.threshold);
+    		if ('threshold' in $$props) $$invalidate(19, threshold = $$props.threshold);
     		if ('currentIndex' in $$props) $$invalidate(3, currentIndex = $$props.currentIndex);
     		if ('shown' in $$props) $$invalidate(4, shown = $$props.shown);
     		if ('sliderWidth' in $$props) $$invalidate(0, sliderWidth = $$props.sliderWidth);
@@ -1089,7 +1086,7 @@ var app = (function () {
     		if ('maxWidth' in $$props) $$invalidate(2, maxWidth = $$props.maxWidth);
     		if ('reachedEnd' in $$props) $$invalidate(5, reachedEnd = $$props.reachedEnd);
     		if ('distanceToEnd' in $$props) $$invalidate(6, distanceToEnd = $$props.distanceToEnd);
-    		if ('$$scope' in $$props) $$invalidate(21, $$scope = $$props.$$scope);
+    		if ('$$scope' in $$props) $$invalidate(20, $$scope = $$props.$$scope);
     	};
 
     	$$self.$capture_state = () => ({
@@ -1097,7 +1094,6 @@ var app = (function () {
     		onMount,
     		onDestroy,
     		gap,
-    		snap,
     		fill,
     		transitionDuration,
     		threshold,
@@ -1132,10 +1128,9 @@ var app = (function () {
 
     	$$self.$inject_state = $$props => {
     		if ('gap' in $$props) $$invalidate(7, gap = $$props.gap);
-    		if ('snap' in $$props) $$invalidate(18, snap = $$props.snap);
-    		if ('fill' in $$props) $$invalidate(19, fill = $$props.fill);
+    		if ('fill' in $$props) $$invalidate(18, fill = $$props.fill);
     		if ('transitionDuration' in $$props) $$invalidate(8, transitionDuration = $$props.transitionDuration);
-    		if ('threshold' in $$props) $$invalidate(20, threshold = $$props.threshold);
+    		if ('threshold' in $$props) $$invalidate(19, threshold = $$props.threshold);
     		if ('currentIndex' in $$props) $$invalidate(3, currentIndex = $$props.currentIndex);
     		if ('shown' in $$props) $$invalidate(4, shown = $$props.shown);
     		if ('sliderWidth' in $$props) $$invalidate(0, sliderWidth = $$props.sliderWidth);
@@ -1185,7 +1180,6 @@ var app = (function () {
     		up,
     		move,
     		keydown,
-    		snap,
     		fill,
     		threshold,
     		$$scope,
@@ -1208,10 +1202,9 @@ var app = (function () {
     			safe_not_equal,
     			{
     				gap: 7,
-    				snap: 18,
-    				fill: 19,
+    				fill: 18,
     				transitionDuration: 8,
-    				threshold: 20,
+    				threshold: 19,
     				currentIndex: 3,
     				shown: 4,
     				sliderWidth: 0,
@@ -1238,14 +1231,6 @@ var app = (function () {
     	}
 
     	set gap(value) {
-    		throw new Error("<TinySlider>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	get snap() {
-    		throw new Error("<TinySlider>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set snap(value) {
     		throw new Error("<TinySlider>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
@@ -1345,114 +1330,120 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[39] = list[i];
-    	child_ctx[41] = i;
+    	child_ctx[47] = list[i];
+    	child_ctx[49] = i;
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[42] = list[i];
-    	return child_ctx;
-    }
-
-    function get_each_context_3(ctx, list, i) {
-    	const child_ctx = ctx.slice();
-    	child_ctx[39] = list[i];
+    	child_ctx[50] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[39] = list[i];
-    	child_ctx[46] = i;
+    	child_ctx[50] = list[i];
+    	return child_ctx;
+    }
+
+    function get_each_context_3(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[50] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_4(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[39] = list[i];
-    	child_ctx[41] = i;
+    	child_ctx[47] = list[i];
+    	child_ctx[49] = i;
     	return child_ctx;
     }
 
     function get_each_context_5(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[39] = list[i];
-    	child_ctx[46] = i;
+    	child_ctx[47] = list[i];
+    	child_ctx[49] = i;
     	return child_ctx;
     }
 
     function get_each_context_6(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[42] = list[i];
+    	child_ctx[47] = list[i];
+    	child_ctx[60] = i;
     	return child_ctx;
     }
 
     function get_each_context_7(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[39] = list[i];
+    	child_ctx[50] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_8(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[39] = list[i];
+    	child_ctx[47] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_9(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[39] = list[i];
-    	return child_ctx;
-    }
-
-    function get_each_context_11(ctx, list, i) {
-    	const child_ctx = ctx.slice();
-    	child_ctx[39] = list[i];
+    	child_ctx[47] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_10(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[39] = list[i];
-    	child_ctx[46] = i;
-    	return child_ctx;
-    }
-
-    function get_each_context_13(ctx, list, i) {
-    	const child_ctx = ctx.slice();
-    	child_ctx[39] = list[i];
+    	child_ctx[47] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_12(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[42] = list[i];
-    	child_ctx[46] = i;
+    	child_ctx[47] = list[i];
+    	return child_ctx;
+    }
+
+    function get_each_context_11(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[47] = list[i];
+    	child_ctx[60] = i;
     	return child_ctx;
     }
 
     function get_each_context_14(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[39] = list[i];
+    	child_ctx[47] = list[i];
+    	return child_ctx;
+    }
+
+    function get_each_context_13(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[50] = list[i];
+    	child_ctx[60] = i;
     	return child_ctx;
     }
 
     function get_each_context_15(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[39] = list[i];
+    	child_ctx[47] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_16(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[39] = list[i];
+    	child_ctx[47] = list[i];
     	return child_ctx;
     }
 
-    // (42:2) {#each headerItems as item}
-    function create_each_block_16(ctx) {
+    function get_each_context_17(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[47] = list[i];
+    	return child_ctx;
+    }
+
+    // (43:2) {#each headerItems as item}
+    function create_each_block_17(ctx) {
     	let img;
     	let img_src_value;
 
@@ -1460,12 +1451,113 @@ var app = (function () {
     		c: function create() {
     			img = element("img");
     			attr_dev(img, "loading", "lazy");
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[39])) attr_dev(img, "src", img_src_value);
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[47])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "width", "200");
     			attr_dev(img, "height", "150");
     			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "svelte-37w21y");
-    			add_location(img, file, 42, 3, 1291);
+    			attr_dev(img, "class", "svelte-lfm80c");
+    			add_location(img, file, 43, 3, 1343);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, img, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(img);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_17.name,
+    		type: "each",
+    		source: "(43:2) {#each headerItems as item}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (42:1) <TinySlider>
+    function create_default_slot_15(ctx) {
+    	let each_1_anchor;
+    	let each_value_17 = /*headerItems*/ ctx[13];
+    	validate_each_argument(each_value_17);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_17.length; i += 1) {
+    		each_blocks[i] = create_each_block_17(get_each_context_17(ctx, each_value_17, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*headerItems*/ 8192) {
+    				each_value_17 = /*headerItems*/ ctx[13];
+    				validate_each_argument(each_value_17);
+    				let i;
+
+    				for (i = 0; i < each_value_17.length; i += 1) {
+    					const child_ctx = get_each_context_17(ctx, each_value_17, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_17(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_17.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_15.name,
+    		type: "slot",
+    		source: "(42:1) <TinySlider>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (96:3) {#each fixedItems as item}
+    function create_each_block_16(ctx) {
+    	let img;
+    	let img_src_value;
+
+    	const block = {
+    		c: function create() {
+    			img = element("img");
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[47])) attr_dev(img, "src", img_src_value);
+    			attr_dev(img, "alt", "");
+    			attr_dev(img, "class", "svelte-lfm80c");
+    			add_location(img, file, 96, 4, 3082);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
@@ -1480,17 +1572,17 @@ var app = (function () {
     		block,
     		id: create_each_block_16.name,
     		type: "each",
-    		source: "(42:2) {#each headerItems as item}",
+    		source: "(96:3) {#each fixedItems as item}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (41:1) <TinySlider>
-    function create_default_slot_13(ctx) {
+    // (95:2) <TinySlider>
+    function create_default_slot_14(ctx) {
     	let each_1_anchor;
-    	let each_value_16 = /*headerItems*/ ctx[11];
+    	let each_value_16 = /*fixedItems*/ ctx[6];
     	validate_each_argument(each_value_16);
     	let each_blocks = [];
 
@@ -1514,8 +1606,8 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*headerItems*/ 2048) {
-    				each_value_16 = /*headerItems*/ ctx[11];
+    			if (dirty[0] & /*fixedItems*/ 64) {
+    				each_value_16 = /*fixedItems*/ ctx[6];
     				validate_each_argument(each_value_16);
     				let i;
 
@@ -1546,16 +1638,16 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_13.name,
+    		id: create_default_slot_14.name,
     		type: "slot",
-    		source: "(41:1) <TinySlider>",
+    		source: "(95:2) <TinySlider>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (95:3) {#each fixedItems as item}
+    // (143:4) {#each fixedItems2 as item}
     function create_each_block_15(ctx) {
     	let img;
     	let img_src_value;
@@ -1563,10 +1655,10 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			img = element("img");
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[39])) attr_dev(img, "src", img_src_value);
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[47])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "svelte-37w21y");
-    			add_location(img, file, 95, 4, 3030);
+    			attr_dev(img, "class", "svelte-lfm80c");
+    			add_location(img, file, 143, 5, 5252);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
@@ -1581,17 +1673,17 @@ var app = (function () {
     		block,
     		id: create_each_block_15.name,
     		type: "each",
-    		source: "(95:3) {#each fixedItems as item}",
+    		source: "(143:4) {#each fixedItems2 as item}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (94:2) <TinySlider>
-    function create_default_slot_12(ctx) {
+    // (142:3) <TinySlider let:setIndex let:currentIndex>
+    function create_default_slot_13(ctx) {
     	let each_1_anchor;
-    	let each_value_15 = /*fixedItems*/ ctx[4];
+    	let each_value_15 = /*fixedItems2*/ ctx[7];
     	validate_each_argument(each_value_15);
     	let each_blocks = [];
 
@@ -1615,8 +1707,8 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*fixedItems*/ 16) {
-    				each_value_15 = /*fixedItems*/ ctx[4];
+    			if (dirty[0] & /*fixedItems2*/ 128) {
+    				each_value_15 = /*fixedItems2*/ ctx[7];
     				validate_each_argument(each_value_15);
     				let i;
 
@@ -1647,118 +1739,17 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_12.name,
+    		id: create_default_slot_13.name,
     		type: "slot",
-    		source: "(94:2) <TinySlider>",
+    		source: "(142:3) <TinySlider let:setIndex let:currentIndex>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (142:4) {#each fixedItems2 as item}
-    function create_each_block_14(ctx) {
-    	let img;
-    	let img_src_value;
-
-    	const block = {
-    		c: function create() {
-    			img = element("img");
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[39])) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "svelte-37w21y");
-    			add_location(img, file, 142, 5, 5207);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, img, anchor);
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(img);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_14.name,
-    		type: "each",
-    		source: "(142:4) {#each fixedItems2 as item}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (141:3) <TinySlider let:setIndex let:currentIndex>
-    function create_default_slot_11(ctx) {
-    	let each_1_anchor;
-    	let each_value_14 = /*fixedItems2*/ ctx[5];
-    	validate_each_argument(each_value_14);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_14.length; i += 1) {
-    		each_blocks[i] = create_each_block_14(get_each_context_14(ctx, each_value_14, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    		},
-    		m: function mount(target, anchor) {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*fixedItems2*/ 32) {
-    				each_value_14 = /*fixedItems2*/ ctx[5];
-    				validate_each_argument(each_value_14);
-    				let i;
-
-    				for (i = 0; i < each_value_14.length; i += 1) {
-    					const child_ctx = get_each_context_14(ctx, each_value_14, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_14(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_14.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_11.name,
-    		type: "slot",
-    		source: "(141:3) <TinySlider let:setIndex let:currentIndex>",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (147:5) {#if currentIndex > 0}
-    function create_if_block_10(ctx) {
+    // (148:5) {#if currentIndex > 0}
+    function create_if_block_18(ctx) {
     	let button;
     	let arrow;
     	let current;
@@ -1767,15 +1758,15 @@ var app = (function () {
     	arrow = new Arrow({ $$inline: true });
 
     	function click_handler_1() {
-    		return /*click_handler_1*/ ctx[16](/*setIndex*/ ctx[1], /*currentIndex*/ ctx[2]);
+    		return /*click_handler_1*/ ctx[17](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
     	}
 
     	const block = {
     		c: function create() {
     			button = element("button");
     			create_component(arrow.$$.fragment);
-    			attr_dev(button, "class", "arrow left svelte-37w21y");
-    			add_location(button, file, 147, 6, 5323);
+    			attr_dev(button, "class", "arrow left svelte-lfm80c");
+    			add_location(button, file, 148, 6, 5368);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -1809,17 +1800,17 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_10.name,
+    		id: create_if_block_18.name,
     		type: "if",
-    		source: "(147:5) {#if currentIndex > 0}",
+    		source: "(148:5) {#if currentIndex > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (151:5) {#if currentIndex < items.length - 1}
-    function create_if_block_9(ctx) {
+    // (152:5) {#if currentIndex < items.length - 1}
+    function create_if_block_17(ctx) {
     	let button;
     	let arrow;
     	let current;
@@ -1832,15 +1823,15 @@ var app = (function () {
     		});
 
     	function click_handler_2() {
-    		return /*click_handler_2*/ ctx[17](/*setIndex*/ ctx[1], /*currentIndex*/ ctx[2]);
+    		return /*click_handler_2*/ ctx[18](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
     	}
 
     	const block = {
     		c: function create() {
     			button = element("button");
     			create_component(arrow.$$.fragment);
-    			attr_dev(button, "class", "arrow right svelte-37w21y");
-    			add_location(button, file, 151, 6, 5478);
+    			attr_dev(button, "class", "arrow right svelte-lfm80c");
+    			add_location(button, file, 152, 6, 5523);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -1874,22 +1865,22 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_9.name,
+    		id: create_if_block_17.name,
     		type: "if",
-    		source: "(151:5) {#if currentIndex < items.length - 1}",
+    		source: "(152:5) {#if currentIndex < items.length - 1}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (146:4) <svelte:fragment slot="controls">
-    function create_controls_slot_6(ctx) {
+    // (147:4) <svelte:fragment slot="controls">
+    function create_controls_slot_9(ctx) {
     	let t;
     	let if_block1_anchor;
     	let current;
-    	let if_block0 = /*currentIndex*/ ctx[2] > 0 && create_if_block_10(ctx);
-    	let if_block1 = /*currentIndex*/ ctx[2] < /*items*/ ctx[3].length - 1 && create_if_block_9(ctx);
+    	let if_block0 = /*currentIndex*/ ctx[4] > 0 && create_if_block_18(ctx);
+    	let if_block1 = /*currentIndex*/ ctx[4] < /*items*/ ctx[5].length - 1 && create_if_block_17(ctx);
 
     	const block = {
     		c: function create() {
@@ -1906,15 +1897,15 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (/*currentIndex*/ ctx[2] > 0) {
+    			if (/*currentIndex*/ ctx[4] > 0) {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
 
-    					if (dirty[0] & /*currentIndex*/ 4) {
+    					if (dirty[0] & /*currentIndex*/ 16) {
     						transition_in(if_block0, 1);
     					}
     				} else {
-    					if_block0 = create_if_block_10(ctx);
+    					if_block0 = create_if_block_18(ctx);
     					if_block0.c();
     					transition_in(if_block0, 1);
     					if_block0.m(t.parentNode, t);
@@ -1929,15 +1920,1267 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (/*currentIndex*/ ctx[2] < /*items*/ ctx[3].length - 1) {
+    			if (/*currentIndex*/ ctx[4] < /*items*/ ctx[5].length - 1) {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
 
-    					if (dirty[0] & /*currentIndex*/ 4) {
+    					if (dirty[0] & /*currentIndex*/ 16) {
     						transition_in(if_block1, 1);
     					}
     				} else {
-    					if_block1 = create_if_block_9(ctx);
+    					if_block1 = create_if_block_17(ctx);
+    					if_block1.c();
+    					transition_in(if_block1, 1);
+    					if_block1.m(if_block1_anchor.parentNode, if_block1_anchor);
+    				}
+    			} else if (if_block1) {
+    				group_outros();
+
+    				transition_out(if_block1, 1, 1, () => {
+    					if_block1 = null;
+    				});
+
+    				check_outros();
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(if_block0);
+    			transition_in(if_block1);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(if_block0);
+    			transition_out(if_block1);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (if_block0) if_block0.d(detaching);
+    			if (detaching) detach_dev(t);
+    			if (if_block1) if_block1.d(detaching);
+    			if (detaching) detach_dev(if_block1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_controls_slot_9.name,
+    		type: "slot",
+    		source: "(147:4) <svelte:fragment slot=\\\"controls\\\">",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (181:4) {#each fixedItems4 as item}
+    function create_each_block_14(ctx) {
+    	let img;
+    	let img_src_value;
+
+    	const block = {
+    		c: function create() {
+    			img = element("img");
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[47])) attr_dev(img, "src", img_src_value);
+    			attr_dev(img, "alt", "");
+    			attr_dev(img, "class", "svelte-lfm80c");
+    			add_location(img, file, 181, 5, 6748);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, img, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(img);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_14.name,
+    		type: "each",
+    		source: "(181:4) {#each fixedItems4 as item}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (180:3) <TinySlider let:setIndex let:currentIndex>
+    function create_default_slot_12(ctx) {
+    	let each_1_anchor;
+    	let each_value_14 = /*fixedItems4*/ ctx[9];
+    	validate_each_argument(each_value_14);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_14.length; i += 1) {
+    		each_blocks[i] = create_each_block_14(get_each_context_14(ctx, each_value_14, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*fixedItems4*/ 512) {
+    				each_value_14 = /*fixedItems4*/ ctx[9];
+    				validate_each_argument(each_value_14);
+    				let i;
+
+    				for (i = 0; i < each_value_14.length; i += 1) {
+    					const child_ctx = get_each_context_14(ctx, each_value_14, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_14(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_14.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_12.name,
+    		type: "slot",
+    		source: "(180:3) <TinySlider let:setIndex let:currentIndex>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (186:5) {#each fixedItems4 as _, i}
+    function create_each_block_13(ctx) {
+    	let button;
+    	let mounted;
+    	let dispose;
+
+    	function click_handler_3() {
+    		return /*click_handler_3*/ ctx[19](/*setIndex*/ ctx[3], /*i*/ ctx[60]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			attr_dev(button, "class", "dot svelte-lfm80c");
+    			toggle_class(button, "active", /*i*/ ctx[60] == /*currentIndex*/ ctx[4]);
+    			add_location(button, file, 186, 6, 6870);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", click_handler_3, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+
+    			if (dirty[0] & /*currentIndex*/ 16) {
+    				toggle_class(button, "active", /*i*/ ctx[60] == /*currentIndex*/ ctx[4]);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_13.name,
+    		type: "each",
+    		source: "(186:5) {#each fixedItems4 as _, i}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (185:4) 
+    function create_controls_slot_8(ctx) {
+    	let div;
+    	let each_value_13 = /*fixedItems4*/ ctx[9];
+    	validate_each_argument(each_value_13);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_13.length; i += 1) {
+    		each_blocks[i] = create_each_block_13(get_each_context_13(ctx, each_value_13, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			attr_dev(div, "slot", "controls");
+    			attr_dev(div, "class", "dots svelte-lfm80c");
+    			add_location(div, file, 184, 4, 6794);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(div, null);
+    			}
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*currentIndex, setIndex*/ 24) {
+    				each_value_13 = /*fixedItems4*/ ctx[9];
+    				validate_each_argument(each_value_13);
+    				let i;
+
+    				for (i = 0; i < each_value_13.length; i += 1) {
+    					const child_ctx = get_each_context_13(ctx, each_value_13, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_13(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(div, null);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_13.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			destroy_each(each_blocks, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_controls_slot_8.name,
+    		type: "slot",
+    		source: "(185:4) ",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (221:4) {#each fixedItems3 as item}
+    function create_each_block_12(ctx) {
+    	let img;
+    	let img_src_value;
+
+    	const block = {
+    		c: function create() {
+    			img = element("img");
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[47])) attr_dev(img, "src", img_src_value);
+    			attr_dev(img, "alt", "");
+    			attr_dev(img, "class", "svelte-lfm80c");
+    			add_location(img, file, 221, 5, 8349);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, img, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(img);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_12.name,
+    		type: "each",
+    		source: "(221:4) {#each fixedItems3 as item}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (220:3) <TinySlider let:setIndex let:currentIndex>
+    function create_default_slot_11(ctx) {
+    	let each_1_anchor;
+    	let each_value_12 = /*fixedItems3*/ ctx[8];
+    	validate_each_argument(each_value_12);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_12.length; i += 1) {
+    		each_blocks[i] = create_each_block_12(get_each_context_12(ctx, each_value_12, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*fixedItems3*/ 256) {
+    				each_value_12 = /*fixedItems3*/ ctx[8];
+    				validate_each_argument(each_value_12);
+    				let i;
+
+    				for (i = 0; i < each_value_12.length; i += 1) {
+    					const child_ctx = get_each_context_12(ctx, each_value_12, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_12(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_12.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_11.name,
+    		type: "slot",
+    		source: "(220:3) <TinySlider let:setIndex let:currentIndex>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (226:5) {#each fixedItems3 as item, i}
+    function create_each_block_11(ctx) {
+    	let button;
+    	let img;
+    	let img_src_value;
+    	let t;
+    	let mounted;
+    	let dispose;
+
+    	function click_handler_4() {
+    		return /*click_handler_4*/ ctx[20](/*setIndex*/ ctx[3], /*i*/ ctx[60]);
+    	}
+
+    	function focus_handler() {
+    		return /*focus_handler*/ ctx[21](/*setIndex*/ ctx[3], /*i*/ ctx[60]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			img = element("img");
+    			t = space();
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[47])) attr_dev(img, "src", img_src_value);
+    			attr_dev(img, "alt", "");
+    			attr_dev(img, "height", "60");
+    			attr_dev(img, "class", "svelte-lfm80c");
+    			add_location(img, file, 231, 7, 8643);
+    			attr_dev(button, "class", "thumbnail svelte-lfm80c");
+    			toggle_class(button, "active", /*i*/ ctx[60] == /*currentIndex*/ ctx[4]);
+    			add_location(button, file, 226, 6, 8485);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+    			append_dev(button, img);
+    			append_dev(button, t);
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(button, "click", click_handler_4, false, false, false),
+    					listen_dev(button, "focus", focus_handler, false, false, false)
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+
+    			if (dirty[0] & /*currentIndex*/ 16) {
+    				toggle_class(button, "active", /*i*/ ctx[60] == /*currentIndex*/ ctx[4]);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_11.name,
+    		type: "each",
+    		source: "(226:5) {#each fixedItems3 as item, i}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (225:4) 
+    function create_controls_slot_7(ctx) {
+    	let div;
+    	let each_value_11 = /*fixedItems3*/ ctx[8];
+    	validate_each_argument(each_value_11);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_11.length; i += 1) {
+    		each_blocks[i] = create_each_block_11(get_each_context_11(ctx, each_value_11, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			attr_dev(div, "slot", "controls");
+    			attr_dev(div, "class", "thumbnails grid svelte-lfm80c");
+    			add_location(div, file, 224, 4, 8395);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(div, null);
+    			}
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*currentIndex, setIndex, fixedItems3*/ 280) {
+    				each_value_11 = /*fixedItems3*/ ctx[8];
+    				validate_each_argument(each_value_11);
+    				let i;
+
+    				for (i = 0; i < each_value_11.length; i += 1) {
+    					const child_ctx = get_each_context_11(ctx, each_value_11, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_11(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(div, null);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_11.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			destroy_each(each_blocks, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_controls_slot_7.name,
+    		type: "slot",
+    		source: "(225:4) ",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (262:3) {#each fixedItems4 as item}
+    function create_each_block_10(ctx) {
+    	let img;
+    	let img_src_value;
+
+    	const block = {
+    		c: function create() {
+    			img = element("img");
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[47])) attr_dev(img, "src", img_src_value);
+    			attr_dev(img, "alt", "");
+    			attr_dev(img, "class", "svelte-lfm80c");
+    			add_location(img, file, 262, 4, 10002);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, img, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(img);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_10.name,
+    		type: "each",
+    		source: "(262:3) {#each fixedItems4 as item}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (261:2) <TinySlider bind:setIndex bind:currentIndex>
+    function create_default_slot_10(ctx) {
+    	let each_1_anchor;
+    	let each_value_10 = /*fixedItems4*/ ctx[9];
+    	validate_each_argument(each_value_10);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_10.length; i += 1) {
+    		each_blocks[i] = create_each_block_10(get_each_context_10(ctx, each_value_10, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*fixedItems4*/ 512) {
+    				each_value_10 = /*fixedItems4*/ ctx[9];
+    				validate_each_argument(each_value_10);
+    				let i;
+
+    				for (i = 0; i < each_value_10.length; i += 1) {
+    					const child_ctx = get_each_context_10(ctx, each_value_10, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_10(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_10.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_10.name,
+    		type: "slot",
+    		source: "(261:2) <TinySlider bind:setIndex bind:currentIndex>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (296:3) {#each fixedItems5 as item}
+    function create_each_block_9(ctx) {
+    	let img;
+    	let img_src_value;
+    	let img_width_value;
+
+    	const block = {
+    		c: function create() {
+    			img = element("img");
+    			attr_dev(img, "loading", "lazy");
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[47])) attr_dev(img, "src", img_src_value);
+    			attr_dev(img, "alt", "");
+    			attr_dev(img, "width", img_width_value = /*sliderWidth*/ ctx[2] / 3);
+    			attr_dev(img, "class", "svelte-lfm80c");
+    			add_location(img, file, 296, 4, 11676);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, img, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*sliderWidth*/ 4 && img_width_value !== (img_width_value = /*sliderWidth*/ ctx[2] / 3)) {
+    				attr_dev(img, "width", img_width_value);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(img);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_9.name,
+    		type: "each",
+    		source: "(296:3) {#each fixedItems5 as item}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (295:2) <TinySlider let:sliderWidth>
+    function create_default_slot_9(ctx) {
+    	let each_1_anchor;
+    	let each_value_9 = /*fixedItems5*/ ctx[10];
+    	validate_each_argument(each_value_9);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_9.length; i += 1) {
+    		each_blocks[i] = create_each_block_9(get_each_context_9(ctx, each_value_9, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*fixedItems5, sliderWidth*/ 1028) {
+    				each_value_9 = /*fixedItems5*/ ctx[10];
+    				validate_each_argument(each_value_9);
+    				let i;
+
+    				for (i = 0; i < each_value_9.length; i += 1) {
+    					const child_ctx = get_each_context_9(ctx, each_value_9, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_9(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_9.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_9.name,
+    		type: "slot",
+    		source: "(295:2) <TinySlider let:sliderWidth>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (327:3) {#each fixedItems5 as item}
+    function create_each_block_8(ctx) {
+    	let img;
+    	let img_src_value;
+    	let img_width_value;
+
+    	const block = {
+    		c: function create() {
+    			img = element("img");
+    			attr_dev(img, "loading", "lazy");
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[47])) attr_dev(img, "src", img_src_value);
+    			attr_dev(img, "alt", "");
+    			attr_dev(img, "width", img_width_value = (/*sliderWidth*/ ctx[2] - 20) / 3);
+    			attr_dev(img, "class", "svelte-lfm80c");
+    			add_location(img, file, 327, 4, 12605);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, img, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*sliderWidth*/ 4 && img_width_value !== (img_width_value = (/*sliderWidth*/ ctx[2] - 20) / 3)) {
+    				attr_dev(img, "width", img_width_value);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(img);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_8.name,
+    		type: "each",
+    		source: "(327:3) {#each fixedItems5 as item}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (326:2) <TinySlider gap="10px" let:sliderWidth>
+    function create_default_slot_8(ctx) {
+    	let each_1_anchor;
+    	let each_value_8 = /*fixedItems5*/ ctx[10];
+    	validate_each_argument(each_value_8);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_8.length; i += 1) {
+    		each_blocks[i] = create_each_block_8(get_each_context_8(ctx, each_value_8, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*fixedItems5, sliderWidth*/ 1028) {
+    				each_value_8 = /*fixedItems5*/ ctx[10];
+    				validate_each_argument(each_value_8);
+    				let i;
+
+    				for (i = 0; i < each_value_8.length; i += 1) {
+    					const child_ctx = get_each_context_8(ctx, each_value_8, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_8(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_8.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_8.name,
+    		type: "slot",
+    		source: "(326:2) <TinySlider gap=\\\"10px\\\" let:sliderWidth>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (351:3) {#each { length: 20 } as _}
+    function create_each_block_7(ctx) {
+    	let div;
+    	let a;
+    	let t1;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			a = element("a");
+    			a.textContent = "Link";
+    			t1 = space();
+    			attr_dev(a, "href", "https://svelte.dev");
+    			attr_dev(a, "target", "_blank");
+    			attr_dev(a, "class", "svelte-lfm80c");
+    			add_location(a, file, 352, 5, 13595);
+    			attr_dev(div, "class", "item svelte-lfm80c");
+    			set_style(div, "--width", `200px`, false);
+    			set_style(div, "--height", `200px`, false);
+    			add_location(div, file, 351, 4, 13525);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			append_dev(div, a);
+    			append_dev(div, t1);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_7.name,
+    		type: "each",
+    		source: "(351:3) {#each { length: 20 } as _}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (350:2) <TinySlider gap="0.5rem">
+    function create_default_slot_7(ctx) {
+    	let each_1_anchor;
+    	let each_value_7 = { length: 20 };
+    	validate_each_argument(each_value_7);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_7.length; i += 1) {
+    		each_blocks[i] = create_each_block_7(get_each_context_7(ctx, each_value_7, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_7.name,
+    		type: "slot",
+    		source: "(350:2) <TinySlider gap=\\\"0.5rem\\\">",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (390:6) {#if currentIndex + 1 >= i}
+    function create_if_block_16(ctx) {
+    	let img;
+    	let img_src_value;
+
+    	const block = {
+    		c: function create() {
+    			img = element("img");
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[47])) attr_dev(img, "src", img_src_value);
+    			attr_dev(img, "alt", "");
+    			attr_dev(img, "class", "svelte-lfm80c");
+    			add_location(img, file, 390, 7, 15116);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, img, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(img);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_16.name,
+    		type: "if",
+    		source: "(390:6) {#if currentIndex + 1 >= i}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (388:4) {#each fixedItems6 as item, i}
+    function create_each_block_6(ctx) {
+    	let div;
+    	let t;
+    	let style_width = `${/*sliderWidth*/ ctx[2]}px`;
+    	let if_block = /*currentIndex*/ ctx[4] + 1 >= /*i*/ ctx[60] && create_if_block_16(ctx);
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			if (if_block) if_block.c();
+    			t = space();
+    			attr_dev(div, "class", "svelte-lfm80c");
+    			set_style(div, "width", style_width, false);
+    			add_location(div, file, 388, 5, 15037);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			if (if_block) if_block.m(div, null);
+    			append_dev(div, t);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (/*currentIndex*/ ctx[4] + 1 >= /*i*/ ctx[60]) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
+    					if_block = create_if_block_16(ctx);
+    					if_block.c();
+    					if_block.m(div, t);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
+
+    			if (dirty[0] & /*sliderWidth*/ 4 && style_width !== (style_width = `${/*sliderWidth*/ ctx[2]}px`)) {
+    				set_style(div, "width", style_width, false);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			if (if_block) if_block.d();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_6.name,
+    		type: "each",
+    		source: "(388:4) {#each fixedItems6 as item, i}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (387:3) <TinySlider let:setIndex let:currentIndex let:sliderWidth let:reachedEnd>
+    function create_default_slot_6(ctx) {
+    	let each_1_anchor;
+    	let each_value_6 = /*fixedItems6*/ ctx[11];
+    	validate_each_argument(each_value_6);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_6.length; i += 1) {
+    		each_blocks[i] = create_each_block_6(get_each_context_6(ctx, each_value_6, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*sliderWidth, fixedItems6, currentIndex*/ 2068) {
+    				each_value_6 = /*fixedItems6*/ ctx[11];
+    				validate_each_argument(each_value_6);
+    				let i;
+
+    				for (i = 0; i < each_value_6.length; i += 1) {
+    					const child_ctx = get_each_context_6(ctx, each_value_6, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_6(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_6.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_6.name,
+    		type: "slot",
+    		source: "(387:3) <TinySlider let:setIndex let:currentIndex let:sliderWidth let:reachedEnd>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (397:5) {#if currentIndex > 0}
+    function create_if_block_15(ctx) {
+    	let button;
+    	let arrow;
+    	let current;
+    	let mounted;
+    	let dispose;
+    	arrow = new Arrow({ $$inline: true });
+
+    	function click_handler_8() {
+    		return /*click_handler_8*/ ctx[27](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			create_component(arrow.$$.fragment);
+    			attr_dev(button, "class", "arrow left svelte-lfm80c");
+    			add_location(button, file, 397, 6, 15258);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+    			mount_component(arrow, button, null);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", click_handler_8, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(arrow.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(arrow.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			destroy_component(arrow);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_15.name,
+    		type: "if",
+    		source: "(397:5) {#if currentIndex > 0}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (401:5) {#if !reachedEnd}
+    function create_if_block_14(ctx) {
+    	let button;
+    	let arrow;
+    	let current;
+    	let mounted;
+    	let dispose;
+
+    	arrow = new Arrow({
+    			props: { direction: "right" },
+    			$$inline: true
+    		});
+
+    	function click_handler_9() {
+    		return /*click_handler_9*/ ctx[28](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			create_component(arrow.$$.fragment);
+    			attr_dev(button, "class", "arrow right svelte-lfm80c");
+    			add_location(button, file, 401, 6, 15393);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+    			mount_component(arrow, button, null);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", click_handler_9, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(arrow.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(arrow.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			destroy_component(arrow);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_14.name,
+    		type: "if",
+    		source: "(401:5) {#if !reachedEnd}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (396:4) <svelte:fragment slot="controls">
+    function create_controls_slot_6(ctx) {
+    	let t;
+    	let if_block1_anchor;
+    	let current;
+    	let if_block0 = /*currentIndex*/ ctx[4] > 0 && create_if_block_15(ctx);
+    	let if_block1 = !/*reachedEnd*/ ctx[46] && create_if_block_14(ctx);
+
+    	const block = {
+    		c: function create() {
+    			if (if_block0) if_block0.c();
+    			t = space();
+    			if (if_block1) if_block1.c();
+    			if_block1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			if (if_block0) if_block0.m(target, anchor);
+    			insert_dev(target, t, anchor);
+    			if (if_block1) if_block1.m(target, anchor);
+    			insert_dev(target, if_block1_anchor, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			if (/*currentIndex*/ ctx[4] > 0) {
+    				if (if_block0) {
+    					if_block0.p(ctx, dirty);
+
+    					if (dirty[0] & /*currentIndex*/ 16) {
+    						transition_in(if_block0, 1);
+    					}
+    				} else {
+    					if_block0 = create_if_block_15(ctx);
+    					if_block0.c();
+    					transition_in(if_block0, 1);
+    					if_block0.m(t.parentNode, t);
+    				}
+    			} else if (if_block0) {
+    				group_outros();
+
+    				transition_out(if_block0, 1, 1, () => {
+    					if_block0 = null;
+    				});
+
+    				check_outros();
+    			}
+
+    			if (!/*reachedEnd*/ ctx[46]) {
+    				if (if_block1) {
+    					if_block1.p(ctx, dirty);
+
+    					if (dirty[1] & /*reachedEnd*/ 32768) {
+    						transition_in(if_block1, 1);
+    					}
+    				} else {
+    					if_block1 = create_if_block_14(ctx);
     					if_block1.c();
     					transition_in(if_block1, 1);
     					if_block1.m(if_block1_anchor.parentNode, if_block1_anchor);
@@ -1975,25 +3218,25 @@ var app = (function () {
     		block,
     		id: create_controls_slot_6.name,
     		type: "slot",
-    		source: "(146:4) <svelte:fragment slot=\\\"controls\\\">",
+    		source: "(396:4) <svelte:fragment slot=\\\"controls\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (180:4) {#each fixedItems4 as item}
-    function create_each_block_13(ctx) {
+    // (433:7) {#if shown.includes(index)}
+    function create_if_block_13(ctx) {
     	let img;
     	let img_src_value;
 
     	const block = {
     		c: function create() {
     			img = element("img");
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[39])) attr_dev(img, "src", img_src_value);
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[47])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "svelte-37w21y");
-    			add_location(img, file, 180, 5, 6703);
+    			attr_dev(img, "class", "svelte-lfm80c");
+    			add_location(img, file, 433, 8, 16975);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
@@ -2006,900 +3249,31 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block_13.name,
-    		type: "each",
-    		source: "(180:4) {#each fixedItems4 as item}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (179:3) <TinySlider let:setIndex let:currentIndex>
-    function create_default_slot_10(ctx) {
-    	let each_1_anchor;
-    	let each_value_13 = /*fixedItems4*/ ctx[7];
-    	validate_each_argument(each_value_13);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_13.length; i += 1) {
-    		each_blocks[i] = create_each_block_13(get_each_context_13(ctx, each_value_13, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    		},
-    		m: function mount(target, anchor) {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*fixedItems4*/ 128) {
-    				each_value_13 = /*fixedItems4*/ ctx[7];
-    				validate_each_argument(each_value_13);
-    				let i;
-
-    				for (i = 0; i < each_value_13.length; i += 1) {
-    					const child_ctx = get_each_context_13(ctx, each_value_13, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_13(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_13.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_10.name,
-    		type: "slot",
-    		source: "(179:3) <TinySlider let:setIndex let:currentIndex>",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (185:5) {#each fixedItems4 as _, i}
-    function create_each_block_12(ctx) {
-    	let button;
-    	let mounted;
-    	let dispose;
-
-    	function click_handler_3() {
-    		return /*click_handler_3*/ ctx[18](/*setIndex*/ ctx[1], /*i*/ ctx[46]);
-    	}
-
-    	const block = {
-    		c: function create() {
-    			button = element("button");
-    			attr_dev(button, "class", "dot svelte-37w21y");
-    			toggle_class(button, "active", /*i*/ ctx[46] == /*currentIndex*/ ctx[2]);
-    			add_location(button, file, 185, 6, 6825);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, button, anchor);
-
-    			if (!mounted) {
-    				dispose = listen_dev(button, "click", click_handler_3, false, false, false);
-    				mounted = true;
-    			}
-    		},
-    		p: function update(new_ctx, dirty) {
-    			ctx = new_ctx;
-
-    			if (dirty[0] & /*currentIndex*/ 4) {
-    				toggle_class(button, "active", /*i*/ ctx[46] == /*currentIndex*/ ctx[2]);
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(button);
-    			mounted = false;
-    			dispose();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_12.name,
-    		type: "each",
-    		source: "(185:5) {#each fixedItems4 as _, i}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (184:4) 
-    function create_controls_slot_5(ctx) {
-    	let div;
-    	let each_value_12 = /*fixedItems4*/ ctx[7];
-    	validate_each_argument(each_value_12);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_12.length; i += 1) {
-    		each_blocks[i] = create_each_block_12(get_each_context_12(ctx, each_value_12, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			div = element("div");
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			attr_dev(div, "slot", "controls");
-    			attr_dev(div, "class", "dots svelte-37w21y");
-    			add_location(div, file, 183, 4, 6749);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div, null);
-    			}
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*currentIndex, setIndex*/ 6) {
-    				each_value_12 = /*fixedItems4*/ ctx[7];
-    				validate_each_argument(each_value_12);
-    				let i;
-
-    				for (i = 0; i < each_value_12.length; i += 1) {
-    					const child_ctx = get_each_context_12(ctx, each_value_12, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_12(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(div, null);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_12.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
-    			destroy_each(each_blocks, detaching);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_controls_slot_5.name,
-    		type: "slot",
-    		source: "(184:4) ",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (220:4) {#each fixedItems3 as item}
-    function create_each_block_11(ctx) {
-    	let img;
-    	let img_src_value;
-
-    	const block = {
-    		c: function create() {
-    			img = element("img");
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[39])) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "svelte-37w21y");
-    			add_location(img, file, 220, 5, 8304);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, img, anchor);
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(img);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_11.name,
-    		type: "each",
-    		source: "(220:4) {#each fixedItems3 as item}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (219:3) <TinySlider let:setIndex let:currentIndex>
-    function create_default_slot_9(ctx) {
-    	let each_1_anchor;
-    	let each_value_11 = /*fixedItems3*/ ctx[6];
-    	validate_each_argument(each_value_11);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_11.length; i += 1) {
-    		each_blocks[i] = create_each_block_11(get_each_context_11(ctx, each_value_11, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    		},
-    		m: function mount(target, anchor) {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*fixedItems3*/ 64) {
-    				each_value_11 = /*fixedItems3*/ ctx[6];
-    				validate_each_argument(each_value_11);
-    				let i;
-
-    				for (i = 0; i < each_value_11.length; i += 1) {
-    					const child_ctx = get_each_context_11(ctx, each_value_11, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_11(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_11.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_9.name,
-    		type: "slot",
-    		source: "(219:3) <TinySlider let:setIndex let:currentIndex>",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (225:5) {#each fixedItems3 as item, i}
-    function create_each_block_10(ctx) {
-    	let button;
-    	let img;
-    	let img_src_value;
-    	let t;
-    	let mounted;
-    	let dispose;
-
-    	function click_handler_4() {
-    		return /*click_handler_4*/ ctx[19](/*setIndex*/ ctx[1], /*i*/ ctx[46]);
-    	}
-
-    	function focus_handler() {
-    		return /*focus_handler*/ ctx[20](/*setIndex*/ ctx[1], /*i*/ ctx[46]);
-    	}
-
-    	const block = {
-    		c: function create() {
-    			button = element("button");
-    			img = element("img");
-    			t = space();
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[39])) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "alt", "");
-    			attr_dev(img, "height", "60");
-    			attr_dev(img, "class", "svelte-37w21y");
-    			add_location(img, file, 230, 7, 8598);
-    			attr_dev(button, "class", "thumbnail svelte-37w21y");
-    			toggle_class(button, "active", /*i*/ ctx[46] == /*currentIndex*/ ctx[2]);
-    			add_location(button, file, 225, 6, 8440);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, button, anchor);
-    			append_dev(button, img);
-    			append_dev(button, t);
-
-    			if (!mounted) {
-    				dispose = [
-    					listen_dev(button, "click", click_handler_4, false, false, false),
-    					listen_dev(button, "focus", focus_handler, false, false, false)
-    				];
-
-    				mounted = true;
-    			}
-    		},
-    		p: function update(new_ctx, dirty) {
-    			ctx = new_ctx;
-
-    			if (dirty[0] & /*currentIndex*/ 4) {
-    				toggle_class(button, "active", /*i*/ ctx[46] == /*currentIndex*/ ctx[2]);
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(button);
-    			mounted = false;
-    			run_all(dispose);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_10.name,
-    		type: "each",
-    		source: "(225:5) {#each fixedItems3 as item, i}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (224:4) 
-    function create_controls_slot_4(ctx) {
-    	let div;
-    	let each_value_10 = /*fixedItems3*/ ctx[6];
-    	validate_each_argument(each_value_10);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_10.length; i += 1) {
-    		each_blocks[i] = create_each_block_10(get_each_context_10(ctx, each_value_10, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			div = element("div");
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			attr_dev(div, "slot", "controls");
-    			attr_dev(div, "class", "thumbnails grid svelte-37w21y");
-    			add_location(div, file, 223, 4, 8350);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div, null);
-    			}
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*currentIndex, setIndex, fixedItems3*/ 70) {
-    				each_value_10 = /*fixedItems3*/ ctx[6];
-    				validate_each_argument(each_value_10);
-    				let i;
-
-    				for (i = 0; i < each_value_10.length; i += 1) {
-    					const child_ctx = get_each_context_10(ctx, each_value_10, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_10(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(div, null);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_10.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
-    			destroy_each(each_blocks, detaching);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_controls_slot_4.name,
-    		type: "slot",
-    		source: "(224:4) ",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (261:3) {#each fixedItems4 as item}
-    function create_each_block_9(ctx) {
-    	let img;
-    	let img_src_value;
-
-    	const block = {
-    		c: function create() {
-    			img = element("img");
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[39])) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "svelte-37w21y");
-    			add_location(img, file, 261, 4, 9957);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, img, anchor);
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(img);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_9.name,
-    		type: "each",
-    		source: "(261:3) {#each fixedItems4 as item}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (260:2) <TinySlider bind:setIndex bind:currentIndex>
-    function create_default_slot_8(ctx) {
-    	let each_1_anchor;
-    	let each_value_9 = /*fixedItems4*/ ctx[7];
-    	validate_each_argument(each_value_9);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_9.length; i += 1) {
-    		each_blocks[i] = create_each_block_9(get_each_context_9(ctx, each_value_9, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    		},
-    		m: function mount(target, anchor) {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*fixedItems4*/ 128) {
-    				each_value_9 = /*fixedItems4*/ ctx[7];
-    				validate_each_argument(each_value_9);
-    				let i;
-
-    				for (i = 0; i < each_value_9.length; i += 1) {
-    					const child_ctx = get_each_context_9(ctx, each_value_9, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_9(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_9.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_8.name,
-    		type: "slot",
-    		source: "(260:2) <TinySlider bind:setIndex bind:currentIndex>",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (295:3) {#each fixedItems5 as item}
-    function create_each_block_8(ctx) {
-    	let img;
-    	let img_src_value;
-    	let img_width_value;
-
-    	const block = {
-    		c: function create() {
-    			img = element("img");
-    			attr_dev(img, "loading", "lazy");
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[39])) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "alt", "");
-    			attr_dev(img, "width", img_width_value = /*sliderWidth*/ ctx[13] / 3);
-    			attr_dev(img, "class", "svelte-37w21y");
-    			add_location(img, file, 295, 4, 11631);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, img, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*sliderWidth*/ 8192 && img_width_value !== (img_width_value = /*sliderWidth*/ ctx[13] / 3)) {
-    				attr_dev(img, "width", img_width_value);
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(img);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_8.name,
-    		type: "each",
-    		source: "(295:3) {#each fixedItems5 as item}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (294:2) <TinySlider let:sliderWidth>
-    function create_default_slot_7(ctx) {
-    	let each_1_anchor;
-    	let each_value_8 = /*fixedItems5*/ ctx[8];
-    	validate_each_argument(each_value_8);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_8.length; i += 1) {
-    		each_blocks[i] = create_each_block_8(get_each_context_8(ctx, each_value_8, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    		},
-    		m: function mount(target, anchor) {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*fixedItems5, sliderWidth*/ 8448) {
-    				each_value_8 = /*fixedItems5*/ ctx[8];
-    				validate_each_argument(each_value_8);
-    				let i;
-
-    				for (i = 0; i < each_value_8.length; i += 1) {
-    					const child_ctx = get_each_context_8(ctx, each_value_8, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_8(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_8.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_7.name,
-    		type: "slot",
-    		source: "(294:2) <TinySlider let:sliderWidth>",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (326:3) {#each fixedItems5 as item}
-    function create_each_block_7(ctx) {
-    	let img;
-    	let img_src_value;
-    	let img_width_value;
-
-    	const block = {
-    		c: function create() {
-    			img = element("img");
-    			attr_dev(img, "loading", "lazy");
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[39])) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "alt", "");
-    			attr_dev(img, "width", img_width_value = (/*sliderWidth*/ ctx[13] - 20) / 3);
-    			attr_dev(img, "class", "svelte-37w21y");
-    			add_location(img, file, 326, 4, 12560);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, img, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*sliderWidth*/ 8192 && img_width_value !== (img_width_value = (/*sliderWidth*/ ctx[13] - 20) / 3)) {
-    				attr_dev(img, "width", img_width_value);
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(img);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_7.name,
-    		type: "each",
-    		source: "(326:3) {#each fixedItems5 as item}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (325:2) <TinySlider gap="10px" let:sliderWidth>
-    function create_default_slot_6(ctx) {
-    	let each_1_anchor;
-    	let each_value_7 = /*fixedItems5*/ ctx[8];
-    	validate_each_argument(each_value_7);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_7.length; i += 1) {
-    		each_blocks[i] = create_each_block_7(get_each_context_7(ctx, each_value_7, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    		},
-    		m: function mount(target, anchor) {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*fixedItems5, sliderWidth*/ 8448) {
-    				each_value_7 = /*fixedItems5*/ ctx[8];
-    				validate_each_argument(each_value_7);
-    				let i;
-
-    				for (i = 0; i < each_value_7.length; i += 1) {
-    					const child_ctx = get_each_context_7(ctx, each_value_7, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_7(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_7.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_6.name,
-    		type: "slot",
-    		source: "(325:2) <TinySlider gap=\\\"10px\\\" let:sliderWidth>",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (350:3) {#each { length: 20 } as _}
-    function create_each_block_6(ctx) {
-    	let div;
-    	let a;
-    	let t1;
-
-    	const block = {
-    		c: function create() {
-    			div = element("div");
-    			a = element("a");
-    			a.textContent = "Link";
-    			t1 = space();
-    			attr_dev(a, "href", "https://svelte.dev");
-    			attr_dev(a, "target", "_blank");
-    			attr_dev(a, "class", "svelte-37w21y");
-    			add_location(a, file, 351, 5, 13550);
-    			attr_dev(div, "class", "item svelte-37w21y");
-    			set_style(div, "--width", `200px`, false);
-    			set_style(div, "--height", `200px`, false);
-    			add_location(div, file, 350, 4, 13480);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			append_dev(div, a);
-    			append_dev(div, t1);
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_6.name,
-    		type: "each",
-    		source: "(350:3) {#each { length: 20 } as _}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (349:2) <TinySlider gap="0.5rem">
-    function create_default_slot_5(ctx) {
-    	let each_1_anchor;
-    	let each_value_6 = { length: 20 };
-    	validate_each_argument(each_value_6);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_6.length; i += 1) {
-    		each_blocks[i] = create_each_block_6(get_each_context_6(ctx, each_value_6, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    		},
-    		m: function mount(target, anchor) {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_5.name,
-    		type: "slot",
-    		source: "(349:2) <TinySlider gap=\\\"0.5rem\\\">",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (389:6) {#if currentIndex + 1 >= i}
-    function create_if_block_8(ctx) {
-    	let img;
-    	let img_src_value;
-
-    	const block = {
-    		c: function create() {
-    			img = element("img");
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[39])) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "svelte-37w21y");
-    			add_location(img, file, 389, 7, 15052);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, img, anchor);
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(img);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_8.name,
+    		id: create_if_block_13.name,
     		type: "if",
-    		source: "(389:6) {#if currentIndex + 1 >= i}",
+    		source: "(433:7) {#if shown.includes(index)}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (387:4) {#each fixedItems6 as item, i}
+    // (431:5) {#each fixedItems7 as item, index}
     function create_each_block_5(ctx) {
     	let div;
+    	let show_if = /*shown*/ ctx[45].includes(/*index*/ ctx[49]);
     	let t;
-    	let style_width = `${/*sliderWidth*/ ctx[13]}px`;
-    	let if_block = /*currentIndex*/ ctx[2] + 1 >= /*i*/ ctx[46] && create_if_block_8(ctx);
+    	let if_block = show_if && create_if_block_13(ctx);
 
     	const block = {
     		c: function create() {
     			div = element("div");
     			if (if_block) if_block.c();
     			t = space();
-    			attr_dev(div, "class", "svelte-37w21y");
-    			set_style(div, "width", style_width, false);
-    			add_location(div, file, 387, 5, 14973);
+    			attr_dev(div, "class", "item svelte-lfm80c");
+    			set_style(div, "--width", `200px`, false);
+    			set_style(div, "--height", `300px`, false);
+    			add_location(div, file, 431, 6, 16866);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2907,21 +3281,19 @@ var app = (function () {
     			append_dev(div, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (/*currentIndex*/ ctx[2] + 1 >= /*i*/ ctx[46]) {
+    			if (dirty[1] & /*shown*/ 16384) show_if = /*shown*/ ctx[45].includes(/*index*/ ctx[49]);
+
+    			if (show_if) {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block_8(ctx);
+    					if_block = create_if_block_13(ctx);
     					if_block.c();
     					if_block.m(div, t);
     				}
     			} else if (if_block) {
     				if_block.d(1);
     				if_block = null;
-    			}
-
-    			if (dirty[0] & /*sliderWidth*/ 8192 && style_width !== (style_width = `${/*sliderWidth*/ ctx[13]}px`)) {
-    				set_style(div, "width", style_width, false);
     			}
     		},
     		d: function destroy(detaching) {
@@ -2934,17 +3306,17 @@ var app = (function () {
     		block,
     		id: create_each_block_5.name,
     		type: "each",
-    		source: "(387:4) {#each fixedItems6 as item, i}",
+    		source: "(431:5) {#each fixedItems7 as item, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (386:3) <TinySlider let:setIndex let:currentIndex let:sliderWidth>
-    function create_default_slot_4(ctx) {
+    // (430:4) <TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown let:reachedEnd>
+    function create_default_slot_5(ctx) {
     	let each_1_anchor;
-    	let each_value_5 = /*fixedItems6*/ ctx[9];
+    	let each_value_5 = /*fixedItems7*/ ctx[12];
     	validate_each_argument(each_value_5);
     	let each_blocks = [];
 
@@ -2968,8 +3340,8 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*sliderWidth, fixedItems6, currentIndex*/ 8708) {
-    				each_value_5 = /*fixedItems6*/ ctx[9];
+    			if (dirty[0] & /*fixedItems7*/ 4096 | dirty[1] & /*shown*/ 16384) {
+    				each_value_5 = /*fixedItems7*/ ctx[12];
     				validate_each_argument(each_value_5);
     				let i;
 
@@ -3000,17 +3372,17 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_4.name,
+    		id: create_default_slot_5.name,
     		type: "slot",
-    		source: "(386:3) <TinySlider let:setIndex let:currentIndex let:sliderWidth>",
+    		source: "(430:4) <TinySlider gap=\\\"0.5rem\\\" let:setIndex let:currentIndex let:shown let:reachedEnd>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (396:5) {#if currentIndex > 0}
-    function create_if_block_7(ctx) {
+    // (440:6) {#if currentIndex > 0}
+    function create_if_block_12(ctx) {
     	let button;
     	let arrow;
     	let current;
@@ -3018,16 +3390,16 @@ var app = (function () {
     	let dispose;
     	arrow = new Arrow({ $$inline: true });
 
-    	function click_handler_8() {
-    		return /*click_handler_8*/ ctx[26](/*setIndex*/ ctx[1], /*currentIndex*/ ctx[2]);
+    	function click_handler_10() {
+    		return /*click_handler_10*/ ctx[29](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
     	}
 
     	const block = {
     		c: function create() {
     			button = element("button");
     			create_component(arrow.$$.fragment);
-    			attr_dev(button, "class", "arrow left svelte-37w21y");
-    			add_location(button, file, 396, 6, 15194);
+    			attr_dev(button, "class", "arrow left svelte-lfm80c");
+    			add_location(button, file, 440, 7, 17123);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -3035,7 +3407,718 @@ var app = (function () {
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", click_handler_8, false, false, false);
+    				dispose = listen_dev(button, "click", click_handler_10, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(arrow.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(arrow.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			destroy_component(arrow);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_12.name,
+    		type: "if",
+    		source: "(440:6) {#if currentIndex > 0}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (444:6) {#if !reachedEnd}
+    function create_if_block_11(ctx) {
+    	let button;
+    	let arrow;
+    	let current;
+    	let mounted;
+    	let dispose;
+
+    	arrow = new Arrow({
+    			props: { direction: "right" },
+    			$$inline: true
+    		});
+
+    	function click_handler_11() {
+    		return /*click_handler_11*/ ctx[30](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			create_component(arrow.$$.fragment);
+    			attr_dev(button, "class", "arrow right svelte-lfm80c");
+    			add_location(button, file, 444, 7, 17261);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+    			mount_component(arrow, button, null);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", click_handler_11, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(arrow.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(arrow.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			destroy_component(arrow);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_11.name,
+    		type: "if",
+    		source: "(444:6) {#if !reachedEnd}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (439:5) <svelte:fragment slot="controls">
+    function create_controls_slot_5(ctx) {
+    	let t;
+    	let if_block1_anchor;
+    	let current;
+    	let if_block0 = /*currentIndex*/ ctx[4] > 0 && create_if_block_12(ctx);
+    	let if_block1 = !/*reachedEnd*/ ctx[46] && create_if_block_11(ctx);
+
+    	const block = {
+    		c: function create() {
+    			if (if_block0) if_block0.c();
+    			t = space();
+    			if (if_block1) if_block1.c();
+    			if_block1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			if (if_block0) if_block0.m(target, anchor);
+    			insert_dev(target, t, anchor);
+    			if (if_block1) if_block1.m(target, anchor);
+    			insert_dev(target, if_block1_anchor, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			if (/*currentIndex*/ ctx[4] > 0) {
+    				if (if_block0) {
+    					if_block0.p(ctx, dirty);
+
+    					if (dirty[0] & /*currentIndex*/ 16) {
+    						transition_in(if_block0, 1);
+    					}
+    				} else {
+    					if_block0 = create_if_block_12(ctx);
+    					if_block0.c();
+    					transition_in(if_block0, 1);
+    					if_block0.m(t.parentNode, t);
+    				}
+    			} else if (if_block0) {
+    				group_outros();
+
+    				transition_out(if_block0, 1, 1, () => {
+    					if_block0 = null;
+    				});
+
+    				check_outros();
+    			}
+
+    			if (!/*reachedEnd*/ ctx[46]) {
+    				if (if_block1) {
+    					if_block1.p(ctx, dirty);
+
+    					if (dirty[1] & /*reachedEnd*/ 32768) {
+    						transition_in(if_block1, 1);
+    					}
+    				} else {
+    					if_block1 = create_if_block_11(ctx);
+    					if_block1.c();
+    					transition_in(if_block1, 1);
+    					if_block1.m(if_block1_anchor.parentNode, if_block1_anchor);
+    				}
+    			} else if (if_block1) {
+    				group_outros();
+
+    				transition_out(if_block1, 1, 1, () => {
+    					if_block1 = null;
+    				});
+
+    				check_outros();
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(if_block0);
+    			transition_in(if_block1);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(if_block0);
+    			transition_out(if_block1);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (if_block0) if_block0.d(detaching);
+    			if (detaching) detach_dev(t);
+    			if (if_block1) if_block1.d(detaching);
+    			if (detaching) detach_dev(if_block1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_controls_slot_5.name,
+    		type: "slot",
+    		source: "(439:5) <svelte:fragment slot=\\\"controls\\\">",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (507:7) {#if shown.includes(index)}
+    function create_if_block_10(ctx) {
+    	let img;
+    	let img_src_value;
+
+    	const block = {
+    		c: function create() {
+    			img = element("img");
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[47])) attr_dev(img, "src", img_src_value);
+    			attr_dev(img, "alt", "");
+    			attr_dev(img, "class", "svelte-lfm80c");
+    			add_location(img, file, 507, 7, 19781);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, img, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*portaitItems*/ 1 && !src_url_equal(img.src, img_src_value = /*item*/ ctx[47])) {
+    				attr_dev(img, "src", img_src_value);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(img);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_10.name,
+    		type: "if",
+    		source: "(507:7) {#if shown.includes(index)}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (505:5) {#each portaitItems as item, index}
+    function create_each_block_4(ctx) {
+    	let div;
+    	let show_if = /*shown*/ ctx[45].includes(/*index*/ ctx[49]);
+    	let t;
+    	let if_block = show_if && create_if_block_10(ctx);
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			if (if_block) if_block.c();
+    			t = space();
+    			attr_dev(div, "class", "item svelte-lfm80c");
+    			set_style(div, "--width", `200px`, false);
+    			set_style(div, "--height", `300px`, false);
+    			add_location(div, file, 505, 6, 19673);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			if (if_block) if_block.m(div, null);
+    			append_dev(div, t);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[1] & /*shown*/ 16384) show_if = /*shown*/ ctx[45].includes(/*index*/ ctx[49]);
+
+    			if (show_if) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
+    					if_block = create_if_block_10(ctx);
+    					if_block.c();
+    					if_block.m(div, t);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			if (if_block) if_block.d();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_4.name,
+    		type: "each",
+    		source: "(505:5) {#each portaitItems as item, index}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (504:4) <TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown bind:distanceToEnd bind:sliderWidth>
+    function create_default_slot_4(ctx) {
+    	let each_1_anchor;
+    	let each_value_4 = /*portaitItems*/ ctx[0];
+    	validate_each_argument(each_value_4);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_4.length; i += 1) {
+    		each_blocks[i] = create_each_block_4(get_each_context_4(ctx, each_value_4, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*portaitItems*/ 1 | dirty[1] & /*shown*/ 16384) {
+    				each_value_4 = /*portaitItems*/ ctx[0];
+    				validate_each_argument(each_value_4);
+    				let i;
+
+    				for (i = 0; i < each_value_4.length; i += 1) {
+    					const child_ctx = get_each_context_4(ctx, each_value_4, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_4(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_4.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_4.name,
+    		type: "slot",
+    		source: "(504:4) <TinySlider gap=\\\"0.5rem\\\" let:setIndex let:currentIndex let:shown bind:distanceToEnd bind:sliderWidth>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (514:6) {#if currentIndex > 0}
+    function create_if_block_9(ctx) {
+    	let button;
+    	let arrow;
+    	let current;
+    	let mounted;
+    	let dispose;
+    	arrow = new Arrow({ $$inline: true });
+
+    	function click_handler_12() {
+    		return /*click_handler_12*/ ctx[31](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			create_component(arrow.$$.fragment);
+    			attr_dev(button, "class", "arrow left svelte-lfm80c");
+    			add_location(button, file, 514, 7, 19929);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+    			mount_component(arrow, button, null);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", click_handler_12, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(arrow.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(arrow.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			destroy_component(arrow);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_9.name,
+    		type: "if",
+    		source: "(514:6) {#if currentIndex > 0}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (513:5) <svelte:fragment slot="controls">
+    function create_controls_slot_4(ctx) {
+    	let t;
+    	let button;
+    	let arrow;
+    	let current;
+    	let mounted;
+    	let dispose;
+    	let if_block = /*currentIndex*/ ctx[4] > 0 && create_if_block_9(ctx);
+
+    	arrow = new Arrow({
+    			props: { direction: "right" },
+    			$$inline: true
+    		});
+
+    	function click_handler_13() {
+    		return /*click_handler_13*/ ctx[32](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			if (if_block) if_block.c();
+    			t = space();
+    			button = element("button");
+    			create_component(arrow.$$.fragment);
+    			attr_dev(button, "class", "arrow right svelte-lfm80c");
+    			add_location(button, file, 517, 6, 20041);
+    		},
+    		m: function mount(target, anchor) {
+    			if (if_block) if_block.m(target, anchor);
+    			insert_dev(target, t, anchor);
+    			insert_dev(target, button, anchor);
+    			mount_component(arrow, button, null);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", click_handler_13, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+
+    			if (/*currentIndex*/ ctx[4] > 0) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+
+    					if (dirty[0] & /*currentIndex*/ 16) {
+    						transition_in(if_block, 1);
+    					}
+    				} else {
+    					if_block = create_if_block_9(ctx);
+    					if_block.c();
+    					transition_in(if_block, 1);
+    					if_block.m(t.parentNode, t);
+    				}
+    			} else if (if_block) {
+    				group_outros();
+
+    				transition_out(if_block, 1, 1, () => {
+    					if_block = null;
+    				});
+
+    				check_outros();
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(if_block);
+    			transition_in(arrow.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(if_block);
+    			transition_out(arrow.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (if_block) if_block.d(detaching);
+    			if (detaching) detach_dev(t);
+    			if (detaching) detach_dev(button);
+    			destroy_component(arrow);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_controls_slot_4.name,
+    		type: "slot",
+    		source: "(513:5) <svelte:fragment slot=\\\"controls\\\">",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (543:5) {#each { length: 10 } as _}
+    function create_each_block_3(ctx) {
+    	let div;
+    	let style_background_color = `hsl(${Math.floor(Math.random() * 360)}, 80%, 50%)`;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			attr_dev(div, "class", "item svelte-lfm80c");
+    			set_style(div, "background-color", style_background_color, false);
+    			set_style(div, "--width", `200px`, false);
+    			set_style(div, "--height", `200px`, false);
+    			add_location(div, file, 543, 6, 20858);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_3.name,
+    		type: "each",
+    		source: "(543:5) {#each { length: 10 } as _}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (542:4) <TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex>
+    function create_default_slot_3(ctx) {
+    	let each_1_anchor;
+    	let each_value_3 = { length: 10 };
+    	validate_each_argument(each_value_3);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_3.length; i += 1) {
+    		each_blocks[i] = create_each_block_3(get_each_context_3(ctx, each_value_3, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*Math*/ 0) {
+    				each_value_3 = { length: 10 };
+    				validate_each_argument(each_value_3);
+    				let i;
+
+    				for (i = 0; i < each_value_3.length; i += 1) {
+    					const child_ctx = get_each_context_3(ctx, each_value_3, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_3(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_3.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_3.name,
+    		type: "slot",
+    		source: "(542:4) <TinySlider gap=\\\"0.5rem\\\" fill={false} let:setIndex let:currentIndex>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (548:6) {#if currentIndex > 0}
+    function create_if_block_8(ctx) {
+    	let button;
+    	let arrow;
+    	let current;
+    	let mounted;
+    	let dispose;
+    	arrow = new Arrow({ $$inline: true });
+
+    	function click_handler_14() {
+    		return /*click_handler_14*/ ctx[35](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			create_component(arrow.$$.fragment);
+    			attr_dev(button, "class", "arrow left svelte-lfm80c");
+    			add_location(button, file, 548, 7, 21092);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+    			mount_component(arrow, button, null);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", click_handler_14, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(arrow.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(arrow.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			destroy_component(arrow);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_8.name,
+    		type: "if",
+    		source: "(548:6) {#if currentIndex > 0}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (552:6) {#if currentIndex < 9}
+    function create_if_block_7(ctx) {
+    	let button;
+    	let arrow;
+    	let current;
+    	let mounted;
+    	let dispose;
+
+    	arrow = new Arrow({
+    			props: { direction: "right" },
+    			$$inline: true
+    		});
+
+    	function click_handler_15() {
+    		return /*click_handler_15*/ ctx[36](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			create_component(arrow.$$.fragment);
+    			attr_dev(button, "class", "arrow right svelte-lfm80c");
+    			add_location(button, file, 552, 7, 21235);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+    			mount_component(arrow, button, null);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", click_handler_15, false, false, false);
     				mounted = true;
     			}
     		},
@@ -3063,85 +4146,20 @@ var app = (function () {
     		block,
     		id: create_if_block_7.name,
     		type: "if",
-    		source: "(396:5) {#if currentIndex > 0}",
+    		source: "(552:6) {#if currentIndex < 9}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (400:5) {#if currentIndex < portaitItems.length - 1}
-    function create_if_block_6(ctx) {
-    	let button;
-    	let arrow;
-    	let current;
-    	let mounted;
-    	let dispose;
-
-    	arrow = new Arrow({
-    			props: { direction: "right" },
-    			$$inline: true
-    		});
-
-    	function click_handler_9() {
-    		return /*click_handler_9*/ ctx[27](/*setIndex*/ ctx[1], /*currentIndex*/ ctx[2]);
-    	}
-
-    	const block = {
-    		c: function create() {
-    			button = element("button");
-    			create_component(arrow.$$.fragment);
-    			attr_dev(button, "class", "arrow right svelte-37w21y");
-    			add_location(button, file, 400, 6, 15356);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, button, anchor);
-    			mount_component(arrow, button, null);
-    			current = true;
-
-    			if (!mounted) {
-    				dispose = listen_dev(button, "click", click_handler_9, false, false, false);
-    				mounted = true;
-    			}
-    		},
-    		p: function update(new_ctx, dirty) {
-    			ctx = new_ctx;
-    		},
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(arrow.$$.fragment, local);
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(arrow.$$.fragment, local);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(button);
-    			destroy_component(arrow);
-    			mounted = false;
-    			dispose();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_6.name,
-    		type: "if",
-    		source: "(400:5) {#if currentIndex < portaitItems.length - 1}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (395:4) <svelte:fragment slot="controls">
+    // (547:5) <svelte:fragment slot="controls">
     function create_controls_slot_3(ctx) {
     	let t;
     	let if_block1_anchor;
     	let current;
-    	let if_block0 = /*currentIndex*/ ctx[2] > 0 && create_if_block_7(ctx);
-    	let if_block1 = /*currentIndex*/ ctx[2] < /*portaitItems*/ ctx[0].length - 1 && create_if_block_6(ctx);
+    	let if_block0 = /*currentIndex*/ ctx[4] > 0 && create_if_block_8(ctx);
+    	let if_block1 = /*currentIndex*/ ctx[4] < 9 && create_if_block_7(ctx);
 
     	const block = {
     		c: function create() {
@@ -3158,15 +4176,15 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (/*currentIndex*/ ctx[2] > 0) {
+    			if (/*currentIndex*/ ctx[4] > 0) {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
 
-    					if (dirty[0] & /*currentIndex*/ 4) {
+    					if (dirty[0] & /*currentIndex*/ 16) {
     						transition_in(if_block0, 1);
     					}
     				} else {
-    					if_block0 = create_if_block_7(ctx);
+    					if_block0 = create_if_block_8(ctx);
     					if_block0.c();
     					transition_in(if_block0, 1);
     					if_block0.m(t.parentNode, t);
@@ -3181,15 +4199,15 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (/*currentIndex*/ ctx[2] < /*portaitItems*/ ctx[0].length - 1) {
+    			if (/*currentIndex*/ ctx[4] < 9) {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
 
-    					if (dirty[0] & /*currentIndex, portaitItems*/ 5) {
+    					if (dirty[0] & /*currentIndex*/ 16) {
     						transition_in(if_block1, 1);
     					}
     				} else {
-    					if_block1 = create_if_block_6(ctx);
+    					if_block1 = create_if_block_7(ctx);
     					if_block1.c();
     					transition_in(if_block1, 1);
     					if_block1.m(if_block1_anchor.parentNode, if_block1_anchor);
@@ -3227,110 +4245,56 @@ var app = (function () {
     		block,
     		id: create_controls_slot_3.name,
     		type: "slot",
-    		source: "(395:4) <svelte:fragment slot=\\\"controls\\\">",
+    		source: "(547:5) <svelte:fragment slot=\\\"controls\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (432:7) {#if shown.includes(index)}
-    function create_if_block_5(ctx) {
-    	let img;
-    	let img_src_value;
-
-    	const block = {
-    		c: function create() {
-    			img = element("img");
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[39])) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "svelte-37w21y");
-    			add_location(img, file, 432, 8, 16923);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, img, anchor);
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(img);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_5.name,
-    		type: "if",
-    		source: "(432:7) {#if shown.includes(index)}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (430:5) {#each fixedItems7 as item, index}
-    function create_each_block_4(ctx) {
+    // (575:5) {#each { length: 10 } as _}
+    function create_each_block_2(ctx) {
     	let div;
-    	let show_if = /*shown*/ ctx[37].includes(/*index*/ ctx[41]);
-    	let t;
-    	let if_block = show_if && create_if_block_5(ctx);
+    	let style_background_color = `hsl(${Math.floor(Math.random() * 360)}, 80%, 50%)`;
 
     	const block = {
     		c: function create() {
     			div = element("div");
-    			if (if_block) if_block.c();
-    			t = space();
-    			attr_dev(div, "class", "item svelte-37w21y");
+    			attr_dev(div, "class", "item svelte-lfm80c");
+    			set_style(div, "background-color", style_background_color, false);
     			set_style(div, "--width", `200px`, false);
-    			set_style(div, "--height", `300px`, false);
-    			add_location(div, file, 430, 6, 16814);
+    			set_style(div, "--height", `200px`, false);
+    			add_location(div, file, 575, 6, 22089);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
-    			if (if_block) if_block.m(div, null);
-    			append_dev(div, t);
     		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[1] & /*shown*/ 64) show_if = /*shown*/ ctx[37].includes(/*index*/ ctx[41]);
-
-    			if (show_if) {
-    				if (if_block) {
-    					if_block.p(ctx, dirty);
-    				} else {
-    					if_block = create_if_block_5(ctx);
-    					if_block.c();
-    					if_block.m(div, t);
-    				}
-    			} else if (if_block) {
-    				if_block.d(1);
-    				if_block = null;
-    			}
-    		},
+    		p: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
-    			if (if_block) if_block.d();
     		}
     	};
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block_4.name,
+    		id: create_each_block_2.name,
     		type: "each",
-    		source: "(430:5) {#each fixedItems7 as item, index}",
+    		source: "(575:5) {#each { length: 10 } as _}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (429:4) <TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown>
-    function create_default_slot_3(ctx) {
+    // (574:4) <TinySlider gap="0.5rem" transitionDuration="1000" let:setIndex let:currentIndex let:reachedEnd>
+    function create_default_slot_2(ctx) {
     	let each_1_anchor;
-    	let each_value_4 = /*fixedItems7*/ ctx[10];
-    	validate_each_argument(each_value_4);
+    	let each_value_2 = { length: 10 };
+    	validate_each_argument(each_value_2);
     	let each_blocks = [];
 
-    	for (let i = 0; i < each_value_4.length; i += 1) {
-    		each_blocks[i] = create_each_block_4(get_each_context_4(ctx, each_value_4, i));
+    	for (let i = 0; i < each_value_2.length; i += 1) {
+    		each_blocks[i] = create_each_block_2(get_each_context_2(ctx, each_value_2, i));
     	}
 
     	const block = {
@@ -3349,18 +4313,18 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*fixedItems7*/ 1024 | dirty[1] & /*shown*/ 64) {
-    				each_value_4 = /*fixedItems7*/ ctx[10];
-    				validate_each_argument(each_value_4);
+    			if (dirty & /*Math*/ 0) {
+    				each_value_2 = { length: 10 };
+    				validate_each_argument(each_value_2);
     				let i;
 
-    				for (i = 0; i < each_value_4.length; i += 1) {
-    					const child_ctx = get_each_context_4(ctx, each_value_4, i);
+    				for (i = 0; i < each_value_2.length; i += 1) {
+    					const child_ctx = get_each_context_2(ctx, each_value_2, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block_4(child_ctx);
+    						each_blocks[i] = create_each_block_2(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
     					}
@@ -3370,7 +4334,7 @@ var app = (function () {
     					each_blocks[i].d(1);
     				}
 
-    				each_blocks.length = each_value_4.length;
+    				each_blocks.length = each_value_2.length;
     			}
     		},
     		d: function destroy(detaching) {
@@ -3381,16 +4345,343 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_3.name,
+    		id: create_default_slot_2.name,
     		type: "slot",
-    		source: "(429:4) <TinySlider gap=\\\"0.5rem\\\" let:setIndex let:currentIndex let:shown>",
+    		source: "(574:4) <TinySlider gap=\\\"0.5rem\\\" transitionDuration=\\\"1000\\\" let:setIndex let:currentIndex let:reachedEnd>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (439:6) {#if currentIndex > 0}
+    // (580:6) {#if currentIndex > 0}
+    function create_if_block_6(ctx) {
+    	let button;
+    	let arrow;
+    	let current;
+    	let mounted;
+    	let dispose;
+    	arrow = new Arrow({ $$inline: true });
+
+    	function click_handler_16() {
+    		return /*click_handler_16*/ ctx[37](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			create_component(arrow.$$.fragment);
+    			attr_dev(button, "class", "arrow left svelte-lfm80c");
+    			add_location(button, file, 580, 7, 22323);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+    			mount_component(arrow, button, null);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", click_handler_16, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(arrow.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(arrow.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			destroy_component(arrow);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_6.name,
+    		type: "if",
+    		source: "(580:6) {#if currentIndex > 0}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (584:6) {#if !reachedEnd}
+    function create_if_block_5(ctx) {
+    	let button;
+    	let arrow;
+    	let current;
+    	let mounted;
+    	let dispose;
+
+    	arrow = new Arrow({
+    			props: { direction: "right" },
+    			$$inline: true
+    		});
+
+    	function click_handler_17() {
+    		return /*click_handler_17*/ ctx[38](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			create_component(arrow.$$.fragment);
+    			attr_dev(button, "class", "arrow right svelte-lfm80c");
+    			add_location(button, file, 584, 7, 22461);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+    			mount_component(arrow, button, null);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", click_handler_17, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(arrow.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(arrow.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			destroy_component(arrow);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_5.name,
+    		type: "if",
+    		source: "(584:6) {#if !reachedEnd}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (579:5) <svelte:fragment slot="controls">
+    function create_controls_slot_2(ctx) {
+    	let t;
+    	let if_block1_anchor;
+    	let current;
+    	let if_block0 = /*currentIndex*/ ctx[4] > 0 && create_if_block_6(ctx);
+    	let if_block1 = !/*reachedEnd*/ ctx[46] && create_if_block_5(ctx);
+
+    	const block = {
+    		c: function create() {
+    			if (if_block0) if_block0.c();
+    			t = space();
+    			if (if_block1) if_block1.c();
+    			if_block1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			if (if_block0) if_block0.m(target, anchor);
+    			insert_dev(target, t, anchor);
+    			if (if_block1) if_block1.m(target, anchor);
+    			insert_dev(target, if_block1_anchor, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			if (/*currentIndex*/ ctx[4] > 0) {
+    				if (if_block0) {
+    					if_block0.p(ctx, dirty);
+
+    					if (dirty[0] & /*currentIndex*/ 16) {
+    						transition_in(if_block0, 1);
+    					}
+    				} else {
+    					if_block0 = create_if_block_6(ctx);
+    					if_block0.c();
+    					transition_in(if_block0, 1);
+    					if_block0.m(t.parentNode, t);
+    				}
+    			} else if (if_block0) {
+    				group_outros();
+
+    				transition_out(if_block0, 1, 1, () => {
+    					if_block0 = null;
+    				});
+
+    				check_outros();
+    			}
+
+    			if (!/*reachedEnd*/ ctx[46]) {
+    				if (if_block1) {
+    					if_block1.p(ctx, dirty);
+
+    					if (dirty[1] & /*reachedEnd*/ 32768) {
+    						transition_in(if_block1, 1);
+    					}
+    				} else {
+    					if_block1 = create_if_block_5(ctx);
+    					if_block1.c();
+    					transition_in(if_block1, 1);
+    					if_block1.m(if_block1_anchor.parentNode, if_block1_anchor);
+    				}
+    			} else if (if_block1) {
+    				group_outros();
+
+    				transition_out(if_block1, 1, 1, () => {
+    					if_block1 = null;
+    				});
+
+    				check_outros();
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(if_block0);
+    			transition_in(if_block1);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(if_block0);
+    			transition_out(if_block1);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (if_block0) if_block0.d(detaching);
+    			if (detaching) detach_dev(t);
+    			if (if_block1) if_block1.d(detaching);
+    			if (detaching) detach_dev(if_block1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_controls_slot_2.name,
+    		type: "slot",
+    		source: "(579:5) <svelte:fragment slot=\\\"controls\\\">",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (607:5) {#each { length: 10 } as _}
+    function create_each_block_1(ctx) {
+    	let div;
+    	let style_background_color = `hsl(${Math.floor(Math.random() * 360)}, 80%, 50%)`;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			attr_dev(div, "class", "item svelte-lfm80c");
+    			set_style(div, "background-color", style_background_color, false);
+    			set_style(div, "--width", `200px`, false);
+    			set_style(div, "--height", `200px`, false);
+    			add_location(div, file, 607, 6, 23374);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_1.name,
+    		type: "each",
+    		source: "(607:5) {#each { length: 10 } as _}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (606:4) <TinySlider gap="0.5rem" threshold="100" let:setIndex let:currentIndex let:reachedEnd>
+    function create_default_slot_1(ctx) {
+    	let each_1_anchor;
+    	let each_value_1 = { length: 10 };
+    	validate_each_argument(each_value_1);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_1.length; i += 1) {
+    		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*Math*/ 0) {
+    				each_value_1 = { length: 10 };
+    				validate_each_argument(each_value_1);
+    				let i;
+
+    				for (i = 0; i < each_value_1.length; i += 1) {
+    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_1(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_1.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_1.name,
+    		type: "slot",
+    		source: "(606:4) <TinySlider gap=\\\"0.5rem\\\" threshold=\\\"100\\\" let:setIndex let:currentIndex let:reachedEnd>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (612:6) {#if currentIndex > 0}
     function create_if_block_4(ctx) {
     	let button;
     	let arrow;
@@ -3399,16 +4690,16 @@ var app = (function () {
     	let dispose;
     	arrow = new Arrow({ $$inline: true });
 
-    	function click_handler_10() {
-    		return /*click_handler_10*/ ctx[28](/*setIndex*/ ctx[1], /*currentIndex*/ ctx[2]);
+    	function click_handler_18() {
+    		return /*click_handler_18*/ ctx[39](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
     	}
 
     	const block = {
     		c: function create() {
     			button = element("button");
     			create_component(arrow.$$.fragment);
-    			attr_dev(button, "class", "arrow left svelte-37w21y");
-    			add_location(button, file, 439, 7, 17071);
+    			attr_dev(button, "class", "arrow left svelte-lfm80c");
+    			add_location(button, file, 612, 7, 23608);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -3416,7 +4707,7 @@ var app = (function () {
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", click_handler_10, false, false, false);
+    				dispose = listen_dev(button, "click", click_handler_18, false, false, false);
     				mounted = true;
     			}
     		},
@@ -3444,14 +4735,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4.name,
     		type: "if",
-    		source: "(439:6) {#if currentIndex > 0}",
+    		source: "(612:6) {#if currentIndex > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (443:6) {#if currentIndex < portaitItems.length - 1}
+    // (616:6) {#if !reachedEnd}
     function create_if_block_3(ctx) {
     	let button;
     	let arrow;
@@ -3464,16 +4755,16 @@ var app = (function () {
     			$$inline: true
     		});
 
-    	function click_handler_11() {
-    		return /*click_handler_11*/ ctx[29](/*setIndex*/ ctx[1], /*currentIndex*/ ctx[2]);
+    	function click_handler_19() {
+    		return /*click_handler_19*/ ctx[40](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
     	}
 
     	const block = {
     		c: function create() {
     			button = element("button");
     			create_component(arrow.$$.fragment);
-    			attr_dev(button, "class", "arrow right svelte-37w21y");
-    			add_location(button, file, 443, 7, 17236);
+    			attr_dev(button, "class", "arrow right svelte-lfm80c");
+    			add_location(button, file, 616, 7, 23746);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -3481,7 +4772,7 @@ var app = (function () {
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", click_handler_11, false, false, false);
+    				dispose = listen_dev(button, "click", click_handler_19, false, false, false);
     				mounted = true;
     			}
     		},
@@ -3509,20 +4800,20 @@ var app = (function () {
     		block,
     		id: create_if_block_3.name,
     		type: "if",
-    		source: "(443:6) {#if currentIndex < portaitItems.length - 1}",
+    		source: "(616:6) {#if !reachedEnd}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (438:5) <svelte:fragment slot="controls">
-    function create_controls_slot_2(ctx) {
+    // (611:5) <svelte:fragment slot="controls">
+    function create_controls_slot_1(ctx) {
     	let t;
     	let if_block1_anchor;
     	let current;
-    	let if_block0 = /*currentIndex*/ ctx[2] > 0 && create_if_block_4(ctx);
-    	let if_block1 = /*currentIndex*/ ctx[2] < /*portaitItems*/ ctx[0].length - 1 && create_if_block_3(ctx);
+    	let if_block0 = /*currentIndex*/ ctx[4] > 0 && create_if_block_4(ctx);
+    	let if_block1 = !/*reachedEnd*/ ctx[46] && create_if_block_3(ctx);
 
     	const block = {
     		c: function create() {
@@ -3539,11 +4830,11 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (/*currentIndex*/ ctx[2] > 0) {
+    			if (/*currentIndex*/ ctx[4] > 0) {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
 
-    					if (dirty[0] & /*currentIndex*/ 4) {
+    					if (dirty[0] & /*currentIndex*/ 16) {
     						transition_in(if_block0, 1);
     					}
     				} else {
@@ -3562,11 +4853,11 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (/*currentIndex*/ ctx[2] < /*portaitItems*/ ctx[0].length - 1) {
+    			if (!/*reachedEnd*/ ctx[46]) {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
 
-    					if (dirty[0] & /*currentIndex, portaitItems*/ 5) {
+    					if (dirty[1] & /*reachedEnd*/ 32768) {
     						transition_in(if_block1, 1);
     					}
     				} else {
@@ -3606,396 +4897,16 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_controls_slot_2.name,
-    		type: "slot",
-    		source: "(438:5) <svelte:fragment slot=\\\"controls\\\">",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (454:3) {#each fixedItems5 as item}
-    function create_each_block_3(ctx) {
-    	let div;
-    	let img;
-    	let img_src_value;
-    	let t;
-    	let style___width = `${/*sliderWidth*/ ctx[13]}px`;
-
-    	const block = {
-    		c: function create() {
-    			div = element("div");
-    			img = element("img");
-    			t = space();
-    			attr_dev(img, "loading", "lazy");
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[39])) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "svelte-37w21y");
-    			add_location(img, file, 458, 5, 17666);
-    			attr_dev(div, "class", "item svelte-37w21y");
-    			set_style(div, "--width", style___width, false);
-    			set_style(div, "--height", `400px`, false);
-    			add_location(div, file, 454, 4, 17568);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			append_dev(div, img);
-    			append_dev(div, t);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*sliderWidth*/ 8192 && style___width !== (style___width = `${/*sliderWidth*/ ctx[13]}px`)) {
-    				set_style(div, "--width", style___width, false);
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_3.name,
-    		type: "each",
-    		source: "(454:3) {#each fixedItems5 as item}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (453:2) <TinySlider gap="0.5rem" let:setIndex let:currentIndex let:sliderWidth>
-    function create_default_slot_2(ctx) {
-    	let each_1_anchor;
-    	let each_value_3 = /*fixedItems5*/ ctx[8];
-    	validate_each_argument(each_value_3);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_3.length; i += 1) {
-    		each_blocks[i] = create_each_block_3(get_each_context_3(ctx, each_value_3, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    		},
-    		m: function mount(target, anchor) {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*sliderWidth, fixedItems5*/ 8448) {
-    				each_value_3 = /*fixedItems5*/ ctx[8];
-    				validate_each_argument(each_value_3);
-    				let i;
-
-    				for (i = 0; i < each_value_3.length; i += 1) {
-    					const child_ctx = get_each_context_3(ctx, each_value_3, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_3(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_3.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_2.name,
-    		type: "slot",
-    		source: "(453:2) <TinySlider gap=\\\"0.5rem\\\" let:setIndex let:currentIndex let:sliderWidth>",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (464:4) {#each items as item, i}
-    function create_each_block_2(ctx) {
-    	let button;
-    	let img;
-    	let img_src_value;
-    	let t;
-    	let mounted;
-    	let dispose;
-
-    	function click_handler_12() {
-    		return /*click_handler_12*/ ctx[30](/*setIndex*/ ctx[1], /*i*/ ctx[46]);
-    	}
-
-    	function focus_handler_1() {
-    		return /*focus_handler_1*/ ctx[31](/*setIndex*/ ctx[1], /*i*/ ctx[46]);
-    	}
-
-    	const block = {
-    		c: function create() {
-    			button = element("button");
-    			img = element("img");
-    			t = space();
-    			attr_dev(img, "loading", "lazy");
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[39])) attr_dev(img, "src", img_src_value);
-    			attr_dev(img, "alt", "");
-    			attr_dev(img, "height", "60");
-    			attr_dev(img, "class", "svelte-37w21y");
-    			add_location(img, file, 469, 6, 17967);
-    			attr_dev(button, "class", "thumbnail svelte-37w21y");
-    			toggle_class(button, "active", /*i*/ ctx[46] == /*currentIndex*/ ctx[2]);
-    			add_location(button, file, 464, 5, 17814);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, button, anchor);
-    			append_dev(button, img);
-    			append_dev(button, t);
-
-    			if (!mounted) {
-    				dispose = [
-    					listen_dev(button, "click", click_handler_12, false, false, false),
-    					listen_dev(button, "focus", focus_handler_1, false, false, false)
-    				];
-
-    				mounted = true;
-    			}
-    		},
-    		p: function update(new_ctx, dirty) {
-    			ctx = new_ctx;
-
-    			if (dirty[0] & /*currentIndex*/ 4) {
-    				toggle_class(button, "active", /*i*/ ctx[46] == /*currentIndex*/ ctx[2]);
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(button);
-    			mounted = false;
-    			run_all(dispose);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_2.name,
-    		type: "each",
-    		source: "(464:4) {#each items as item, i}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (463:3) 
-    function create_controls_slot_1(ctx) {
-    	let div;
-    	let each_value_2 = /*items*/ ctx[3];
-    	validate_each_argument(each_value_2);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_2.length; i += 1) {
-    		each_blocks[i] = create_each_block_2(get_each_context_2(ctx, each_value_2, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			div = element("div");
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			attr_dev(div, "slot", "controls");
-    			attr_dev(div, "class", "thumbnails svelte-37w21y");
-    			add_location(div, file, 462, 3, 17737);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div, null);
-    			}
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*currentIndex, setIndex, items*/ 14) {
-    				each_value_2 = /*items*/ ctx[3];
-    				validate_each_argument(each_value_2);
-    				let i;
-
-    				for (i = 0; i < each_value_2.length; i += 1) {
-    					const child_ctx = get_each_context_2(ctx, each_value_2, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_2(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(div, null);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_2.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
-    			destroy_each(each_blocks, detaching);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
     		id: create_controls_slot_1.name,
     		type: "slot",
-    		source: "(463:3) ",
+    		source: "(611:5) <svelte:fragment slot=\\\"controls\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (480:4) {#each { length: 20 } as _}
-    function create_each_block_1(ctx) {
-    	let div;
-    	let a;
-    	let t1;
-    	let mounted;
-    	let dispose;
-
-    	const block = {
-    		c: function create() {
-    			div = element("div");
-    			a = element("a");
-    			a.textContent = "Link";
-    			t1 = space();
-    			attr_dev(a, "href", "https://google.com");
-    			attr_dev(a, "target", "_blank");
-    			attr_dev(a, "class", "svelte-37w21y");
-    			add_location(a, file, 481, 6, 18331);
-    			attr_dev(div, "class", "item svelte-37w21y");
-    			set_style(div, "--width", `200px`, false);
-    			set_style(div, "--height", `200px`, false);
-    			add_location(div, file, 480, 5, 18222);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			append_dev(div, a);
-    			append_dev(div, t1);
-
-    			if (!mounted) {
-    				dispose = listen_dev(div, "click", /*click_handler_13*/ ctx[32], false, false, false);
-    				mounted = true;
-    			}
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
-    			mounted = false;
-    			dispose();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_1.name,
-    		type: "each",
-    		source: "(480:4) {#each { length: 20 } as _}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (479:3) <TinySlider gap="0.5rem" fill={false}>
-    function create_default_slot_1(ctx) {
-    	let each_1_anchor;
-    	let each_value_1 = { length: 20 };
-    	validate_each_argument(each_value_1);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    		},
-    		m: function mount(target, anchor) {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*console*/ 0) {
-    				each_value_1 = { length: 20 };
-    				validate_each_argument(each_value_1);
-    				let i;
-
-    				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_1(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_1.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_1.name,
-    		type: "slot",
-    		source: "(479:3) <TinySlider gap=\\\"0.5rem\\\" fill={false}>",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (495:5) {#if [index, index + 1, index - 1].some(i => shown.includes(i))}
+    // (631:5) {#if [index, index + 1, index - 1].some(i => shown.includes(i))}
     function create_if_block_2(ctx) {
     	let img;
     	let img_src_value;
@@ -4004,10 +4915,10 @@ var app = (function () {
     		c: function create() {
     			img = element("img");
     			attr_dev(img, "loading", "lazy");
-    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[39])) attr_dev(img, "src", img_src_value);
+    			if (!src_url_equal(img.src, img_src_value = /*item*/ ctx[47])) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "svelte-37w21y");
-    			add_location(img, file, 495, 6, 18804);
+    			attr_dev(img, "class", "svelte-lfm80c");
+    			add_location(img, file, 631, 6, 24298);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
@@ -4022,18 +4933,18 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(495:5) {#if [index, index + 1, index - 1].some(i => shown.includes(i))}",
+    		source: "(631:5) {#if [index, index + 1, index - 1].some(i => shown.includes(i))}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (492:2) {#each cardItems as item, index}
+    // (628:2) {#each cardItems as item, index}
     function create_each_block(ctx) {
     	let div;
     	let a0;
-    	let show_if = [/*index*/ ctx[41], /*index*/ ctx[41] + 1, /*index*/ ctx[41] - 1].some(func);
+    	let show_if = [/*index*/ ctx[49], /*index*/ ctx[49] + 1, /*index*/ ctx[49] - 1].some(func);
     	let t0;
     	let a1;
     	let t2;
@@ -4045,7 +4956,7 @@ var app = (function () {
     	let dispose;
 
     	function func(...args) {
-    		return /*func*/ ctx[15](/*shown*/ ctx[37], ...args);
+    		return /*func*/ ctx[16](/*shown*/ ctx[45], ...args);
     	}
 
     	let if_block = show_if && create_if_block_2(ctx);
@@ -4065,21 +4976,21 @@ var app = (function () {
     			a2 = element("a");
     			a2.textContent = "Take me there!";
     			t6 = space();
-    			attr_dev(a0, "class", "thumbnail svelte-37w21y");
+    			attr_dev(a0, "class", "thumbnail svelte-lfm80c");
     			attr_dev(a0, "href", "https://google.com");
     			attr_dev(a0, "target", "_blank");
-    			add_location(a0, file, 493, 4, 18662);
-    			attr_dev(a1, "class", "title svelte-37w21y");
+    			add_location(a0, file, 629, 4, 24156);
+    			attr_dev(a1, "class", "title svelte-lfm80c");
     			attr_dev(a1, "href", "https://google.com");
     			attr_dev(a1, "target", "_blank");
-    			add_location(a1, file, 499, 4, 18874);
-    			attr_dev(p, "class", "svelte-37w21y");
-    			add_location(p, file, 501, 4, 18960);
-    			attr_dev(a2, "class", "button svelte-37w21y");
+    			add_location(a1, file, 635, 4, 24368);
+    			attr_dev(p, "class", "svelte-lfm80c");
+    			add_location(p, file, 637, 4, 24454);
+    			attr_dev(a2, "class", "button svelte-lfm80c");
     			attr_dev(a2, "href", "#");
-    			add_location(a2, file, 505, 4, 19050);
-    			attr_dev(div, "class", "card svelte-37w21y");
-    			add_location(div, file, 492, 3, 18600);
+    			add_location(a2, file, 641, 4, 24544);
+    			attr_dev(div, "class", "card svelte-lfm80c");
+    			add_location(div, file, 628, 3, 24094);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -4095,8 +5006,8 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(a2, "click", prevent_default(/*click_handler*/ ctx[14]), false, true, false),
-    					listen_dev(div, "click", /*click_handler_16*/ ctx[35], false, false, false)
+    					listen_dev(a2, "click", prevent_default(/*click_handler*/ ctx[15]), false, true, false),
+    					listen_dev(div, "click", /*click_handler_22*/ ctx[43], false, false, false)
     				];
 
     				mounted = true;
@@ -4104,7 +5015,7 @@ var app = (function () {
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty[1] & /*shown*/ 64) show_if = [/*index*/ ctx[41], /*index*/ ctx[41] + 1, /*index*/ ctx[41] - 1].some(func);
+    			if (dirty[1] & /*shown*/ 16384) show_if = [/*index*/ ctx[49], /*index*/ ctx[49] + 1, /*index*/ ctx[49] - 1].some(func);
 
     			if (show_if) {
     				if (if_block) {
@@ -4131,17 +5042,17 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(492:2) {#each cardItems as item, index}",
+    		source: "(628:2) {#each cardItems as item, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (491:1) <TinySlider gap="1rem" let:setIndex let:currentIndex let:shown let:reachedEnd>
+    // (627:1) <TinySlider gap="1rem" let:setIndex let:currentIndex let:shown let:reachedEnd>
     function create_default_slot(ctx) {
     	let each_1_anchor;
-    	let each_value = /*cardItems*/ ctx[12];
+    	let each_value = /*cardItems*/ ctx[14];
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -4165,8 +5076,8 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*cardItems*/ 4096 | dirty[1] & /*shown*/ 64) {
-    				each_value = /*cardItems*/ ctx[12];
+    			if (dirty[0] & /*cardItems*/ 16384 | dirty[1] & /*shown*/ 16384) {
+    				each_value = /*cardItems*/ ctx[14];
     				validate_each_argument(each_value);
     				let i;
 
@@ -4199,14 +5110,14 @@ var app = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(491:1) <TinySlider gap=\\\"1rem\\\" let:setIndex let:currentIndex let:shown let:reachedEnd>",
+    		source: "(627:1) <TinySlider gap=\\\"1rem\\\" let:setIndex let:currentIndex let:shown let:reachedEnd>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (511:3) {#if currentIndex > 0}
+    // (647:3) {#if currentIndex > 0}
     function create_if_block_1(ctx) {
     	let button;
     	let arrow;
@@ -4215,16 +5126,16 @@ var app = (function () {
     	let dispose;
     	arrow = new Arrow({ $$inline: true });
 
-    	function click_handler_14() {
-    		return /*click_handler_14*/ ctx[33](/*setIndex*/ ctx[1], /*currentIndex*/ ctx[2]);
+    	function click_handler_20() {
+    		return /*click_handler_20*/ ctx[41](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
     	}
 
     	const block = {
     		c: function create() {
     			button = element("button");
     			create_component(arrow.$$.fragment);
-    			attr_dev(button, "class", "arrow left svelte-37w21y");
-    			add_location(button, file, 511, 4, 19213);
+    			attr_dev(button, "class", "arrow left svelte-lfm80c");
+    			add_location(button, file, 647, 4, 24707);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -4232,7 +5143,7 @@ var app = (function () {
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", click_handler_14, false, false, false);
+    				dispose = listen_dev(button, "click", click_handler_20, false, false, false);
     				mounted = true;
     			}
     		},
@@ -4260,14 +5171,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(511:3) {#if currentIndex > 0}",
+    		source: "(647:3) {#if currentIndex > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (515:3) {#if !reachedEnd}
+    // (651:3) {#if !reachedEnd}
     function create_if_block(ctx) {
     	let button;
     	let arrow;
@@ -4280,16 +5191,16 @@ var app = (function () {
     			$$inline: true
     		});
 
-    	function click_handler_15() {
-    		return /*click_handler_15*/ ctx[34](/*setIndex*/ ctx[1], /*currentIndex*/ ctx[2]);
+    	function click_handler_21() {
+    		return /*click_handler_21*/ ctx[42](/*setIndex*/ ctx[3], /*currentIndex*/ ctx[4]);
     	}
 
     	const block = {
     		c: function create() {
     			button = element("button");
     			create_component(arrow.$$.fragment);
-    			attr_dev(button, "class", "arrow right svelte-37w21y");
-    			add_location(button, file, 515, 4, 19342);
+    			attr_dev(button, "class", "arrow right svelte-lfm80c");
+    			add_location(button, file, 651, 4, 24836);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -4297,7 +5208,7 @@ var app = (function () {
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", click_handler_15, false, false, false);
+    				dispose = listen_dev(button, "click", click_handler_21, false, false, false);
     				mounted = true;
     			}
     		},
@@ -4325,20 +5236,20 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(515:3) {#if !reachedEnd}",
+    		source: "(651:3) {#if !reachedEnd}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (510:2) <svelte:fragment slot="controls">
+    // (646:2) <svelte:fragment slot="controls">
     function create_controls_slot(ctx) {
     	let t;
     	let if_block1_anchor;
     	let current;
-    	let if_block0 = /*currentIndex*/ ctx[2] > 0 && create_if_block_1(ctx);
-    	let if_block1 = !/*reachedEnd*/ ctx[38] && create_if_block(ctx);
+    	let if_block0 = /*currentIndex*/ ctx[4] > 0 && create_if_block_1(ctx);
+    	let if_block1 = !/*reachedEnd*/ ctx[46] && create_if_block(ctx);
 
     	const block = {
     		c: function create() {
@@ -4355,11 +5266,11 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (/*currentIndex*/ ctx[2] > 0) {
+    			if (/*currentIndex*/ ctx[4] > 0) {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
 
-    					if (dirty[0] & /*currentIndex*/ 4) {
+    					if (dirty[0] & /*currentIndex*/ 16) {
     						transition_in(if_block0, 1);
     					}
     				} else {
@@ -4378,11 +5289,11 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (!/*reachedEnd*/ ctx[38]) {
+    			if (!/*reachedEnd*/ ctx[46]) {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
 
-    					if (dirty[1] & /*reachedEnd*/ 128) {
+    					if (dirty[1] & /*reachedEnd*/ 32768) {
     						transition_in(if_block1, 1);
     					}
     				} else {
@@ -4424,7 +5335,7 @@ var app = (function () {
     		block,
     		id: create_controls_slot.name,
     		type: "slot",
-    		source: "(510:2) <svelte:fragment slot=\\\"controls\\\">",
+    		source: "(646:2) <svelte:fragment slot=\\\"controls\\\">",
     		ctx
     	});
 
@@ -4439,12 +5350,12 @@ var app = (function () {
     	let t2;
     	let tinyslider0;
     	let t3;
-    	let div15;
+    	let div22;
     	let div0;
     	let p0;
     	let t5;
     	let p1;
-    	let a;
+    	let a0;
     	let t7;
     	let h20;
     	let t9;
@@ -4891,42 +5802,42 @@ var app = (function () {
     	let t314;
     	let br82;
     	let t315;
-    	let mark56;
-    	let t317;
     	let br83;
+    	let t316;
+    	let mark56;
     	let t318;
+    	let br84;
+    	let t319;
     	let p28;
-    	let t320;
+    	let t321;
     	let div8;
     	let tinyslider9;
-    	let t321;
-    	let p29;
     	let t322;
+    	let p29;
+    	let t323;
     	let mark57;
-    	let t324;
+    	let t325;
     	let mark58;
-    	let t326;
+    	let t327;
     	let mark59;
-    	let t328;
+    	let t329;
     	let mark60;
-    	let t330;
     	let t331;
+    	let t332;
     	let p30;
     	let code26;
-    	let t332;
+    	let t333;
     	let mark61;
-    	let t334;
+    	let t335;
     	let mark62;
-    	let t336;
-    	let br84;
     	let t337;
     	let br85;
     	let t338;
     	let br86;
     	let t339;
-    	let mark63;
-    	let t341;
     	let br87;
+    	let t340;
+    	let mark63;
     	let t342;
     	let br88;
     	let t343;
@@ -4940,31 +5851,330 @@ var app = (function () {
     	let t347;
     	let br93;
     	let t348;
+    	let br94;
+    	let t349;
     	let mark64;
-    	let t350;
     	let t351;
+    	let t352;
     	let div10;
     	let div9;
     	let tinyslider10;
-    	let t352;
-    	let div12;
-    	let tinyslider11;
     	let t353;
     	let div14;
-    	let div13;
-    	let tinyslider12;
-    	let t354;
-    	let div16;
-    	let tinyslider13;
+    	let h34;
     	let t355;
+    	let p31;
+    	let t357;
+    	let h44;
+    	let t359;
+    	let p32;
+    	let t360;
+    	let mark65;
+    	let t362;
+    	let t363;
+    	let p33;
+    	let code27;
+    	let t364;
+    	let mark66;
+    	let t366;
+    	let mark67;
+    	let t368;
+    	let br95;
+    	let t369;
+    	let br96;
+    	let t370;
+    	let mark68;
+    	let t372;
+    	let t373;
+    	let h45;
+    	let t375;
+    	let p34;
+    	let t376;
+    	let mark69;
+    	let t378;
+    	let mark70;
+    	let t380;
+    	let mark71;
+    	let t382;
+    	let mark72;
+    	let t384;
+    	let t385;
+    	let p35;
+    	let code28;
+    	let t386;
+    	let br97;
+    	let t387;
+    	let mark73;
+    	let t389;
+    	let br98;
+    	let t390;
+    	let mark74;
+    	let t392;
+    	let br99;
+    	let t393;
+    	let br100;
+    	let t394;
+    	let br101;
+    	let t395;
+    	let mark75;
+    	let t397;
+    	let mark76;
+    	let t399;
+    	let br102;
+    	let t400;
+    	let br103;
+    	let t401;
+    	let mark77;
+    	let t403;
+    	let t404;
+    	let p36;
+    	let t405;
+    	let mark78;
+    	let t407;
+    	let mark79;
+    	let t409;
+    	let mark80;
+    	let t411;
+    	let t412;
+    	let p37;
+    	let code29;
+    	let t413;
+    	let br104;
+    	let t414;
+    	let mark81;
+    	let br105;
+    	let t416;
+    	let mark82;
+    	let t418;
+    	let br106;
+    	let t419;
+    	let br107;
+    	let t420;
+    	let br108;
+    	let t421;
+    	let mark83;
+    	let t423;
+    	let mark84;
+    	let t425;
+    	let br109;
+    	let t426;
+    	let br110;
+    	let t427;
+    	let mark85;
+    	let t429;
+    	let t430;
+    	let div13;
+    	let div12;
+    	let tinyslider11;
+    	let updating_distanceToEnd;
+    	let updating_sliderWidth;
+    	let t431;
+    	let div21;
+    	let h35;
+    	let t433;
+    	let h46;
+    	let t435;
+    	let p38;
+    	let t436;
+    	let mark86;
+    	let t438;
+    	let t439;
+    	let p39;
+    	let code30;
+    	let t440;
+    	let mark87;
+    	let t442;
+    	let mark88;
+    	let t444;
+    	let br111;
+    	let t445;
+    	let br112;
+    	let t446;
+    	let mark89;
+    	let t448;
+    	let t449;
+    	let div16;
+    	let div15;
+    	let tinyslider12;
+    	let t450;
+    	let h47;
+    	let t452;
+    	let p40;
+    	let t453;
+    	let mark90;
+    	let t455;
+    	let t456;
+    	let p41;
+    	let code31;
+    	let t457;
+    	let mark91;
+    	let t459;
+    	let mark92;
+    	let t461;
+    	let br113;
+    	let t462;
+    	let br114;
+    	let t463;
+    	let mark93;
+    	let t465;
+    	let t466;
+    	let div18;
     	let div17;
+    	let tinyslider13;
+    	let t467;
+    	let h48;
+    	let t469;
+    	let p42;
+    	let t470;
+    	let mark94;
+    	let t472;
+    	let t473;
+    	let p43;
+    	let code32;
+    	let t474;
+    	let mark95;
+    	let t476;
+    	let mark96;
+    	let t478;
+    	let br115;
+    	let t479;
+    	let br116;
+    	let t480;
+    	let mark97;
+    	let t482;
+    	let t483;
+    	let div20;
+    	let div19;
+    	let tinyslider14;
+    	let t484;
+    	let div23;
+    	let tinyslider15;
+    	let t485;
+    	let div31;
+    	let h22;
+    	let t487;
+    	let div25;
+    	let p44;
+    	let t489;
+    	let div24;
+    	let strong0;
+    	let t491;
+    	let strong1;
+    	let t493;
+    	let strong2;
+    	let t495;
+    	let code33;
+    	let t497;
+    	let code34;
+    	let t499;
+    	let strong3;
+    	let t501;
+    	let code35;
+    	let t503;
+    	let code36;
+    	let t505;
+    	let strong4;
+    	let t507;
+    	let code37;
+    	let t509;
+    	let code38;
+    	let t511;
+    	let strong5;
+    	let t513;
+    	let code39;
+    	let t515;
+    	let code40;
+    	let t517;
+    	let strong6;
+    	let t519;
+    	let code41;
+    	let t521;
+    	let code42;
+    	let t523;
+    	let strong7;
+    	let t525;
+    	let code43;
+    	let t527;
+    	let code44;
+    	let t529;
+    	let strong8;
+    	let t531;
+    	let code45;
+    	let t533;
+    	let code46;
+    	let t535;
+    	let strong9;
+    	let t537;
+    	let code47;
+    	let t539;
+    	let code48;
+    	let t541;
+    	let strong10;
+    	let t543;
+    	let code49;
+    	let t545;
+    	let code50;
+    	let t547;
+    	let strong11;
+    	let t549;
+    	let code51;
+    	let t551;
+    	let code52;
+    	let t553;
+    	let strong12;
+    	let t555;
+    	let code53;
+    	let t557;
+    	let code54;
+    	let t559;
+    	let strong13;
+    	let t561;
+    	let h23;
+    	let t563;
+    	let div27;
+    	let p45;
+    	let t565;
+    	let div26;
+    	let strong14;
+    	let t567;
+    	let strong15;
+    	let t569;
+    	let strong16;
+    	let t571;
+    	let code55;
+    	let t573;
+    	let code56;
+    	let t575;
+    	let strong17;
+    	let t577;
+    	let h24;
+    	let t579;
+    	let div29;
+    	let p46;
+    	let t581;
+    	let div28;
+    	let strong18;
+    	let t583;
+    	let strong19;
+    	let t584;
+    	let strong20;
+    	let t586;
+    	let code57;
+    	let t588;
+    	let code58;
+    	let t589;
+    	let strong21;
+    	let t591;
+    	let div30;
+    	let t592;
+    	let a1;
     	let current;
     	let mounted;
     	let dispose;
 
     	tinyslider0 = new TinySlider({
     			props: {
-    				$$slots: { default: [create_default_slot_13] },
+    				$$slots: { default: [create_default_slot_15] },
     				$$scope: { ctx }
     			},
     			$$inline: true
@@ -4972,7 +6182,7 @@ var app = (function () {
 
     	tinyslider1 = new TinySlider({
     			props: {
-    				$$slots: { default: [create_default_slot_12] },
+    				$$slots: { default: [create_default_slot_14] },
     				$$scope: { ctx }
     			},
     			$$inline: true
@@ -4982,14 +6192,14 @@ var app = (function () {
     			props: {
     				$$slots: {
     					controls: [
-    						create_controls_slot_6,
-    						({ setIndex, currentIndex }) => ({ 1: setIndex, 2: currentIndex }),
-    						({ setIndex, currentIndex }) => [(setIndex ? 2 : 0) | (currentIndex ? 4 : 0)]
+    						create_controls_slot_9,
+    						({ setIndex, currentIndex }) => ({ 3: setIndex, 4: currentIndex }),
+    						({ setIndex, currentIndex }) => [(setIndex ? 8 : 0) | (currentIndex ? 16 : 0)]
     					],
     					default: [
-    						create_default_slot_11,
-    						({ setIndex, currentIndex }) => ({ 1: setIndex, 2: currentIndex }),
-    						({ setIndex, currentIndex }) => [(setIndex ? 2 : 0) | (currentIndex ? 4 : 0)]
+    						create_default_slot_13,
+    						({ setIndex, currentIndex }) => ({ 3: setIndex, 4: currentIndex }),
+    						({ setIndex, currentIndex }) => [(setIndex ? 8 : 0) | (currentIndex ? 16 : 0)]
     					]
     				},
     				$$scope: { ctx }
@@ -5001,14 +6211,14 @@ var app = (function () {
     			props: {
     				$$slots: {
     					controls: [
-    						create_controls_slot_5,
-    						({ setIndex, currentIndex }) => ({ 1: setIndex, 2: currentIndex }),
-    						({ setIndex, currentIndex }) => [(setIndex ? 2 : 0) | (currentIndex ? 4 : 0)]
+    						create_controls_slot_8,
+    						({ setIndex, currentIndex }) => ({ 3: setIndex, 4: currentIndex }),
+    						({ setIndex, currentIndex }) => [(setIndex ? 8 : 0) | (currentIndex ? 16 : 0)]
     					],
     					default: [
-    						create_default_slot_10,
-    						({ setIndex, currentIndex }) => ({ 1: setIndex, 2: currentIndex }),
-    						({ setIndex, currentIndex }) => [(setIndex ? 2 : 0) | (currentIndex ? 4 : 0)]
+    						create_default_slot_12,
+    						({ setIndex, currentIndex }) => ({ 3: setIndex, 4: currentIndex }),
+    						({ setIndex, currentIndex }) => [(setIndex ? 8 : 0) | (currentIndex ? 16 : 0)]
     					]
     				},
     				$$scope: { ctx }
@@ -5020,14 +6230,14 @@ var app = (function () {
     			props: {
     				$$slots: {
     					controls: [
-    						create_controls_slot_4,
-    						({ setIndex, currentIndex }) => ({ 1: setIndex, 2: currentIndex }),
-    						({ setIndex, currentIndex }) => [(setIndex ? 2 : 0) | (currentIndex ? 4 : 0)]
+    						create_controls_slot_7,
+    						({ setIndex, currentIndex }) => ({ 3: setIndex, 4: currentIndex }),
+    						({ setIndex, currentIndex }) => [(setIndex ? 8 : 0) | (currentIndex ? 16 : 0)]
     					],
     					default: [
-    						create_default_slot_9,
-    						({ setIndex, currentIndex }) => ({ 1: setIndex, 2: currentIndex }),
-    						({ setIndex, currentIndex }) => [(setIndex ? 2 : 0) | (currentIndex ? 4 : 0)]
+    						create_default_slot_11,
+    						({ setIndex, currentIndex }) => ({ 3: setIndex, 4: currentIndex }),
+    						({ setIndex, currentIndex }) => [(setIndex ? 8 : 0) | (currentIndex ? 16 : 0)]
     					]
     				},
     				$$scope: { ctx }
@@ -5036,24 +6246,24 @@ var app = (function () {
     		});
 
     	function tinyslider5_setIndex_binding(value) {
-    		/*tinyslider5_setIndex_binding*/ ctx[21](value);
+    		/*tinyslider5_setIndex_binding*/ ctx[22](value);
     	}
 
     	function tinyslider5_currentIndex_binding(value) {
-    		/*tinyslider5_currentIndex_binding*/ ctx[22](value);
+    		/*tinyslider5_currentIndex_binding*/ ctx[23](value);
     	}
 
     	let tinyslider5_props = {
-    		$$slots: { default: [create_default_slot_8] },
+    		$$slots: { default: [create_default_slot_10] },
     		$$scope: { ctx }
     	};
 
-    	if (/*setIndex*/ ctx[1] !== void 0) {
-    		tinyslider5_props.setIndex = /*setIndex*/ ctx[1];
+    	if (/*setIndex*/ ctx[3] !== void 0) {
+    		tinyslider5_props.setIndex = /*setIndex*/ ctx[3];
     	}
 
-    	if (/*currentIndex*/ ctx[2] !== void 0) {
-    		tinyslider5_props.currentIndex = /*currentIndex*/ ctx[2];
+    	if (/*currentIndex*/ ctx[4] !== void 0) {
+    		tinyslider5_props.currentIndex = /*currentIndex*/ ctx[4];
     	}
 
     	tinyslider5 = new TinySlider({ props: tinyslider5_props, $$inline: true });
@@ -5064,9 +6274,9 @@ var app = (function () {
     			props: {
     				$$slots: {
     					default: [
-    						create_default_slot_7,
-    						({ sliderWidth }) => ({ 13: sliderWidth }),
-    						({ sliderWidth }) => [sliderWidth ? 8192 : 0]
+    						create_default_slot_9,
+    						({ sliderWidth }) => ({ 2: sliderWidth }),
+    						({ sliderWidth }) => [sliderWidth ? 4 : 0]
     					]
     				},
     				$$scope: { ctx }
@@ -5079,9 +6289,9 @@ var app = (function () {
     				gap: "10px",
     				$$slots: {
     					default: [
-    						create_default_slot_6,
-    						({ sliderWidth }) => ({ 13: sliderWidth }),
-    						({ sliderWidth }) => [sliderWidth ? 8192 : 0]
+    						create_default_slot_8,
+    						({ sliderWidth }) => ({ 2: sliderWidth }),
+    						({ sliderWidth }) => [sliderWidth ? 4 : 0]
     					]
     				},
     				$$scope: { ctx }
@@ -5092,7 +6302,7 @@ var app = (function () {
     	tinyslider8 = new TinySlider({
     			props: {
     				gap: "0.5rem",
-    				$$slots: { default: [create_default_slot_5] },
+    				$$slots: { default: [create_default_slot_7] },
     				$$scope: { ctx }
     			},
     			$$inline: true
@@ -5102,25 +6312,29 @@ var app = (function () {
     			props: {
     				$$slots: {
     					controls: [
-    						create_controls_slot_3,
-    						({ setIndex, currentIndex, sliderWidth }) => ({
-    							1: setIndex,
-    							2: currentIndex,
-    							13: sliderWidth
+    						create_controls_slot_6,
+    						({ setIndex, currentIndex, sliderWidth, reachedEnd }) => ({
+    							3: setIndex,
+    							4: currentIndex,
+    							2: sliderWidth,
+    							46: reachedEnd
     						}),
-    						({ setIndex, currentIndex, sliderWidth }) => [
-    							(setIndex ? 2 : 0) | (currentIndex ? 4 : 0) | (sliderWidth ? 8192 : 0)
+    						({ setIndex, currentIndex, sliderWidth, reachedEnd }) => [
+    							(setIndex ? 8 : 0) | (currentIndex ? 16 : 0) | (sliderWidth ? 4 : 0),
+    							reachedEnd ? 32768 : 0
     						]
     					],
     					default: [
-    						create_default_slot_4,
-    						({ setIndex, currentIndex, sliderWidth }) => ({
-    							1: setIndex,
-    							2: currentIndex,
-    							13: sliderWidth
+    						create_default_slot_6,
+    						({ setIndex, currentIndex, sliderWidth, reachedEnd }) => ({
+    							3: setIndex,
+    							4: currentIndex,
+    							2: sliderWidth,
+    							46: reachedEnd
     						}),
-    						({ setIndex, currentIndex, sliderWidth }) => [
-    							(setIndex ? 2 : 0) | (currentIndex ? 4 : 0) | (sliderWidth ? 8192 : 0)
+    						({ setIndex, currentIndex, sliderWidth, reachedEnd }) => [
+    							(setIndex ? 8 : 0) | (currentIndex ? 16 : 0) | (sliderWidth ? 4 : 0),
+    							reachedEnd ? 32768 : 0
     						]
     					]
     				},
@@ -5134,14 +6348,30 @@ var app = (function () {
     				gap: "0.5rem",
     				$$slots: {
     					controls: [
-    						create_controls_slot_2,
-    						({ setIndex, currentIndex, shown }) => ({ 1: setIndex, 2: currentIndex, 37: shown }),
-    						({ setIndex, currentIndex, shown }) => [(setIndex ? 2 : 0) | (currentIndex ? 4 : 0), shown ? 64 : 0]
+    						create_controls_slot_5,
+    						({ setIndex, currentIndex, shown, reachedEnd }) => ({
+    							3: setIndex,
+    							4: currentIndex,
+    							45: shown,
+    							46: reachedEnd
+    						}),
+    						({ setIndex, currentIndex, shown, reachedEnd }) => [
+    							(setIndex ? 8 : 0) | (currentIndex ? 16 : 0),
+    							(shown ? 16384 : 0) | (reachedEnd ? 32768 : 0)
+    						]
     					],
     					default: [
-    						create_default_slot_3,
-    						({ setIndex, currentIndex, shown }) => ({ 1: setIndex, 2: currentIndex, 37: shown }),
-    						({ setIndex, currentIndex, shown }) => [(setIndex ? 2 : 0) | (currentIndex ? 4 : 0), shown ? 64 : 0]
+    						create_default_slot_5,
+    						({ setIndex, currentIndex, shown, reachedEnd }) => ({
+    							3: setIndex,
+    							4: currentIndex,
+    							45: shown,
+    							46: reachedEnd
+    						}),
+    						({ setIndex, currentIndex, shown, reachedEnd }) => [
+    							(setIndex ? 8 : 0) | (currentIndex ? 16 : 0),
+    							(shown ? 16384 : 0) | (reachedEnd ? 32768 : 0)
+    						]
     					]
     				},
     				$$scope: { ctx }
@@ -5149,43 +6379,63 @@ var app = (function () {
     			$$inline: true
     		});
 
+    	function tinyslider11_distanceToEnd_binding(value) {
+    		/*tinyslider11_distanceToEnd_binding*/ ctx[33](value);
+    	}
+
+    	function tinyslider11_sliderWidth_binding(value) {
+    		/*tinyslider11_sliderWidth_binding*/ ctx[34](value);
+    	}
+
+    	let tinyslider11_props = {
+    		gap: "0.5rem",
+    		$$slots: {
+    			controls: [
+    				create_controls_slot_4,
+    				({ setIndex, currentIndex, shown }) => ({ 3: setIndex, 4: currentIndex, 45: shown }),
+    				({ setIndex, currentIndex, shown }) => [(setIndex ? 8 : 0) | (currentIndex ? 16 : 0), shown ? 16384 : 0]
+    			],
+    			default: [
+    				create_default_slot_4,
+    				({ setIndex, currentIndex, shown }) => ({ 3: setIndex, 4: currentIndex, 45: shown }),
+    				({ setIndex, currentIndex, shown }) => [(setIndex ? 8 : 0) | (currentIndex ? 16 : 0), shown ? 16384 : 0]
+    			]
+    		},
+    		$$scope: { ctx }
+    	};
+
+    	if (/*distanceToEnd*/ ctx[1] !== void 0) {
+    		tinyslider11_props.distanceToEnd = /*distanceToEnd*/ ctx[1];
+    	}
+
+    	if (/*sliderWidth*/ ctx[2] !== void 0) {
+    		tinyslider11_props.sliderWidth = /*sliderWidth*/ ctx[2];
+    	}
+
     	tinyslider11 = new TinySlider({
-    			props: {
-    				gap: "0.5rem",
-    				$$slots: {
-    					controls: [
-    						create_controls_slot_1,
-    						({ setIndex, currentIndex, sliderWidth }) => ({
-    							1: setIndex,
-    							2: currentIndex,
-    							13: sliderWidth
-    						}),
-    						({ setIndex, currentIndex, sliderWidth }) => [
-    							(setIndex ? 2 : 0) | (currentIndex ? 4 : 0) | (sliderWidth ? 8192 : 0)
-    						]
-    					],
-    					default: [
-    						create_default_slot_2,
-    						({ setIndex, currentIndex, sliderWidth }) => ({
-    							1: setIndex,
-    							2: currentIndex,
-    							13: sliderWidth
-    						}),
-    						({ setIndex, currentIndex, sliderWidth }) => [
-    							(setIndex ? 2 : 0) | (currentIndex ? 4 : 0) | (sliderWidth ? 8192 : 0)
-    						]
-    					]
-    				},
-    				$$scope: { ctx }
-    			},
+    			props: tinyslider11_props,
     			$$inline: true
     		});
+
+    	binding_callbacks.push(() => bind(tinyslider11, 'distanceToEnd', tinyslider11_distanceToEnd_binding));
+    	binding_callbacks.push(() => bind(tinyslider11, 'sliderWidth', tinyslider11_sliderWidth_binding));
 
     	tinyslider12 = new TinySlider({
     			props: {
     				gap: "0.5rem",
     				fill: false,
-    				$$slots: { default: [create_default_slot_1] },
+    				$$slots: {
+    					controls: [
+    						create_controls_slot_3,
+    						({ setIndex, currentIndex }) => ({ 3: setIndex, 4: currentIndex }),
+    						({ setIndex, currentIndex }) => [(setIndex ? 8 : 0) | (currentIndex ? 16 : 0)]
+    					],
+    					default: [
+    						create_default_slot_3,
+    						({ setIndex, currentIndex }) => ({ 3: setIndex, 4: currentIndex }),
+    						({ setIndex, currentIndex }) => [(setIndex ? 8 : 0) | (currentIndex ? 16 : 0)]
+    					]
+    				},
     				$$scope: { ctx }
     			},
     			$$inline: true
@@ -5193,32 +6443,90 @@ var app = (function () {
 
     	tinyslider13 = new TinySlider({
     			props: {
+    				gap: "0.5rem",
+    				transitionDuration: "1000",
+    				$$slots: {
+    					controls: [
+    						create_controls_slot_2,
+    						({ setIndex, currentIndex, reachedEnd }) => ({
+    							3: setIndex,
+    							4: currentIndex,
+    							46: reachedEnd
+    						}),
+    						({ setIndex, currentIndex, reachedEnd }) => [(setIndex ? 8 : 0) | (currentIndex ? 16 : 0), reachedEnd ? 32768 : 0]
+    					],
+    					default: [
+    						create_default_slot_2,
+    						({ setIndex, currentIndex, reachedEnd }) => ({
+    							3: setIndex,
+    							4: currentIndex,
+    							46: reachedEnd
+    						}),
+    						({ setIndex, currentIndex, reachedEnd }) => [(setIndex ? 8 : 0) | (currentIndex ? 16 : 0), reachedEnd ? 32768 : 0]
+    					]
+    				},
+    				$$scope: { ctx }
+    			},
+    			$$inline: true
+    		});
+
+    	tinyslider14 = new TinySlider({
+    			props: {
+    				gap: "0.5rem",
+    				threshold: "100",
+    				$$slots: {
+    					controls: [
+    						create_controls_slot_1,
+    						({ setIndex, currentIndex, reachedEnd }) => ({
+    							3: setIndex,
+    							4: currentIndex,
+    							46: reachedEnd
+    						}),
+    						({ setIndex, currentIndex, reachedEnd }) => [(setIndex ? 8 : 0) | (currentIndex ? 16 : 0), reachedEnd ? 32768 : 0]
+    					],
+    					default: [
+    						create_default_slot_1,
+    						({ setIndex, currentIndex, reachedEnd }) => ({
+    							3: setIndex,
+    							4: currentIndex,
+    							46: reachedEnd
+    						}),
+    						({ setIndex, currentIndex, reachedEnd }) => [(setIndex ? 8 : 0) | (currentIndex ? 16 : 0), reachedEnd ? 32768 : 0]
+    					]
+    				},
+    				$$scope: { ctx }
+    			},
+    			$$inline: true
+    		});
+
+    	tinyslider15 = new TinySlider({
+    			props: {
     				gap: "1rem",
     				$$slots: {
     					controls: [
     						create_controls_slot,
     						({ setIndex, currentIndex, shown, reachedEnd }) => ({
-    							1: setIndex,
-    							2: currentIndex,
-    							37: shown,
-    							38: reachedEnd
+    							3: setIndex,
+    							4: currentIndex,
+    							45: shown,
+    							46: reachedEnd
     						}),
     						({ setIndex, currentIndex, shown, reachedEnd }) => [
-    							(setIndex ? 2 : 0) | (currentIndex ? 4 : 0),
-    							(shown ? 64 : 0) | (reachedEnd ? 128 : 0)
+    							(setIndex ? 8 : 0) | (currentIndex ? 16 : 0),
+    							(shown ? 16384 : 0) | (reachedEnd ? 32768 : 0)
     						]
     					],
     					default: [
     						create_default_slot,
     						({ setIndex, currentIndex, shown, reachedEnd }) => ({
-    							1: setIndex,
-    							2: currentIndex,
-    							37: shown,
-    							38: reachedEnd
+    							3: setIndex,
+    							4: currentIndex,
+    							45: shown,
+    							46: reachedEnd
     						}),
     						({ setIndex, currentIndex, shown, reachedEnd }) => [
-    							(setIndex ? 2 : 0) | (currentIndex ? 4 : 0),
-    							(shown ? 64 : 0) | (reachedEnd ? 128 : 0)
+    							(setIndex ? 8 : 0) | (currentIndex ? 16 : 0),
+    							(shown ? 16384 : 0) | (reachedEnd ? 32768 : 0)
     						]
     					]
     				},
@@ -5237,14 +6545,14 @@ var app = (function () {
     			t2 = space();
     			create_component(tinyslider0.$$.fragment);
     			t3 = space();
-    			div15 = element("div");
+    			div22 = element("div");
     			div0 = element("div");
     			p0 = element("p");
     			p0.textContent = "Svelte Tiny Slider is an easy to use highly customizable and unopinionated carousel or slider. There is little to no styling and how you structure your content is up to you. Images, videos, or any other element will work. Works with touch and keyboard controls. Made with accessiblity in mind.";
     			t5 = space();
     			p1 = element("p");
-    			a = element("a");
-    			a.textContent = "GitHub";
+    			a0 = element("a");
+    			a0.textContent = "GitHub";
     			t7 = space();
     			h20 = element("h2");
     			h20.textContent = "Installation";
@@ -5391,7 +6699,7 @@ var app = (function () {
     			t92 = text("\r\n\t\t\t\t    {#if ");
     			mark19 = element("mark");
     			mark19.textContent = "currentIndex";
-    			t94 = text(" < portaitItems.length - 1} ");
+    			t94 = text(" < items.length - 1} ");
     			br14 = element("br");
     			t95 = text("\r\n\t\t\t\t      <button on:click={() => ");
     			mark20 = element("mark");
@@ -5775,593 +7083,1287 @@ var app = (function () {
     			br81 = element("br");
     			t314 = space();
     			br82 = element("br");
-    			t315 = text("\r\n\t\t\t\t  ...\r\n\t\t\t\t</");
+    			t315 = text("\r\n\t\t\t\t  ...");
+    			br83 = element("br");
+    			t316 = text("\r\n\t\t\t\t</");
     			mark56 = element("mark");
     			mark56.textContent = "TinySlider";
-    			t317 = text(">");
-    			br83 = element("br");
-    			t318 = space();
+    			t318 = text(">");
+    			br84 = element("br");
+    			t319 = space();
     			p28 = element("p");
     			p28.textContent = "Note how this is using currentIndex + 1 to preload one image ahead.";
-    			t320 = space();
+    			t321 = space();
     			div8 = element("div");
     			create_component(tinyslider9.$$.fragment);
-    			t321 = space();
+    			t322 = space();
     			p29 = element("p");
-    			t322 = text("For sliders with multiple slides shown at once it might get more complicated when using ");
+    			t323 = text("For sliders with multiple slides shown at once it might get more complicated when using ");
     			mark57 = element("mark");
     			mark57.textContent = "currentIndex";
-    			t324 = text(", especially when you might have different amounts of slides depending on the screen size. For that purpose you could use the ");
+    			t325 = text(", especially when you might have different amounts of slides depending on the screen size. For that purpose you could use the ");
     			mark58 = element("mark");
     			mark58.textContent = "shown";
-    			t326 = text(" property. This property returns an array of all indexes that have been onscreen at some point. Just like before this can be used either as ");
+    			t327 = text(" property. This property returns an array of all indexes that have been onscreen at some point. Just like before this can be used either as ");
     			mark59 = element("mark");
     			mark59.textContent = "let:shown";
-    			t328 = text(" or ");
+    			t329 = text(" or ");
     			mark60 = element("mark");
     			mark60.textContent = "bind:shown";
-    			t330 = text(".");
-    			t331 = space();
+    			t331 = text(".");
+    			t332 = space();
     			p30 = element("p");
     			code26 = element("code");
-    			t332 = text("<");
+    			t333 = text("<");
     			mark61 = element("mark");
     			mark61.textContent = "TinySlider";
-    			t334 = text(" let:");
+    			t335 = text(" let:");
     			mark62 = element("mark");
     			mark62.textContent = "shown";
-    			t336 = text(">");
-    			br84 = element("br");
-    			t337 = text("\r\n\t\t\t\t  {#each items as item, index}");
+    			t337 = text(">");
     			br85 = element("br");
-    			t338 = text("\r\n\t\t\t\t    <div>");
+    			t338 = text("\r\n\t\t\t\t  {#each items as item, index}");
     			br86 = element("br");
-    			t339 = text("\r\n\t\t\t\t      {#if ");
+    			t339 = text("\r\n\t\t\t\t    <div>");
+    			br87 = element("br");
+    			t340 = text("\r\n\t\t\t\t      {#if ");
     			mark63 = element("mark");
     			mark63.textContent = "shown";
-    			t341 = text(".includes(index)}");
-    			br87 = element("br");
-    			t342 = text("\r\n\t\t\t\t        <img src={item} alt=\"\" />");
+    			t342 = text(".includes(index)}");
     			br88 = element("br");
-    			t343 = text("\r\n\t\t\t\t      {/if}");
+    			t343 = text("\r\n\t\t\t\t        <img src={item} alt=\"\" />");
     			br89 = element("br");
-    			t344 = text("\r\n\t\t\t\t    </div>");
+    			t344 = text("\r\n\t\t\t\t      {/if}");
     			br90 = element("br");
-    			t345 = text("\r\n\t\t\t\t  {/each}");
+    			t345 = text("\r\n\t\t\t\t    </div>");
     			br91 = element("br");
-    			t346 = space();
+    			t346 = text("\r\n\t\t\t\t  {/each}");
     			br92 = element("br");
-    			t347 = text("\r\n\t\t\t\t  ...");
+    			t347 = space();
     			br93 = element("br");
-    			t348 = text("\r\n\t\t\t\t</");
+    			t348 = text("\r\n\t\t\t\t  ...");
+    			br94 = element("br");
+    			t349 = text("\r\n\t\t\t\t</");
     			mark64 = element("mark");
     			mark64.textContent = "TinySlider";
-    			t350 = text(">");
-    			t351 = space();
+    			t351 = text(">");
+    			t352 = space();
     			div10 = element("div");
     			div9 = element("div");
     			create_component(tinyslider10.$$.fragment);
-    			t352 = space();
-    			div12 = element("div");
-    			create_component(tinyslider11.$$.fragment);
     			t353 = space();
     			div14 = element("div");
-    			div13 = element("div");
-    			create_component(tinyslider12.$$.fragment);
-    			t354 = space();
-    			div16 = element("div");
-    			create_component(tinyslider13.$$.fragment);
+    			h34 = element("h3");
+    			h34.textContent = "Infinite Loading";
     			t355 = space();
+    			p31 = element("p");
+    			p31.textContent = "There are several properties you could use to implement infinite loading, meaning we load more items in when the user has scroll (almost) to the end of the slider.";
+    			t357 = space();
+    			h44 = element("h4");
+    			h44.textContent = "Event";
+    			t359 = space();
+    			p32 = element("p");
+    			t360 = text("You could use the event ");
+    			mark65 = element("mark");
+    			mark65.textContent = "on:end";
+    			t362 = text(", which fires when the user has reached the end of the slider based on pixels and not on currentIndex.");
+    			t363 = space();
+    			p33 = element("p");
+    			code27 = element("code");
+    			t364 = text("<");
+    			mark66 = element("mark");
+    			mark66.textContent = "TinySlider";
+    			t366 = space();
+    			mark67 = element("mark");
+    			mark67.textContent = "on:end";
+    			t368 = text("={() => console.log('Reached end')}>");
+    			br95 = element("br");
+    			t369 = text("\r\n\t\t\t\t  ...");
+    			br96 = element("br");
+    			t370 = text("\r\n\t\t\t\t</");
+    			mark68 = element("mark");
+    			mark68.textContent = "TinySlider";
+    			t372 = text(">");
+    			t373 = space();
+    			h45 = element("h4");
+    			h45.textContent = "Properties";
+    			t375 = space();
+    			p34 = element("p");
+    			t376 = text("Similarity to the event you could use the property ");
+    			mark69 = element("mark");
+    			mark69.textContent = "reachedEnd";
+    			t378 = text(". This turns to true at the same time ");
+    			mark70 = element("mark");
+    			mark70.textContent = "on:end";
+    			t380 = text(" is fired. Once again this can be set using either ");
+    			mark71 = element("mark");
+    			mark71.textContent = "let:reachedEnd";
+    			t382 = text(" or ");
+    			mark72 = element("mark");
+    			mark72.textContent = "bind:reachedEnd";
+    			t384 = text(".");
+    			t385 = space();
+    			p35 = element("p");
+    			code28 = element("code");
+    			t386 = text("<script>");
+    			br97 = element("br");
+    			t387 = text("\r\n\t\t\t\t  let ");
+    			mark73 = element("mark");
+    			mark73.textContent = "reachedEnd";
+    			t389 = text(" = false");
+    			br98 = element("br");
+    			t390 = text("\r\n\t\t\t\t  $: if (");
+    			mark74 = element("mark");
+    			mark74.textContent = "reachedEnd";
+    			t392 = text(") console.log('Reached end')");
+    			br99 = element("br");
+    			t393 = text("\r\n\t\t\t\t</script>");
+    			br100 = element("br");
+    			t394 = space();
+    			br101 = element("br");
+    			t395 = text("\r\n\t\t\t\t<");
+    			mark75 = element("mark");
+    			mark75.textContent = "TinySlider";
+    			t397 = space();
+    			mark76 = element("mark");
+    			mark76.textContent = "bind:reachedEnd";
+    			t399 = text(">");
+    			br102 = element("br");
+    			t400 = text("\r\n\t\t\t\t  ...");
+    			br103 = element("br");
+    			t401 = text("\r\n\t\t\t\t</");
+    			mark77 = element("mark");
+    			mark77.textContent = "TinySlider";
+    			t403 = text(">");
+    			t404 = space();
+    			p36 = element("p");
+    			t405 = text("You might want to load more items before the user actually reaches the end to make it actually feel infinite. This could be achieved with the ");
+    			mark78 = element("mark");
+    			mark78.textContent = "distanceToEnd";
+    			t407 = text(" property. Once again this can be set using either ");
+    			mark79 = element("mark");
+    			mark79.textContent = "let:distanceToEnd";
+    			t409 = text(" or ");
+    			mark80 = element("mark");
+    			mark80.textContent = "bind:distanceToEnd";
+    			t411 = text(".");
+    			t412 = space();
+    			p37 = element("p");
+    			code29 = element("code");
+    			t413 = text("<script>");
+    			br104 = element("br");
+    			t414 = text("\r\n\t\t\t\t  let ");
+    			mark81 = element("mark");
+    			mark81.textContent = "distanceToEnd";
+    			br105 = element("br");
+    			t416 = text("\r\n\t\t\t\t  $: if (");
+    			mark82 = element("mark");
+    			mark82.textContent = "distanceToEnd && distanceToEnd < 500";
+    			t418 = text(") console.log('Load more')");
+    			br106 = element("br");
+    			t419 = text("\r\n\t\t\t\t</script>");
+    			br107 = element("br");
+    			t420 = space();
+    			br108 = element("br");
+    			t421 = text("\r\n\t\t\t\t<");
+    			mark83 = element("mark");
+    			mark83.textContent = "TinySlider";
+    			t423 = space();
+    			mark84 = element("mark");
+    			mark84.textContent = "bind:distanceToEnd";
+    			t425 = text(">");
+    			br109 = element("br");
+    			t426 = text("\r\n\t\t\t\t  ...");
+    			br110 = element("br");
+    			t427 = text("\r\n\t\t\t\t</");
+    			mark85 = element("mark");
+    			mark85.textContent = "TinySlider";
+    			t429 = text(">");
+    			t430 = space();
+    			div13 = element("div");
+    			div12 = element("div");
+    			create_component(tinyslider11.$$.fragment);
+    			t431 = space();
+    			div21 = element("div");
+    			h35 = element("h3");
+    			h35.textContent = "Other";
+    			t433 = space();
+    			h46 = element("h4");
+    			h46.textContent = "Fill";
+    			t435 = space();
+    			p38 = element("p");
+    			t436 = text("When showing multiple slides at once by default the slider will always fill out the full width when reaching the end. This behaviour can be disabled using ");
+    			mark86 = element("mark");
+    			mark86.textContent = "fill={false}";
+    			t438 = text(".");
+    			t439 = space();
+    			p39 = element("p");
+    			code30 = element("code");
+    			t440 = text("<");
+    			mark87 = element("mark");
+    			mark87.textContent = "TinySlider";
+    			t442 = space();
+    			mark88 = element("mark");
+    			mark88.textContent = "fill";
+    			t444 = text("={false}>");
+    			br111 = element("br");
+    			t445 = text("\r\n\t\t\t\t  ...");
+    			br112 = element("br");
+    			t446 = text("\r\n\t\t\t\t</");
+    			mark89 = element("mark");
+    			mark89.textContent = "TinySlider";
+    			t448 = text(">");
+    			t449 = space();
+    			div16 = element("div");
+    			div15 = element("div");
+    			create_component(tinyslider12.$$.fragment);
+    			t450 = space();
+    			h47 = element("h4");
+    			h47.textContent = "Transition Duration";
+    			t452 = space();
+    			p40 = element("p");
+    			t453 = text("The slider will always snap to the left side of one of the slides. The speed at which this happens can be set using the ");
+    			mark90 = element("mark");
+    			mark90.textContent = "transitionDuration";
+    			t455 = text(" property. This value is given in milliseconds. This defaults to 300.");
+    			t456 = space();
+    			p41 = element("p");
+    			code31 = element("code");
+    			t457 = text("<");
+    			mark91 = element("mark");
+    			mark91.textContent = "TinySlider";
+    			t459 = space();
+    			mark92 = element("mark");
+    			mark92.textContent = "transitionDuration";
+    			t461 = text("=\"1000\">");
+    			br113 = element("br");
+    			t462 = text("\r\n\t\t\t\t  ...");
+    			br114 = element("br");
+    			t463 = text("\r\n\t\t\t\t</");
+    			mark93 = element("mark");
+    			mark93.textContent = "TinySlider";
+    			t465 = text(">");
+    			t466 = space();
+    			div18 = element("div");
     			div17 = element("div");
-    			attr_dev(mark0, "class", "svelte-37w21y");
-    			add_location(mark0, file, 38, 5, 1192);
-    			attr_dev(h1, "class", "svelte-37w21y");
-    			add_location(h1, file, 38, 1, 1188);
-    			attr_dev(header, "class", "svelte-37w21y");
-    			add_location(header, file, 37, 0, 1177);
-    			attr_dev(p0, "class", "svelte-37w21y");
-    			add_location(p0, file, 49, 2, 1445);
-    			attr_dev(a, "href", "https://github.com/Mitcheljager/svelte-tiny-slider");
-    			attr_dev(a, "class", "svelte-37w21y");
-    			add_location(a, file, 51, 5, 1754);
-    			attr_dev(p1, "class", "svelte-37w21y");
-    			add_location(p1, file, 51, 2, 1751);
-    			attr_dev(h20, "class", "svelte-37w21y");
-    			add_location(h20, file, 53, 2, 1835);
-    			attr_dev(p2, "class", "svelte-37w21y");
-    			add_location(p2, file, 55, 2, 1862);
-    			attr_dev(mark1, "class", "svelte-37w21y");
-    			add_location(mark1, file, 58, 12, 1934);
-    			attr_dev(code0, "class", "well svelte-37w21y");
-    			add_location(code0, file, 57, 2, 1901);
-    			attr_dev(mark2, "class", "svelte-37w21y");
-    			add_location(mark2, file, 62, 22, 2025);
-    			attr_dev(code1, "class", "well svelte-37w21y");
-    			add_location(code1, file, 61, 2, 1982);
-    			attr_dev(p3, "class", "svelte-37w21y");
-    			add_location(p3, file, 65, 2, 2073);
-    			attr_dev(mark3, "class", "svelte-37w21y");
-    			add_location(mark3, file, 68, 17, 2155);
-    			attr_dev(mark4, "class", "svelte-37w21y");
-    			add_location(mark4, file, 68, 54, 2192);
-    			attr_dev(code2, "class", "well svelte-37w21y");
-    			add_location(code2, file, 67, 2, 2117);
-    			attr_dev(mark5, "class", "svelte-37w21y");
-    			add_location(mark5, file, 72, 7, 2269);
-    			attr_dev(mark6, "class", "svelte-37w21y");
-    			add_location(mark6, file, 74, 8, 2315);
-    			attr_dev(code3, "class", "well svelte-37w21y");
-    			add_location(code3, file, 71, 2, 2241);
-    			attr_dev(div0, "class", "block svelte-37w21y");
-    			add_location(div0, file, 48, 1, 1422);
-    			attr_dev(h21, "class", "svelte-37w21y");
-    			add_location(h21, file, 78, 1, 2367);
-    			attr_dev(p4, "class", "svelte-37w21y");
-    			add_location(p4, file, 81, 2, 2409);
-    			attr_dev(mark7, "class", "svelte-37w21y");
-    			add_location(mark7, file, 85, 8, 2715);
-    			attr_dev(br0, "class", "svelte-37w21y");
-    			add_location(br0, file, 85, 36, 2743);
-    			attr_dev(br1, "class", "svelte-37w21y");
-    			add_location(br1, file, 86, 48, 2797);
-    			attr_dev(br2, "class", "svelte-37w21y");
-    			add_location(br2, file, 87, 70, 2873);
-    			attr_dev(br3, "class", "svelte-37w21y");
-    			add_location(br3, file, 88, 34, 2913);
-    			attr_dev(mark8, "class", "svelte-37w21y");
-    			add_location(mark8, file, 89, 9, 2928);
-    			attr_dev(code4, "class", "well svelte-37w21y");
-    			add_location(code4, file, 84, 3, 2686);
-    			attr_dev(p5, "class", "svelte-37w21y");
-    			add_location(p5, file, 83, 2, 2678);
-    			attr_dev(div1, "class", "block svelte-37w21y");
-    			add_location(div1, file, 80, 1, 2386);
-    			attr_dev(h30, "class", "svelte-37w21y");
-    			add_location(h30, file, 101, 2, 3121);
-    			attr_dev(p6, "class", "svelte-37w21y");
-    			add_location(p6, file, 103, 2, 3144);
-    			attr_dev(h40, "class", "svelte-37w21y");
-    			add_location(h40, file, 106, 2, 3347);
-    			attr_dev(mark9, "class", "svelte-37w21y");
-    			add_location(mark9, file, 108, 58, 3441);
-    			attr_dev(code5, "class", "inline svelte-37w21y");
-    			add_location(code5, file, 108, 31, 3414);
-    			attr_dev(p7, "class", "svelte-37w21y");
-    			add_location(p7, file, 108, 2, 3385);
-    			attr_dev(mark10, "class", "svelte-37w21y");
-    			add_location(mark10, file, 111, 7, 3593);
-    			attr_dev(li0, "class", "svelte-37w21y");
-    			add_location(li0, file, 111, 3, 3589);
-    			attr_dev(mark11, "class", "svelte-37w21y");
-    			add_location(mark11, file, 112, 7, 3702);
-    			attr_dev(li1, "class", "svelte-37w21y");
-    			add_location(li1, file, 112, 3, 3698);
-    			attr_dev(ul, "class", "svelte-37w21y");
-    			add_location(ul, file, 110, 2, 3580);
-    			attr_dev(code6, "class", "inline svelte-37w21y");
-    			add_location(code6, file, 116, 32, 3836);
-    			attr_dev(p8, "class", "svelte-37w21y");
-    			add_location(p8, file, 115, 2, 3799);
-    			attr_dev(mark12, "class", "svelte-37w21y");
-    			add_location(mark12, file, 121, 8, 4022);
-    			attr_dev(mark13, "class", "svelte-37w21y");
-    			add_location(mark13, file, 121, 36, 4050);
-    			attr_dev(mark14, "class", "svelte-37w21y");
-    			add_location(mark14, file, 121, 62, 4076);
-    			attr_dev(br4, "class", "svelte-37w21y");
-    			add_location(br4, file, 121, 92, 4106);
-    			attr_dev(br5, "class", "svelte-37w21y");
-    			add_location(br5, file, 122, 48, 4160);
-    			attr_dev(br6, "class", "svelte-37w21y");
-    			add_location(br6, file, 123, 70, 4236);
-    			attr_dev(br7, "class", "svelte-37w21y");
-    			add_location(br7, file, 124, 34, 4276);
-    			attr_dev(br8, "class", "svelte-37w21y");
-    			add_location(br8, file, 125, 4, 4286);
-    			attr_dev(mark15, "class", "svelte-37w21y");
-    			add_location(mark15, file, 126, 42, 4334);
-    			attr_dev(br9, "class", "svelte-37w21y");
-    			add_location(br9, file, 126, 69, 4361);
-    			attr_dev(mark16, "class", "svelte-37w21y");
-    			add_location(mark16, file, 127, 38, 4405);
-    			attr_dev(br10, "class", "svelte-37w21y");
-    			add_location(br10, file, 127, 77, 4444);
-    			attr_dev(mark17, "class", "svelte-37w21y");
-    			add_location(mark17, file, 128, 75, 4525);
-    			attr_dev(mark18, "class", "svelte-37w21y");
-    			add_location(mark18, file, 128, 97, 4547);
-    			attr_dev(br11, "class", "svelte-37w21y");
-    			add_location(br11, file, 128, 156, 4606);
-    			attr_dev(br12, "class", "svelte-37w21y");
-    			add_location(br12, file, 129, 44, 4656);
-    			attr_dev(br13, "class", "svelte-37w21y");
-    			add_location(br13, file, 130, 4, 4666);
-    			attr_dev(mark19, "class", "svelte-37w21y");
-    			add_location(mark19, file, 131, 38, 4710);
-    			attr_dev(br14, "class", "svelte-37w21y");
-    			add_location(br14, file, 131, 99, 4771);
-    			attr_dev(mark20, "class", "svelte-37w21y");
-    			add_location(mark20, file, 132, 75, 4852);
-    			attr_dev(mark21, "class", "svelte-37w21y");
-    			add_location(mark21, file, 132, 97, 4874);
-    			attr_dev(br15, "class", "svelte-37w21y");
-    			add_location(br15, file, 132, 156, 4933);
-    			attr_dev(br16, "class", "svelte-37w21y");
-    			add_location(br16, file, 133, 44, 4983);
-    			attr_dev(br17, "class", "svelte-37w21y");
-    			add_location(br17, file, 134, 41, 5030);
-    			attr_dev(mark22, "class", "svelte-37w21y");
-    			add_location(mark22, file, 135, 9, 5045);
-    			attr_dev(code7, "class", "well svelte-37w21y");
-    			add_location(code7, file, 120, 3, 3993);
-    			attr_dev(p9, "class", "svelte-37w21y");
-    			add_location(p9, file, 119, 2, 3985);
-    			attr_dev(div2, "class", "relative svelte-37w21y");
-    			add_location(div2, file, 139, 2, 5098);
-    			attr_dev(p10, "class", "svelte-37w21y");
-    			add_location(p10, file, 157, 2, 5656);
-    			attr_dev(mark23, "class", "svelte-37w21y");
-    			add_location(mark23, file, 161, 8, 5776);
-    			attr_dev(mark24, "class", "svelte-37w21y");
-    			add_location(mark24, file, 161, 36, 5804);
-    			attr_dev(mark25, "class", "svelte-37w21y");
-    			add_location(mark25, file, 161, 62, 5830);
-    			attr_dev(br18, "class", "svelte-37w21y");
-    			add_location(br18, file, 161, 92, 5860);
-    			attr_dev(br19, "class", "svelte-37w21y");
-    			add_location(br19, file, 162, 48, 5914);
-    			attr_dev(br20, "class", "svelte-37w21y");
-    			add_location(br20, file, 163, 70, 5990);
-    			attr_dev(br21, "class", "svelte-37w21y");
-    			add_location(br21, file, 164, 34, 6030);
-    			attr_dev(br22, "class", "svelte-37w21y");
-    			add_location(br22, file, 165, 4, 6040);
-    			attr_dev(br23, "class", "svelte-37w21y");
-    			add_location(br23, file, 166, 43, 6089);
-    			attr_dev(br24, "class", "svelte-37w21y");
-    			add_location(br24, file, 167, 59, 6154);
-    			attr_dev(br25, "class", "svelte-37w21y");
-    			add_location(br25, file, 168, 50, 6210);
-    			attr_dev(mark26, "class", "svelte-37w21y");
-    			add_location(mark26, file, 169, 76, 6292);
-    			attr_dev(br26, "class", "svelte-37w21y");
-    			add_location(br26, file, 169, 107, 6323);
-    			attr_dev(mark27, "class", "svelte-37w21y");
-    			add_location(mark27, file, 170, 76, 6405);
-    			attr_dev(br27, "class", "svelte-37w21y");
-    			add_location(br27, file, 170, 112, 6441);
-    			attr_dev(br28, "class", "svelte-37w21y");
-    			add_location(br28, file, 171, 45, 6492);
-    			attr_dev(br29, "class", "svelte-37w21y");
-    			add_location(br29, file, 172, 28, 6526);
-    			attr_dev(mark28, "class", "svelte-37w21y");
-    			add_location(mark28, file, 173, 9, 6541);
-    			attr_dev(code8, "class", "well svelte-37w21y");
-    			add_location(code8, file, 160, 3, 5747);
-    			attr_dev(p11, "class", "svelte-37w21y");
-    			add_location(p11, file, 159, 2, 5739);
-    			attr_dev(div3, "class", "relative svelte-37w21y");
-    			add_location(div3, file, 177, 2, 6594);
-    			attr_dev(p12, "class", "svelte-37w21y");
-    			add_location(p12, file, 194, 2, 6993);
-    			attr_dev(mark29, "class", "svelte-37w21y");
-    			add_location(mark29, file, 198, 8, 7097);
-    			attr_dev(mark30, "class", "svelte-37w21y");
-    			add_location(mark30, file, 198, 36, 7125);
-    			attr_dev(mark31, "class", "svelte-37w21y");
-    			add_location(mark31, file, 198, 62, 7151);
-    			attr_dev(br30, "class", "svelte-37w21y");
-    			add_location(br30, file, 198, 92, 7181);
-    			attr_dev(br31, "class", "svelte-37w21y");
-    			add_location(br31, file, 199, 48, 7235);
-    			attr_dev(br32, "class", "svelte-37w21y");
-    			add_location(br32, file, 200, 70, 7311);
-    			attr_dev(br33, "class", "svelte-37w21y");
-    			add_location(br33, file, 201, 34, 7351);
-    			attr_dev(br34, "class", "svelte-37w21y");
-    			add_location(br34, file, 202, 4, 7361);
-    			attr_dev(br35, "class", "svelte-37w21y");
-    			add_location(br35, file, 203, 43, 7410);
-    			attr_dev(br36, "class", "svelte-37w21y");
-    			add_location(br36, file, 204, 59, 7475);
-    			attr_dev(br37, "class", "svelte-37w21y");
-    			add_location(br37, file, 205, 50, 7531);
-    			attr_dev(mark32, "class", "svelte-37w21y");
-    			add_location(mark32, file, 206, 76, 7613);
-    			attr_dev(br38, "class", "svelte-37w21y");
-    			add_location(br38, file, 206, 107, 7644);
-    			attr_dev(mark33, "class", "svelte-37w21y");
-    			add_location(mark33, file, 207, 76, 7726);
-    			attr_dev(br39, "class", "svelte-37w21y");
-    			add_location(br39, file, 207, 106, 7756);
-    			attr_dev(mark34, "class", "svelte-37w21y");
-    			add_location(mark34, file, 208, 76, 7838);
-    			attr_dev(br40, "class", "svelte-37w21y");
-    			add_location(br40, file, 208, 110, 7872);
-    			attr_dev(br41, "class", "svelte-37w21y");
-    			add_location(br41, file, 209, 103, 7981);
-    			attr_dev(br42, "class", "svelte-37w21y");
-    			add_location(br42, file, 210, 55, 8042);
-    			attr_dev(br43, "class", "svelte-37w21y");
-    			add_location(br43, file, 211, 45, 8093);
-    			attr_dev(br44, "class", "svelte-37w21y");
-    			add_location(br44, file, 212, 28, 8127);
-    			attr_dev(mark35, "class", "svelte-37w21y");
-    			add_location(mark35, file, 213, 9, 8142);
-    			attr_dev(code9, "class", "well svelte-37w21y");
-    			add_location(code9, file, 197, 3, 7068);
-    			attr_dev(p13, "class", "svelte-37w21y");
-    			add_location(p13, file, 196, 2, 7060);
-    			attr_dev(div4, "class", "relative svelte-37w21y");
-    			add_location(div4, file, 217, 2, 8195);
-    			attr_dev(h41, "class", "svelte-37w21y");
-    			add_location(h41, file, 237, 2, 8710);
-    			attr_dev(code10, "class", "inline svelte-37w21y");
-    			add_location(code10, file, 239, 162, 8912);
-    			attr_dev(code11, "class", "inline svelte-37w21y");
-    			add_location(code11, file, 239, 206, 8956);
-    			attr_dev(code12, "class", "inline svelte-37w21y");
-    			add_location(code12, file, 239, 252, 9002);
-    			attr_dev(p14, "class", "svelte-37w21y");
-    			add_location(p14, file, 239, 2, 8752);
-    			attr_dev(br45, "class", "svelte-37w21y");
-    			add_location(br45, file, 243, 18, 9168);
-    			attr_dev(mark36, "class", "svelte-37w21y");
-    			add_location(mark36, file, 244, 20, 9194);
-    			attr_dev(br46, "class", "svelte-37w21y");
-    			add_location(br46, file, 244, 41, 9215);
-    			attr_dev(br47, "class", "svelte-37w21y");
-    			add_location(br47, file, 245, 19, 9240);
-    			attr_dev(br48, "class", "svelte-37w21y");
-    			add_location(br48, file, 246, 4, 9250);
-    			attr_dev(mark37, "class", "svelte-37w21y");
-    			add_location(mark37, file, 247, 8, 9264);
-    			attr_dev(mark38, "class", "svelte-37w21y");
-    			add_location(mark38, file, 247, 32, 9288);
-    			attr_dev(mark39, "class", "svelte-37w21y");
-    			add_location(mark39, file, 247, 50, 9306);
-    			attr_dev(br49, "class", "svelte-37w21y");
-    			add_location(br49, file, 247, 76, 9332);
-    			attr_dev(br50, "class", "svelte-37w21y");
-    			add_location(br50, file, 248, 48, 9386);
-    			attr_dev(br51, "class", "svelte-37w21y");
-    			add_location(br51, file, 249, 70, 9462);
-    			attr_dev(br52, "class", "svelte-37w21y");
-    			add_location(br52, file, 250, 34, 9502);
-    			attr_dev(mark40, "class", "svelte-37w21y");
-    			add_location(mark40, file, 251, 9, 9517);
-    			attr_dev(br53, "class", "svelte-37w21y");
-    			add_location(br53, file, 251, 36, 9544);
-    			attr_dev(br54, "class", "svelte-37w21y");
-    			add_location(br54, file, 252, 4, 9554);
-    			attr_dev(mark41, "class", "svelte-37w21y");
-    			add_location(mark41, file, 253, 39, 9599);
-    			attr_dev(br55, "class", "svelte-37w21y");
-    			add_location(br55, file, 253, 91, 9651);
-    			attr_dev(mark42, "class", "svelte-37w21y");
-    			add_location(mark42, file, 254, 39, 9696);
-    			attr_dev(br56, "class", "svelte-37w21y");
-    			add_location(br56, file, 254, 91, 9748);
-    			attr_dev(mark43, "class", "svelte-37w21y");
-    			add_location(mark43, file, 255, 39, 9793);
-    			attr_dev(br57, "class", "svelte-37w21y");
-    			add_location(br57, file, 255, 91, 9845);
-    			attr_dev(code13, "class", "well svelte-37w21y");
-    			add_location(code13, file, 242, 3, 9129);
-    			attr_dev(p15, "class", "svelte-37w21y");
-    			add_location(p15, file, 241, 2, 9121);
-    			attr_dev(code14, "class", "inline svelte-37w21y");
-    			add_location(code14, file, 265, 32, 10047);
-    			attr_dev(p16, "class", "svelte-37w21y");
-    			add_location(p16, file, 265, 2, 10017);
-    			attr_dev(button0, "class", "button svelte-37w21y");
-    			add_location(button0, file, 267, 2, 10132);
-    			attr_dev(button1, "class", "button svelte-37w21y");
-    			add_location(button1, file, 268, 2, 10211);
-    			attr_dev(button2, "class", "button svelte-37w21y");
-    			add_location(button2, file, 269, 2, 10290);
-    			attr_dev(div5, "class", "block svelte-37w21y");
-    			add_location(div5, file, 100, 1, 3098);
-    			attr_dev(h31, "class", "svelte-37w21y");
-    			add_location(h31, file, 274, 2, 10404);
-    			attr_dev(p17, "class", "svelte-37w21y");
-    			add_location(p17, file, 276, 2, 10426);
-    			attr_dev(h42, "class", "svelte-37w21y");
-    			add_location(h42, file, 278, 2, 10685);
-    			attr_dev(code15, "class", "inline svelte-37w21y");
-    			add_location(code15, file, 280, 181, 10883);
-    			attr_dev(code16, "class", "inline svelte-37w21y");
-    			add_location(code16, file, 280, 314, 11016);
-    			attr_dev(p18, "class", "svelte-37w21y");
-    			add_location(p18, file, 280, 2, 10704);
-    			attr_dev(mark44, "class", "svelte-37w21y");
-    			add_location(mark44, file, 284, 8, 11232);
-    			attr_dev(mark45, "class", "svelte-37w21y");
-    			add_location(mark45, file, 284, 36, 11260);
-    			attr_dev(br58, "class", "svelte-37w21y");
-    			add_location(br58, file, 284, 64, 11288);
-    			attr_dev(br59, "class", "svelte-37w21y");
-    			add_location(br59, file, 285, 47, 11341);
-    			attr_dev(mark46, "class", "svelte-37w21y");
-    			add_location(mark46, file, 286, 69, 11416);
-    			attr_dev(br60, "class", "svelte-37w21y");
-    			add_location(br60, file, 286, 109, 11456);
-    			attr_dev(br61, "class", "svelte-37w21y");
-    			add_location(br61, file, 287, 33, 11495);
-    			attr_dev(mark47, "class", "svelte-37w21y");
-    			add_location(mark47, file, 288, 9, 11510);
-    			attr_dev(code17, "class", "well svelte-37w21y");
-    			add_location(code17, file, 283, 3, 11203);
-    			attr_dev(p19, "class", "svelte-37w21y");
-    			add_location(p19, file, 282, 2, 11195);
-    			attr_dev(h43, "class", "svelte-37w21y");
-    			add_location(h43, file, 299, 2, 11730);
-    			attr_dev(code18, "class", "inline svelte-37w21y");
-    			add_location(code18, file, 302, 93, 11846);
-    			attr_dev(p20, "class", "svelte-37w21y");
-    			add_location(p20, file, 301, 2, 11748);
-    			attr_dev(br62, "class", "svelte-37w21y");
-    			add_location(br62, file, 305, 36, 11994);
-    			attr_dev(br63, "class", "svelte-37w21y");
-    			add_location(br63, file, 306, 27, 12027);
-    			attr_dev(code19, "class", "well svelte-37w21y");
-    			add_location(code19, file, 304, 3, 11937);
-    			attr_dev(code20, "class", "inline svelte-37w21y");
-    			add_location(code20, file, 311, 17, 12083);
-    			attr_dev(p21, "class", "svelte-37w21y");
-    			add_location(p21, file, 310, 2, 12061);
-    			attr_dev(mark48, "class", "svelte-37w21y");
-    			add_location(mark48, file, 316, 8, 12219);
-    			attr_dev(mark49, "class", "svelte-37w21y");
-    			add_location(mark49, file, 316, 32, 12243);
-    			attr_dev(br64, "class", "svelte-37w21y");
-    			add_location(br64, file, 316, 60, 12271);
-    			attr_dev(br65, "class", "svelte-37w21y");
-    			add_location(br65, file, 317, 48, 12325);
-    			attr_dev(br66, "class", "svelte-37w21y");
-    			add_location(br66, file, 318, 44, 12375);
-    			attr_dev(br67, "class", "svelte-37w21y");
-    			add_location(br67, file, 319, 34, 12415);
-    			attr_dev(mark50, "class", "svelte-37w21y");
-    			add_location(mark50, file, 320, 9, 12430);
-    			attr_dev(code21, "class", "well svelte-37w21y");
-    			add_location(code21, file, 315, 3, 12190);
-    			attr_dev(p22, "class", "svelte-37w21y");
-    			add_location(p22, file, 314, 2, 12182);
-    			attr_dev(div6, "class", "block svelte-37w21y");
-    			add_location(div6, file, 273, 1, 10381);
-    			attr_dev(h32, "class", "svelte-37w21y");
-    			add_location(h32, file, 332, 2, 12697);
-    			attr_dev(p23, "class", "svelte-37w21y");
-    			add_location(p23, file, 334, 2, 12719);
-    			attr_dev(mark51, "class", "svelte-37w21y");
-    			add_location(mark51, file, 338, 8, 12986);
-    			attr_dev(br68, "class", "svelte-37w21y");
-    			add_location(br68, file, 338, 48, 13026);
-    			attr_dev(br69, "class", "svelte-37w21y");
-    			add_location(br69, file, 339, 63, 13095);
-    			attr_dev(br70, "class", "svelte-37w21y");
-    			add_location(br70, file, 340, 52, 13153);
-    			attr_dev(br71, "class", "svelte-37w21y");
-    			add_location(br71, file, 341, 105, 13264);
-    			attr_dev(br72, "class", "svelte-37w21y");
-    			add_location(br72, file, 342, 40, 13310);
-    			attr_dev(br73, "class", "svelte-37w21y");
-    			add_location(br73, file, 343, 33, 13349);
-    			attr_dev(mark52, "class", "svelte-37w21y");
-    			add_location(mark52, file, 344, 9, 13364);
-    			attr_dev(code22, "class", "well svelte-37w21y");
-    			add_location(code22, file, 337, 3, 12957);
-    			attr_dev(p24, "class", "svelte-37w21y");
-    			add_location(p24, file, 336, 2, 12949);
-    			attr_dev(div7, "class", "block svelte-37w21y");
-    			add_location(div7, file, 331, 1, 12674);
-    			attr_dev(h33, "class", "svelte-37w21y");
-    			add_location(h33, file, 358, 2, 13681);
-    			attr_dev(code23, "class", "inline svelte-37w21y");
-    			add_location(code23, file, 360, 114, 13820);
-    			attr_dev(p25, "class", "svelte-37w21y");
-    			add_location(p25, file, 360, 2, 13708);
-    			attr_dev(code24, "class", "inline svelte-37w21y");
-    			add_location(code24, file, 362, 39, 14015);
-    			attr_dev(p26, "class", "svelte-37w21y");
-    			add_location(p26, file, 362, 2, 13978);
-    			attr_dev(mark53, "class", "svelte-37w21y");
-    			add_location(mark53, file, 366, 8, 14151);
-    			attr_dev(mark54, "class", "svelte-37w21y");
-    			add_location(mark54, file, 366, 36, 14179);
-    			attr_dev(br74, "class", "svelte-37w21y");
-    			add_location(br74, file, 366, 65, 14208);
-    			attr_dev(br75, "class", "svelte-37w21y");
-    			add_location(br75, file, 367, 50, 14264);
-    			attr_dev(br76, "class", "svelte-37w21y");
-    			add_location(br76, file, 368, 39, 14309);
-    			attr_dev(mark55, "class", "svelte-37w21y");
-    			add_location(mark55, file, 369, 50, 14365);
-    			attr_dev(br77, "class", "svelte-37w21y");
-    			add_location(br77, file, 369, 93, 14408);
-    			attr_dev(br78, "class", "svelte-37w21y");
-    			add_location(br78, file, 370, 93, 14507);
-    			attr_dev(br79, "class", "svelte-37w21y");
-    			add_location(br79, file, 371, 55, 14568);
-    			attr_dev(br80, "class", "svelte-37w21y");
-    			add_location(br80, file, 372, 40, 14614);
-    			attr_dev(br81, "class", "svelte-37w21y");
-    			add_location(br81, file, 373, 33, 14653);
-    			attr_dev(br82, "class", "svelte-37w21y");
-    			add_location(br82, file, 374, 4, 14663);
-    			attr_dev(mark56, "class", "svelte-37w21y");
-    			add_location(mark56, file, 376, 9, 14699);
-    			attr_dev(br83, "class", "svelte-37w21y");
-    			add_location(br83, file, 376, 36, 14726);
-    			attr_dev(code25, "class", "well svelte-37w21y");
-    			add_location(code25, file, 365, 3, 14122);
-    			attr_dev(p27, "class", "svelte-37w21y");
-    			add_location(p27, file, 364, 2, 14114);
-    			attr_dev(p28, "class", "svelte-37w21y");
-    			add_location(p28, file, 380, 2, 14756);
-    			attr_dev(div8, "class", "relative svelte-37w21y");
-    			add_location(div8, file, 384, 2, 14845);
-    			attr_dev(mark57, "class", "svelte-37w21y");
-    			add_location(mark57, file, 407, 91, 15630);
-    			attr_dev(mark58, "class", "svelte-37w21y");
-    			add_location(mark58, file, 407, 242, 15781);
-    			attr_dev(mark59, "class", "svelte-37w21y");
-    			add_location(mark59, file, 407, 400, 15939);
-    			attr_dev(mark60, "class", "svelte-37w21y");
-    			add_location(mark60, file, 407, 426, 15965);
-    			attr_dev(p29, "class", "svelte-37w21y");
-    			add_location(p29, file, 406, 2, 15534);
-    			attr_dev(mark61, "class", "svelte-37w21y");
-    			add_location(mark61, file, 412, 8, 16040);
-    			attr_dev(mark62, "class", "svelte-37w21y");
-    			add_location(mark62, file, 412, 36, 16068);
-    			attr_dev(br84, "class", "svelte-37w21y");
-    			add_location(br84, file, 412, 58, 16090);
-    			attr_dev(br85, "class", "svelte-37w21y");
-    			add_location(br85, file, 413, 54, 16150);
-    			attr_dev(br86, "class", "svelte-37w21y");
-    			add_location(br86, file, 414, 39, 16195);
-    			attr_dev(mark63, "class", "svelte-37w21y");
-    			add_location(mark63, file, 415, 50, 16251);
-    			attr_dev(br87, "class", "svelte-37w21y");
-    			add_location(br87, file, 415, 90, 16291);
-    			attr_dev(br88, "class", "svelte-37w21y");
-    			add_location(br88, file, 416, 93, 16390);
-    			attr_dev(br89, "class", "svelte-37w21y");
-    			add_location(br89, file, 417, 55, 16451);
-    			attr_dev(br90, "class", "svelte-37w21y");
-    			add_location(br90, file, 418, 40, 16497);
-    			attr_dev(br91, "class", "svelte-37w21y");
-    			add_location(br91, file, 419, 33, 16536);
-    			attr_dev(br92, "class", "svelte-37w21y");
-    			add_location(br92, file, 420, 4, 16546);
-    			attr_dev(br93, "class", "svelte-37w21y");
-    			add_location(br93, file, 421, 19, 16571);
-    			attr_dev(mark64, "class", "svelte-37w21y");
-    			add_location(mark64, file, 422, 9, 16586);
-    			attr_dev(code26, "class", "well svelte-37w21y");
-    			add_location(code26, file, 411, 3, 16011);
-    			attr_dev(p30, "class", "svelte-37w21y");
-    			add_location(p30, file, 410, 2, 16003);
-    			attr_dev(div9, "class", "slider-wrapper svelte-37w21y");
-    			add_location(div9, file, 427, 3, 16666);
-    			attr_dev(div10, "class", "relative svelte-37w21y");
-    			add_location(div10, file, 426, 2, 16639);
-    			attr_dev(div11, "class", "block svelte-37w21y");
-    			add_location(div11, file, 357, 1, 13658);
-    			attr_dev(div12, "class", "block svelte-37w21y");
-    			add_location(div12, file, 451, 1, 17436);
-    			attr_dev(div13, "class", "slider-wrapper svelte-37w21y");
-    			add_location(div13, file, 477, 2, 18111);
-    			attr_dev(div14, "class", "block svelte-37w21y");
-    			add_location(div14, file, 476, 1, 18088);
-    			attr_dev(div15, "class", "wrapper svelte-37w21y");
-    			add_location(div15, file, 47, 0, 1398);
-    			attr_dev(div16, "class", "cards svelte-37w21y");
-    			add_location(div16, file, 489, 0, 18459);
-    			attr_dev(div17, "class", "wrapper svelte-37w21y");
-    			add_location(div17, file, 521, 0, 19510);
+    			create_component(tinyslider13.$$.fragment);
+    			t467 = space();
+    			h48 = element("h4");
+    			h48.textContent = "Threshold";
+    			t469 = space();
+    			p42 = element("p");
+    			t470 = text("When dragging the slider it will not transition to the next slide until a certain threshold has been passed to prevent accidental sliding. This also determines when a link or click event is disabled. This can be set using the ");
+    			mark94 = element("mark");
+    			mark94.textContent = "treshold";
+    			t472 = text(" property. This value is given in pixels. This defaults to 30.");
+    			t473 = space();
+    			p43 = element("p");
+    			code32 = element("code");
+    			t474 = text("<");
+    			mark95 = element("mark");
+    			mark95.textContent = "TinySlider";
+    			t476 = space();
+    			mark96 = element("mark");
+    			mark96.textContent = "threshold";
+    			t478 = text("=\"100\">");
+    			br115 = element("br");
+    			t479 = text("\r\n\t\t\t\t  ...");
+    			br116 = element("br");
+    			t480 = text("\r\n\t\t\t\t</");
+    			mark97 = element("mark");
+    			mark97.textContent = "TinySlider";
+    			t482 = text(">");
+    			t483 = space();
+    			div20 = element("div");
+    			div19 = element("div");
+    			create_component(tinyslider14.$$.fragment);
+    			t484 = space();
+    			div23 = element("div");
+    			create_component(tinyslider15.$$.fragment);
+    			t485 = space();
+    			div31 = element("div");
+    			h22 = element("h2");
+    			h22.textContent = "Properties";
+    			t487 = space();
+    			div25 = element("div");
+    			p44 = element("p");
+    			p44.textContent = "This is a list of all configurable properties.";
+    			t489 = space();
+    			div24 = element("div");
+    			strong0 = element("strong");
+    			strong0.textContent = "Property";
+    			t491 = space();
+    			strong1 = element("strong");
+    			strong1.textContent = "Default";
+    			t493 = space();
+    			strong2 = element("strong");
+    			strong2.textContent = "Description";
+    			t495 = space();
+    			code33 = element("code");
+    			code33.textContent = "gap";
+    			t497 = space();
+    			code34 = element("code");
+    			code34.textContent = "0";
+    			t499 = space();
+    			strong3 = element("strong");
+    			strong3.textContent = "Gap between each item. Can be any CSS value.";
+    			t501 = space();
+    			code35 = element("code");
+    			code35.textContent = "fill";
+    			t503 = space();
+    			code36 = element("code");
+    			code36.textContent = "true";
+    			t505 = space();
+    			strong4 = element("strong");
+    			strong4.textContent = "Boolean to set whether the slider is always filled fully when at the end.";
+    			t507 = space();
+    			code37 = element("code");
+    			code37.textContent = "transitionDuration";
+    			t509 = space();
+    			code38 = element("code");
+    			code38.textContent = "300";
+    			t511 = space();
+    			strong5 = element("strong");
+    			strong5.textContent = "Transition between items in milliseconds.";
+    			t513 = space();
+    			code39 = element("code");
+    			code39.textContent = "threshold";
+    			t515 = space();
+    			code40 = element("code");
+    			code40.textContent = "30";
+    			t517 = space();
+    			strong6 = element("strong");
+    			strong6.textContent = "Value in pixels for when you navigate when using drag controls.";
+    			t519 = space();
+    			code41 = element("code");
+    			code41.textContent = "currentIndex";
+    			t521 = space();
+    			code42 = element("code");
+    			code42.textContent = "0";
+    			t523 = space();
+    			strong7 = element("strong");
+    			strong7.textContent = "Index of the current slide (Read only).";
+    			t525 = space();
+    			code43 = element("code");
+    			code43.textContent = "shown";
+    			t527 = space();
+    			code44 = element("code");
+    			code44.textContent = "[]";
+    			t529 = space();
+    			strong8 = element("strong");
+    			strong8.textContent = "Array of all shown indexes (Read only).";
+    			t531 = space();
+    			code45 = element("code");
+    			code45.textContent = "sliderWidth";
+    			t533 = space();
+    			code46 = element("code");
+    			code46.textContent = "0";
+    			t535 = space();
+    			strong9 = element("strong");
+    			strong9.textContent = "Box width in pixels of the slider as it is on the page (Read only).";
+    			t537 = space();
+    			code47 = element("code");
+    			code47.textContent = "maxWidth";
+    			t539 = space();
+    			code48 = element("code");
+    			code48.textContent = "0";
+    			t541 = space();
+    			strong10 = element("strong");
+    			strong10.textContent = "Full width in pixels of all items together (Read only).";
+    			t543 = space();
+    			code49 = element("code");
+    			code49.textContent = "currentScrollPosition";
+    			t545 = space();
+    			code50 = element("code");
+    			code50.textContent = "0";
+    			t547 = space();
+    			strong11 = element("strong");
+    			strong11.textContent = "Current position in the slider in pixels (Read only).";
+    			t549 = space();
+    			code51 = element("code");
+    			code51.textContent = "reachedEnd";
+    			t551 = space();
+    			code52 = element("code");
+    			code52.textContent = "false";
+    			t553 = space();
+    			strong12 = element("strong");
+    			strong12.textContent = "Boolean that is set to true when you have reached the end of the slider (Read only).";
+    			t555 = space();
+    			code53 = element("code");
+    			code53.textContent = "distanceToEnd";
+    			t557 = space();
+    			code54 = element("code");
+    			code54.textContent = "0";
+    			t559 = space();
+    			strong13 = element("strong");
+    			strong13.textContent = "Distance in pixels until you reach the end of the slider (Read only).";
+    			t561 = space();
+    			h23 = element("h2");
+    			h23.textContent = "Functions";
+    			t563 = space();
+    			div27 = element("div");
+    			p45 = element("p");
+    			p45.textContent = "This is a list of exported functions.";
+    			t565 = space();
+    			div26 = element("div");
+    			strong14 = element("strong");
+    			strong14.textContent = "Name";
+    			t567 = space();
+    			strong15 = element("strong");
+    			strong15.textContent = "Properties";
+    			t569 = space();
+    			strong16 = element("strong");
+    			strong16.textContent = "Description";
+    			t571 = space();
+    			code55 = element("code");
+    			code55.textContent = "setIndex";
+    			t573 = space();
+    			code56 = element("code");
+    			code56.textContent = "index";
+    			t575 = space();
+    			strong17 = element("strong");
+    			strong17.textContent = "Used to set the slider to the specified index.";
+    			t577 = space();
+    			h24 = element("h2");
+    			h24.textContent = "Events";
+    			t579 = space();
+    			div29 = element("div");
+    			p46 = element("p");
+    			p46.textContent = "This is a list of events.";
+    			t581 = space();
+    			div28 = element("div");
+    			strong18 = element("strong");
+    			strong18.textContent = "Name";
+    			t583 = space();
+    			strong19 = element("strong");
+    			t584 = space();
+    			strong20 = element("strong");
+    			strong20.textContent = "Description";
+    			t586 = space();
+    			code57 = element("code");
+    			code57.textContent = "end";
+    			t588 = space();
+    			code58 = element("code");
+    			t589 = space();
+    			strong21 = element("strong");
+    			strong21.textContent = "Fired when the end of the slider has been reached.";
+    			t591 = space();
+    			div30 = element("div");
+    			t592 = text("Made by ");
+    			a1 = element("a");
+    			a1.textContent = "Mitchel Jager";
+    			attr_dev(mark0, "class", "svelte-lfm80c");
+    			add_location(mark0, file, 39, 5, 1244);
+    			attr_dev(h1, "class", "svelte-lfm80c");
+    			add_location(h1, file, 39, 1, 1240);
+    			attr_dev(header, "class", "svelte-lfm80c");
+    			add_location(header, file, 38, 0, 1229);
+    			attr_dev(p0, "class", "svelte-lfm80c");
+    			add_location(p0, file, 50, 2, 1497);
+    			attr_dev(a0, "href", "https://github.com/Mitcheljager/svelte-tiny-slider");
+    			attr_dev(a0, "class", "svelte-lfm80c");
+    			add_location(a0, file, 52, 5, 1806);
+    			attr_dev(p1, "class", "svelte-lfm80c");
+    			add_location(p1, file, 52, 2, 1803);
+    			attr_dev(h20, "class", "svelte-lfm80c");
+    			add_location(h20, file, 54, 2, 1887);
+    			attr_dev(p2, "class", "svelte-lfm80c");
+    			add_location(p2, file, 56, 2, 1914);
+    			attr_dev(mark1, "class", "svelte-lfm80c");
+    			add_location(mark1, file, 59, 12, 1986);
+    			attr_dev(code0, "class", "well svelte-lfm80c");
+    			add_location(code0, file, 58, 2, 1953);
+    			attr_dev(mark2, "class", "svelte-lfm80c");
+    			add_location(mark2, file, 63, 22, 2077);
+    			attr_dev(code1, "class", "well svelte-lfm80c");
+    			add_location(code1, file, 62, 2, 2034);
+    			attr_dev(p3, "class", "svelte-lfm80c");
+    			add_location(p3, file, 66, 2, 2125);
+    			attr_dev(mark3, "class", "svelte-lfm80c");
+    			add_location(mark3, file, 69, 17, 2207);
+    			attr_dev(mark4, "class", "svelte-lfm80c");
+    			add_location(mark4, file, 69, 54, 2244);
+    			attr_dev(code2, "class", "well svelte-lfm80c");
+    			add_location(code2, file, 68, 2, 2169);
+    			attr_dev(mark5, "class", "svelte-lfm80c");
+    			add_location(mark5, file, 73, 7, 2321);
+    			attr_dev(mark6, "class", "svelte-lfm80c");
+    			add_location(mark6, file, 75, 8, 2367);
+    			attr_dev(code3, "class", "well svelte-lfm80c");
+    			add_location(code3, file, 72, 2, 2293);
+    			attr_dev(div0, "class", "block svelte-lfm80c");
+    			add_location(div0, file, 49, 1, 1474);
+    			attr_dev(h21, "class", "svelte-lfm80c");
+    			add_location(h21, file, 79, 1, 2419);
+    			attr_dev(p4, "class", "svelte-lfm80c");
+    			add_location(p4, file, 82, 2, 2461);
+    			attr_dev(mark7, "class", "svelte-lfm80c");
+    			add_location(mark7, file, 86, 8, 2767);
+    			attr_dev(br0, "class", "svelte-lfm80c");
+    			add_location(br0, file, 86, 36, 2795);
+    			attr_dev(br1, "class", "svelte-lfm80c");
+    			add_location(br1, file, 87, 48, 2849);
+    			attr_dev(br2, "class", "svelte-lfm80c");
+    			add_location(br2, file, 88, 70, 2925);
+    			attr_dev(br3, "class", "svelte-lfm80c");
+    			add_location(br3, file, 89, 34, 2965);
+    			attr_dev(mark8, "class", "svelte-lfm80c");
+    			add_location(mark8, file, 90, 9, 2980);
+    			attr_dev(code4, "class", "well svelte-lfm80c");
+    			add_location(code4, file, 85, 3, 2738);
+    			attr_dev(p5, "class", "svelte-lfm80c");
+    			add_location(p5, file, 84, 2, 2730);
+    			attr_dev(div1, "class", "block svelte-lfm80c");
+    			add_location(div1, file, 81, 1, 2438);
+    			attr_dev(h30, "class", "svelte-lfm80c");
+    			add_location(h30, file, 102, 2, 3173);
+    			attr_dev(p6, "class", "svelte-lfm80c");
+    			add_location(p6, file, 104, 2, 3196);
+    			attr_dev(h40, "class", "svelte-lfm80c");
+    			add_location(h40, file, 107, 2, 3399);
+    			attr_dev(mark9, "class", "svelte-lfm80c");
+    			add_location(mark9, file, 109, 58, 3493);
+    			attr_dev(code5, "class", "inline svelte-lfm80c");
+    			add_location(code5, file, 109, 31, 3466);
+    			attr_dev(p7, "class", "svelte-lfm80c");
+    			add_location(p7, file, 109, 2, 3437);
+    			attr_dev(mark10, "class", "svelte-lfm80c");
+    			add_location(mark10, file, 112, 7, 3645);
+    			attr_dev(li0, "class", "svelte-lfm80c");
+    			add_location(li0, file, 112, 3, 3641);
+    			attr_dev(mark11, "class", "svelte-lfm80c");
+    			add_location(mark11, file, 113, 7, 3754);
+    			attr_dev(li1, "class", "svelte-lfm80c");
+    			add_location(li1, file, 113, 3, 3750);
+    			attr_dev(ul, "class", "svelte-lfm80c");
+    			add_location(ul, file, 111, 2, 3632);
+    			attr_dev(code6, "class", "inline svelte-lfm80c");
+    			add_location(code6, file, 117, 32, 3888);
+    			attr_dev(p8, "class", "svelte-lfm80c");
+    			add_location(p8, file, 116, 2, 3851);
+    			attr_dev(mark12, "class", "svelte-lfm80c");
+    			add_location(mark12, file, 122, 8, 4074);
+    			attr_dev(mark13, "class", "svelte-lfm80c");
+    			add_location(mark13, file, 122, 36, 4102);
+    			attr_dev(mark14, "class", "svelte-lfm80c");
+    			add_location(mark14, file, 122, 62, 4128);
+    			attr_dev(br4, "class", "svelte-lfm80c");
+    			add_location(br4, file, 122, 92, 4158);
+    			attr_dev(br5, "class", "svelte-lfm80c");
+    			add_location(br5, file, 123, 48, 4212);
+    			attr_dev(br6, "class", "svelte-lfm80c");
+    			add_location(br6, file, 124, 70, 4288);
+    			attr_dev(br7, "class", "svelte-lfm80c");
+    			add_location(br7, file, 125, 34, 4328);
+    			attr_dev(br8, "class", "svelte-lfm80c");
+    			add_location(br8, file, 126, 4, 4338);
+    			attr_dev(mark15, "class", "svelte-lfm80c");
+    			add_location(mark15, file, 127, 42, 4386);
+    			attr_dev(br9, "class", "svelte-lfm80c");
+    			add_location(br9, file, 127, 69, 4413);
+    			attr_dev(mark16, "class", "svelte-lfm80c");
+    			add_location(mark16, file, 128, 38, 4457);
+    			attr_dev(br10, "class", "svelte-lfm80c");
+    			add_location(br10, file, 128, 77, 4496);
+    			attr_dev(mark17, "class", "svelte-lfm80c");
+    			add_location(mark17, file, 129, 75, 4577);
+    			attr_dev(mark18, "class", "svelte-lfm80c");
+    			add_location(mark18, file, 129, 97, 4599);
+    			attr_dev(br11, "class", "svelte-lfm80c");
+    			add_location(br11, file, 129, 156, 4658);
+    			attr_dev(br12, "class", "svelte-lfm80c");
+    			add_location(br12, file, 130, 44, 4708);
+    			attr_dev(br13, "class", "svelte-lfm80c");
+    			add_location(br13, file, 131, 4, 4718);
+    			attr_dev(mark19, "class", "svelte-lfm80c");
+    			add_location(mark19, file, 132, 38, 4762);
+    			attr_dev(br14, "class", "svelte-lfm80c");
+    			add_location(br14, file, 132, 92, 4816);
+    			attr_dev(mark20, "class", "svelte-lfm80c");
+    			add_location(mark20, file, 133, 75, 4897);
+    			attr_dev(mark21, "class", "svelte-lfm80c");
+    			add_location(mark21, file, 133, 97, 4919);
+    			attr_dev(br15, "class", "svelte-lfm80c");
+    			add_location(br15, file, 133, 156, 4978);
+    			attr_dev(br16, "class", "svelte-lfm80c");
+    			add_location(br16, file, 134, 44, 5028);
+    			attr_dev(br17, "class", "svelte-lfm80c");
+    			add_location(br17, file, 135, 41, 5075);
+    			attr_dev(mark22, "class", "svelte-lfm80c");
+    			add_location(mark22, file, 136, 9, 5090);
+    			attr_dev(code7, "class", "well svelte-lfm80c");
+    			add_location(code7, file, 121, 3, 4045);
+    			attr_dev(p9, "class", "svelte-lfm80c");
+    			add_location(p9, file, 120, 2, 4037);
+    			attr_dev(div2, "class", "relative svelte-lfm80c");
+    			add_location(div2, file, 140, 2, 5143);
+    			attr_dev(p10, "class", "svelte-lfm80c");
+    			add_location(p10, file, 158, 2, 5701);
+    			attr_dev(mark23, "class", "svelte-lfm80c");
+    			add_location(mark23, file, 162, 8, 5821);
+    			attr_dev(mark24, "class", "svelte-lfm80c");
+    			add_location(mark24, file, 162, 36, 5849);
+    			attr_dev(mark25, "class", "svelte-lfm80c");
+    			add_location(mark25, file, 162, 62, 5875);
+    			attr_dev(br18, "class", "svelte-lfm80c");
+    			add_location(br18, file, 162, 92, 5905);
+    			attr_dev(br19, "class", "svelte-lfm80c");
+    			add_location(br19, file, 163, 48, 5959);
+    			attr_dev(br20, "class", "svelte-lfm80c");
+    			add_location(br20, file, 164, 70, 6035);
+    			attr_dev(br21, "class", "svelte-lfm80c");
+    			add_location(br21, file, 165, 34, 6075);
+    			attr_dev(br22, "class", "svelte-lfm80c");
+    			add_location(br22, file, 166, 4, 6085);
+    			attr_dev(br23, "class", "svelte-lfm80c");
+    			add_location(br23, file, 167, 43, 6134);
+    			attr_dev(br24, "class", "svelte-lfm80c");
+    			add_location(br24, file, 168, 59, 6199);
+    			attr_dev(br25, "class", "svelte-lfm80c");
+    			add_location(br25, file, 169, 50, 6255);
+    			attr_dev(mark26, "class", "svelte-lfm80c");
+    			add_location(mark26, file, 170, 76, 6337);
+    			attr_dev(br26, "class", "svelte-lfm80c");
+    			add_location(br26, file, 170, 107, 6368);
+    			attr_dev(mark27, "class", "svelte-lfm80c");
+    			add_location(mark27, file, 171, 76, 6450);
+    			attr_dev(br27, "class", "svelte-lfm80c");
+    			add_location(br27, file, 171, 112, 6486);
+    			attr_dev(br28, "class", "svelte-lfm80c");
+    			add_location(br28, file, 172, 45, 6537);
+    			attr_dev(br29, "class", "svelte-lfm80c");
+    			add_location(br29, file, 173, 28, 6571);
+    			attr_dev(mark28, "class", "svelte-lfm80c");
+    			add_location(mark28, file, 174, 9, 6586);
+    			attr_dev(code8, "class", "well svelte-lfm80c");
+    			add_location(code8, file, 161, 3, 5792);
+    			attr_dev(p11, "class", "svelte-lfm80c");
+    			add_location(p11, file, 160, 2, 5784);
+    			attr_dev(div3, "class", "relative svelte-lfm80c");
+    			add_location(div3, file, 178, 2, 6639);
+    			attr_dev(p12, "class", "svelte-lfm80c");
+    			add_location(p12, file, 195, 2, 7038);
+    			attr_dev(mark29, "class", "svelte-lfm80c");
+    			add_location(mark29, file, 199, 8, 7142);
+    			attr_dev(mark30, "class", "svelte-lfm80c");
+    			add_location(mark30, file, 199, 36, 7170);
+    			attr_dev(mark31, "class", "svelte-lfm80c");
+    			add_location(mark31, file, 199, 62, 7196);
+    			attr_dev(br30, "class", "svelte-lfm80c");
+    			add_location(br30, file, 199, 92, 7226);
+    			attr_dev(br31, "class", "svelte-lfm80c");
+    			add_location(br31, file, 200, 48, 7280);
+    			attr_dev(br32, "class", "svelte-lfm80c");
+    			add_location(br32, file, 201, 70, 7356);
+    			attr_dev(br33, "class", "svelte-lfm80c");
+    			add_location(br33, file, 202, 34, 7396);
+    			attr_dev(br34, "class", "svelte-lfm80c");
+    			add_location(br34, file, 203, 4, 7406);
+    			attr_dev(br35, "class", "svelte-lfm80c");
+    			add_location(br35, file, 204, 43, 7455);
+    			attr_dev(br36, "class", "svelte-lfm80c");
+    			add_location(br36, file, 205, 59, 7520);
+    			attr_dev(br37, "class", "svelte-lfm80c");
+    			add_location(br37, file, 206, 50, 7576);
+    			attr_dev(mark32, "class", "svelte-lfm80c");
+    			add_location(mark32, file, 207, 76, 7658);
+    			attr_dev(br38, "class", "svelte-lfm80c");
+    			add_location(br38, file, 207, 107, 7689);
+    			attr_dev(mark33, "class", "svelte-lfm80c");
+    			add_location(mark33, file, 208, 76, 7771);
+    			attr_dev(br39, "class", "svelte-lfm80c");
+    			add_location(br39, file, 208, 106, 7801);
+    			attr_dev(mark34, "class", "svelte-lfm80c");
+    			add_location(mark34, file, 209, 76, 7883);
+    			attr_dev(br40, "class", "svelte-lfm80c");
+    			add_location(br40, file, 209, 110, 7917);
+    			attr_dev(br41, "class", "svelte-lfm80c");
+    			add_location(br41, file, 210, 103, 8026);
+    			attr_dev(br42, "class", "svelte-lfm80c");
+    			add_location(br42, file, 211, 55, 8087);
+    			attr_dev(br43, "class", "svelte-lfm80c");
+    			add_location(br43, file, 212, 45, 8138);
+    			attr_dev(br44, "class", "svelte-lfm80c");
+    			add_location(br44, file, 213, 28, 8172);
+    			attr_dev(mark35, "class", "svelte-lfm80c");
+    			add_location(mark35, file, 214, 9, 8187);
+    			attr_dev(code9, "class", "well svelte-lfm80c");
+    			add_location(code9, file, 198, 3, 7113);
+    			attr_dev(p13, "class", "svelte-lfm80c");
+    			add_location(p13, file, 197, 2, 7105);
+    			attr_dev(div4, "class", "relative svelte-lfm80c");
+    			add_location(div4, file, 218, 2, 8240);
+    			attr_dev(h41, "class", "svelte-lfm80c");
+    			add_location(h41, file, 238, 2, 8755);
+    			attr_dev(code10, "class", "inline svelte-lfm80c");
+    			add_location(code10, file, 240, 162, 8957);
+    			attr_dev(code11, "class", "inline svelte-lfm80c");
+    			add_location(code11, file, 240, 206, 9001);
+    			attr_dev(code12, "class", "inline svelte-lfm80c");
+    			add_location(code12, file, 240, 252, 9047);
+    			attr_dev(p14, "class", "svelte-lfm80c");
+    			add_location(p14, file, 240, 2, 8797);
+    			attr_dev(br45, "class", "svelte-lfm80c");
+    			add_location(br45, file, 244, 18, 9213);
+    			attr_dev(mark36, "class", "svelte-lfm80c");
+    			add_location(mark36, file, 245, 20, 9239);
+    			attr_dev(br46, "class", "svelte-lfm80c");
+    			add_location(br46, file, 245, 41, 9260);
+    			attr_dev(br47, "class", "svelte-lfm80c");
+    			add_location(br47, file, 246, 19, 9285);
+    			attr_dev(br48, "class", "svelte-lfm80c");
+    			add_location(br48, file, 247, 4, 9295);
+    			attr_dev(mark37, "class", "svelte-lfm80c");
+    			add_location(mark37, file, 248, 8, 9309);
+    			attr_dev(mark38, "class", "svelte-lfm80c");
+    			add_location(mark38, file, 248, 32, 9333);
+    			attr_dev(mark39, "class", "svelte-lfm80c");
+    			add_location(mark39, file, 248, 50, 9351);
+    			attr_dev(br49, "class", "svelte-lfm80c");
+    			add_location(br49, file, 248, 76, 9377);
+    			attr_dev(br50, "class", "svelte-lfm80c");
+    			add_location(br50, file, 249, 48, 9431);
+    			attr_dev(br51, "class", "svelte-lfm80c");
+    			add_location(br51, file, 250, 70, 9507);
+    			attr_dev(br52, "class", "svelte-lfm80c");
+    			add_location(br52, file, 251, 34, 9547);
+    			attr_dev(mark40, "class", "svelte-lfm80c");
+    			add_location(mark40, file, 252, 9, 9562);
+    			attr_dev(br53, "class", "svelte-lfm80c");
+    			add_location(br53, file, 252, 36, 9589);
+    			attr_dev(br54, "class", "svelte-lfm80c");
+    			add_location(br54, file, 253, 4, 9599);
+    			attr_dev(mark41, "class", "svelte-lfm80c");
+    			add_location(mark41, file, 254, 39, 9644);
+    			attr_dev(br55, "class", "svelte-lfm80c");
+    			add_location(br55, file, 254, 91, 9696);
+    			attr_dev(mark42, "class", "svelte-lfm80c");
+    			add_location(mark42, file, 255, 39, 9741);
+    			attr_dev(br56, "class", "svelte-lfm80c");
+    			add_location(br56, file, 255, 91, 9793);
+    			attr_dev(mark43, "class", "svelte-lfm80c");
+    			add_location(mark43, file, 256, 39, 9838);
+    			attr_dev(br57, "class", "svelte-lfm80c");
+    			add_location(br57, file, 256, 91, 9890);
+    			attr_dev(code13, "class", "well svelte-lfm80c");
+    			add_location(code13, file, 243, 3, 9174);
+    			attr_dev(p15, "class", "svelte-lfm80c");
+    			add_location(p15, file, 242, 2, 9166);
+    			attr_dev(code14, "class", "inline svelte-lfm80c");
+    			add_location(code14, file, 266, 32, 10092);
+    			attr_dev(p16, "class", "svelte-lfm80c");
+    			add_location(p16, file, 266, 2, 10062);
+    			attr_dev(button0, "class", "button svelte-lfm80c");
+    			add_location(button0, file, 268, 2, 10177);
+    			attr_dev(button1, "class", "button svelte-lfm80c");
+    			add_location(button1, file, 269, 2, 10256);
+    			attr_dev(button2, "class", "button svelte-lfm80c");
+    			add_location(button2, file, 270, 2, 10335);
+    			attr_dev(div5, "class", "block svelte-lfm80c");
+    			add_location(div5, file, 101, 1, 3150);
+    			attr_dev(h31, "class", "svelte-lfm80c");
+    			add_location(h31, file, 275, 2, 10449);
+    			attr_dev(p17, "class", "svelte-lfm80c");
+    			add_location(p17, file, 277, 2, 10471);
+    			attr_dev(h42, "class", "svelte-lfm80c");
+    			add_location(h42, file, 279, 2, 10730);
+    			attr_dev(code15, "class", "inline svelte-lfm80c");
+    			add_location(code15, file, 281, 181, 10928);
+    			attr_dev(code16, "class", "inline svelte-lfm80c");
+    			add_location(code16, file, 281, 314, 11061);
+    			attr_dev(p18, "class", "svelte-lfm80c");
+    			add_location(p18, file, 281, 2, 10749);
+    			attr_dev(mark44, "class", "svelte-lfm80c");
+    			add_location(mark44, file, 285, 8, 11277);
+    			attr_dev(mark45, "class", "svelte-lfm80c");
+    			add_location(mark45, file, 285, 36, 11305);
+    			attr_dev(br58, "class", "svelte-lfm80c");
+    			add_location(br58, file, 285, 64, 11333);
+    			attr_dev(br59, "class", "svelte-lfm80c");
+    			add_location(br59, file, 286, 47, 11386);
+    			attr_dev(mark46, "class", "svelte-lfm80c");
+    			add_location(mark46, file, 287, 69, 11461);
+    			attr_dev(br60, "class", "svelte-lfm80c");
+    			add_location(br60, file, 287, 109, 11501);
+    			attr_dev(br61, "class", "svelte-lfm80c");
+    			add_location(br61, file, 288, 33, 11540);
+    			attr_dev(mark47, "class", "svelte-lfm80c");
+    			add_location(mark47, file, 289, 9, 11555);
+    			attr_dev(code17, "class", "well svelte-lfm80c");
+    			add_location(code17, file, 284, 3, 11248);
+    			attr_dev(p19, "class", "svelte-lfm80c");
+    			add_location(p19, file, 283, 2, 11240);
+    			attr_dev(h43, "class", "svelte-lfm80c");
+    			add_location(h43, file, 300, 2, 11775);
+    			attr_dev(code18, "class", "inline svelte-lfm80c");
+    			add_location(code18, file, 303, 93, 11891);
+    			attr_dev(p20, "class", "svelte-lfm80c");
+    			add_location(p20, file, 302, 2, 11793);
+    			attr_dev(br62, "class", "svelte-lfm80c");
+    			add_location(br62, file, 306, 36, 12039);
+    			attr_dev(br63, "class", "svelte-lfm80c");
+    			add_location(br63, file, 307, 27, 12072);
+    			attr_dev(code19, "class", "well svelte-lfm80c");
+    			add_location(code19, file, 305, 3, 11982);
+    			attr_dev(code20, "class", "inline svelte-lfm80c");
+    			add_location(code20, file, 312, 17, 12128);
+    			attr_dev(p21, "class", "svelte-lfm80c");
+    			add_location(p21, file, 311, 2, 12106);
+    			attr_dev(mark48, "class", "svelte-lfm80c");
+    			add_location(mark48, file, 317, 8, 12264);
+    			attr_dev(mark49, "class", "svelte-lfm80c");
+    			add_location(mark49, file, 317, 32, 12288);
+    			attr_dev(br64, "class", "svelte-lfm80c");
+    			add_location(br64, file, 317, 60, 12316);
+    			attr_dev(br65, "class", "svelte-lfm80c");
+    			add_location(br65, file, 318, 48, 12370);
+    			attr_dev(br66, "class", "svelte-lfm80c");
+    			add_location(br66, file, 319, 44, 12420);
+    			attr_dev(br67, "class", "svelte-lfm80c");
+    			add_location(br67, file, 320, 34, 12460);
+    			attr_dev(mark50, "class", "svelte-lfm80c");
+    			add_location(mark50, file, 321, 9, 12475);
+    			attr_dev(code21, "class", "well svelte-lfm80c");
+    			add_location(code21, file, 316, 3, 12235);
+    			attr_dev(p22, "class", "svelte-lfm80c");
+    			add_location(p22, file, 315, 2, 12227);
+    			attr_dev(div6, "class", "block svelte-lfm80c");
+    			add_location(div6, file, 274, 1, 10426);
+    			attr_dev(h32, "class", "svelte-lfm80c");
+    			add_location(h32, file, 333, 2, 12742);
+    			attr_dev(p23, "class", "svelte-lfm80c");
+    			add_location(p23, file, 335, 2, 12764);
+    			attr_dev(mark51, "class", "svelte-lfm80c");
+    			add_location(mark51, file, 339, 8, 13031);
+    			attr_dev(br68, "class", "svelte-lfm80c");
+    			add_location(br68, file, 339, 48, 13071);
+    			attr_dev(br69, "class", "svelte-lfm80c");
+    			add_location(br69, file, 340, 63, 13140);
+    			attr_dev(br70, "class", "svelte-lfm80c");
+    			add_location(br70, file, 341, 52, 13198);
+    			attr_dev(br71, "class", "svelte-lfm80c");
+    			add_location(br71, file, 342, 105, 13309);
+    			attr_dev(br72, "class", "svelte-lfm80c");
+    			add_location(br72, file, 343, 40, 13355);
+    			attr_dev(br73, "class", "svelte-lfm80c");
+    			add_location(br73, file, 344, 33, 13394);
+    			attr_dev(mark52, "class", "svelte-lfm80c");
+    			add_location(mark52, file, 345, 9, 13409);
+    			attr_dev(code22, "class", "well svelte-lfm80c");
+    			add_location(code22, file, 338, 3, 13002);
+    			attr_dev(p24, "class", "svelte-lfm80c");
+    			add_location(p24, file, 337, 2, 12994);
+    			attr_dev(div7, "class", "block svelte-lfm80c");
+    			add_location(div7, file, 332, 1, 12719);
+    			attr_dev(h33, "class", "svelte-lfm80c");
+    			add_location(h33, file, 359, 2, 13726);
+    			attr_dev(code23, "class", "inline svelte-lfm80c");
+    			add_location(code23, file, 361, 114, 13865);
+    			attr_dev(p25, "class", "svelte-lfm80c");
+    			add_location(p25, file, 361, 2, 13753);
+    			attr_dev(code24, "class", "inline svelte-lfm80c");
+    			add_location(code24, file, 363, 39, 14060);
+    			attr_dev(p26, "class", "svelte-lfm80c");
+    			add_location(p26, file, 363, 2, 14023);
+    			attr_dev(mark53, "class", "svelte-lfm80c");
+    			add_location(mark53, file, 367, 8, 14196);
+    			attr_dev(mark54, "class", "svelte-lfm80c");
+    			add_location(mark54, file, 367, 36, 14224);
+    			attr_dev(br74, "class", "svelte-lfm80c");
+    			add_location(br74, file, 367, 65, 14253);
+    			attr_dev(br75, "class", "svelte-lfm80c");
+    			add_location(br75, file, 368, 50, 14309);
+    			attr_dev(br76, "class", "svelte-lfm80c");
+    			add_location(br76, file, 369, 39, 14354);
+    			attr_dev(mark55, "class", "svelte-lfm80c");
+    			add_location(mark55, file, 370, 50, 14410);
+    			attr_dev(br77, "class", "svelte-lfm80c");
+    			add_location(br77, file, 370, 93, 14453);
+    			attr_dev(br78, "class", "svelte-lfm80c");
+    			add_location(br78, file, 371, 93, 14552);
+    			attr_dev(br79, "class", "svelte-lfm80c");
+    			add_location(br79, file, 372, 55, 14613);
+    			attr_dev(br80, "class", "svelte-lfm80c");
+    			add_location(br80, file, 373, 40, 14659);
+    			attr_dev(br81, "class", "svelte-lfm80c");
+    			add_location(br81, file, 374, 33, 14698);
+    			attr_dev(br82, "class", "svelte-lfm80c");
+    			add_location(br82, file, 375, 4, 14708);
+    			attr_dev(br83, "class", "svelte-lfm80c");
+    			add_location(br83, file, 376, 19, 14733);
+    			attr_dev(mark56, "class", "svelte-lfm80c");
+    			add_location(mark56, file, 377, 9, 14748);
+    			attr_dev(br84, "class", "svelte-lfm80c");
+    			add_location(br84, file, 377, 36, 14775);
+    			attr_dev(code25, "class", "well svelte-lfm80c");
+    			add_location(code25, file, 366, 3, 14167);
+    			attr_dev(p27, "class", "svelte-lfm80c");
+    			add_location(p27, file, 365, 2, 14159);
+    			attr_dev(p28, "class", "svelte-lfm80c");
+    			add_location(p28, file, 381, 2, 14805);
+    			attr_dev(div8, "class", "relative svelte-lfm80c");
+    			add_location(div8, file, 385, 2, 14894);
+    			attr_dev(mark57, "class", "svelte-lfm80c");
+    			add_location(mark57, file, 408, 91, 15667);
+    			attr_dev(mark58, "class", "svelte-lfm80c");
+    			add_location(mark58, file, 408, 242, 15818);
+    			attr_dev(mark59, "class", "svelte-lfm80c");
+    			add_location(mark59, file, 408, 400, 15976);
+    			attr_dev(mark60, "class", "svelte-lfm80c");
+    			add_location(mark60, file, 408, 426, 16002);
+    			attr_dev(p29, "class", "svelte-lfm80c");
+    			add_location(p29, file, 407, 2, 15571);
+    			attr_dev(mark61, "class", "svelte-lfm80c");
+    			add_location(mark61, file, 413, 8, 16077);
+    			attr_dev(mark62, "class", "svelte-lfm80c");
+    			add_location(mark62, file, 413, 36, 16105);
+    			attr_dev(br85, "class", "svelte-lfm80c");
+    			add_location(br85, file, 413, 58, 16127);
+    			attr_dev(br86, "class", "svelte-lfm80c");
+    			add_location(br86, file, 414, 54, 16187);
+    			attr_dev(br87, "class", "svelte-lfm80c");
+    			add_location(br87, file, 415, 39, 16232);
+    			attr_dev(mark63, "class", "svelte-lfm80c");
+    			add_location(mark63, file, 416, 50, 16288);
+    			attr_dev(br88, "class", "svelte-lfm80c");
+    			add_location(br88, file, 416, 90, 16328);
+    			attr_dev(br89, "class", "svelte-lfm80c");
+    			add_location(br89, file, 417, 93, 16427);
+    			attr_dev(br90, "class", "svelte-lfm80c");
+    			add_location(br90, file, 418, 55, 16488);
+    			attr_dev(br91, "class", "svelte-lfm80c");
+    			add_location(br91, file, 419, 40, 16534);
+    			attr_dev(br92, "class", "svelte-lfm80c");
+    			add_location(br92, file, 420, 33, 16573);
+    			attr_dev(br93, "class", "svelte-lfm80c");
+    			add_location(br93, file, 421, 4, 16583);
+    			attr_dev(br94, "class", "svelte-lfm80c");
+    			add_location(br94, file, 422, 19, 16608);
+    			attr_dev(mark64, "class", "svelte-lfm80c");
+    			add_location(mark64, file, 423, 9, 16623);
+    			attr_dev(code26, "class", "well svelte-lfm80c");
+    			add_location(code26, file, 412, 3, 16048);
+    			attr_dev(p30, "class", "svelte-lfm80c");
+    			add_location(p30, file, 411, 2, 16040);
+    			attr_dev(div9, "class", "slider-wrapper svelte-lfm80c");
+    			add_location(div9, file, 428, 3, 16703);
+    			attr_dev(div10, "class", "relative svelte-lfm80c");
+    			add_location(div10, file, 427, 2, 16676);
+    			attr_dev(div11, "class", "block svelte-lfm80c");
+    			add_location(div11, file, 358, 1, 13703);
+    			attr_dev(h34, "class", "svelte-lfm80c");
+    			add_location(h34, file, 453, 2, 17484);
+    			attr_dev(p31, "class", "svelte-lfm80c");
+    			add_location(p31, file, 455, 2, 17515);
+    			attr_dev(h44, "class", "svelte-lfm80c");
+    			add_location(h44, file, 457, 2, 17691);
+    			attr_dev(mark65, "class", "svelte-lfm80c");
+    			add_location(mark65, file, 459, 29, 17738);
+    			attr_dev(p32, "class", "svelte-lfm80c");
+    			add_location(p32, file, 459, 2, 17711);
+    			attr_dev(mark66, "class", "svelte-lfm80c");
+    			add_location(mark66, file, 463, 8, 17906);
+    			attr_dev(mark67, "class", "svelte-lfm80c");
+    			add_location(mark67, file, 463, 32, 17930);
+    			attr_dev(br95, "class", "svelte-lfm80c");
+    			add_location(br95, file, 463, 103, 18001);
+    			attr_dev(br96, "class", "svelte-lfm80c");
+    			add_location(br96, file, 464, 19, 18026);
+    			attr_dev(mark68, "class", "svelte-lfm80c");
+    			add_location(mark68, file, 465, 9, 18041);
+    			attr_dev(code27, "class", "well svelte-lfm80c");
+    			add_location(code27, file, 462, 3, 17877);
+    			attr_dev(p33, "class", "svelte-lfm80c");
+    			add_location(p33, file, 461, 2, 17869);
+    			attr_dev(h45, "class", "svelte-lfm80c");
+    			add_location(h45, file, 469, 2, 18094);
+    			attr_dev(mark69, "class", "svelte-lfm80c");
+    			add_location(mark69, file, 471, 56, 18173);
+    			attr_dev(mark70, "class", "svelte-lfm80c");
+    			add_location(mark70, file, 471, 117, 18234);
+    			attr_dev(mark71, "class", "svelte-lfm80c");
+    			add_location(mark71, file, 471, 187, 18304);
+    			attr_dev(mark72, "class", "svelte-lfm80c");
+    			add_location(mark72, file, 471, 218, 18335);
+    			attr_dev(p34, "class", "svelte-lfm80c");
+    			add_location(p34, file, 471, 2, 18119);
+    			attr_dev(br97, "class", "svelte-lfm80c");
+    			add_location(br97, file, 475, 18, 18421);
+    			attr_dev(mark73, "class", "svelte-lfm80c");
+    			add_location(mark73, file, 476, 20, 18447);
+    			attr_dev(br98, "class", "svelte-lfm80c");
+    			add_location(br98, file, 476, 51, 18478);
+    			attr_dev(mark74, "class", "svelte-lfm80c");
+    			add_location(mark74, file, 477, 23, 18507);
+    			attr_dev(br99, "class", "svelte-lfm80c");
+    			add_location(br99, file, 477, 74, 18558);
+    			attr_dev(br100, "class", "svelte-lfm80c");
+    			add_location(br100, file, 478, 19, 18583);
+    			attr_dev(br101, "class", "svelte-lfm80c");
+    			add_location(br101, file, 479, 4, 18593);
+    			attr_dev(mark75, "class", "svelte-lfm80c");
+    			add_location(mark75, file, 480, 8, 18607);
+    			attr_dev(mark76, "class", "svelte-lfm80c");
+    			add_location(mark76, file, 480, 32, 18631);
+    			attr_dev(br102, "class", "svelte-lfm80c");
+    			add_location(br102, file, 480, 64, 18663);
+    			attr_dev(br103, "class", "svelte-lfm80c");
+    			add_location(br103, file, 481, 19, 18688);
+    			attr_dev(mark77, "class", "svelte-lfm80c");
+    			add_location(mark77, file, 482, 9, 18703);
+    			attr_dev(code28, "class", "well svelte-lfm80c");
+    			add_location(code28, file, 474, 3, 18382);
+    			attr_dev(p35, "class", "svelte-lfm80c");
+    			add_location(p35, file, 473, 2, 18374);
+    			attr_dev(mark78, "class", "svelte-lfm80c");
+    			add_location(mark78, file, 486, 147, 18901);
+    			attr_dev(mark79, "class", "svelte-lfm80c");
+    			add_location(mark79, file, 486, 224, 18978);
+    			attr_dev(mark80, "class", "svelte-lfm80c");
+    			add_location(mark80, file, 486, 258, 19012);
+    			attr_dev(p36, "class", "svelte-lfm80c");
+    			add_location(p36, file, 486, 2, 18756);
+    			attr_dev(br104, "class", "svelte-lfm80c");
+    			add_location(br104, file, 490, 18, 19101);
+    			attr_dev(mark81, "class", "svelte-lfm80c");
+    			add_location(mark81, file, 491, 20, 19127);
+    			attr_dev(br105, "class", "svelte-lfm80c");
+    			add_location(br105, file, 491, 46, 19153);
+    			attr_dev(mark82, "class", "svelte-lfm80c");
+    			add_location(mark82, file, 492, 23, 19182);
+    			attr_dev(br106, "class", "svelte-lfm80c");
+    			add_location(br106, file, 492, 101, 19260);
+    			attr_dev(br107, "class", "svelte-lfm80c");
+    			add_location(br107, file, 493, 19, 19285);
+    			attr_dev(br108, "class", "svelte-lfm80c");
+    			add_location(br108, file, 494, 4, 19295);
+    			attr_dev(mark83, "class", "svelte-lfm80c");
+    			add_location(mark83, file, 495, 8, 19309);
+    			attr_dev(mark84, "class", "svelte-lfm80c");
+    			add_location(mark84, file, 495, 32, 19333);
+    			attr_dev(br109, "class", "svelte-lfm80c");
+    			add_location(br109, file, 495, 67, 19368);
+    			attr_dev(br110, "class", "svelte-lfm80c");
+    			add_location(br110, file, 496, 19, 19393);
+    			attr_dev(mark85, "class", "svelte-lfm80c");
+    			add_location(mark85, file, 497, 9, 19408);
+    			attr_dev(code29, "class", "well svelte-lfm80c");
+    			add_location(code29, file, 489, 3, 19062);
+    			attr_dev(p37, "class", "svelte-lfm80c");
+    			add_location(p37, file, 488, 2, 19054);
+    			attr_dev(div12, "class", "slider-wrapper svelte-lfm80c");
+    			add_location(div12, file, 502, 3, 19488);
+    			attr_dev(div13, "class", "relative svelte-lfm80c");
+    			add_location(div13, file, 501, 2, 19461);
+    			attr_dev(div14, "class", "block svelte-lfm80c");
+    			add_location(div14, file, 452, 1, 17461);
+    			attr_dev(h35, "class", "svelte-lfm80c");
+    			add_location(h35, file, 525, 2, 20251);
+    			attr_dev(h46, "class", "svelte-lfm80c");
+    			add_location(h46, file, 527, 2, 20271);
+    			attr_dev(mark86, "class", "svelte-lfm80c");
+    			add_location(mark86, file, 529, 160, 20448);
+    			attr_dev(p38, "class", "svelte-lfm80c");
+    			add_location(p38, file, 529, 2, 20290);
+    			attr_dev(mark87, "class", "svelte-lfm80c");
+    			add_location(mark87, file, 533, 8, 20531);
+    			attr_dev(mark88, "class", "svelte-lfm80c");
+    			add_location(mark88, file, 533, 32, 20555);
+    			attr_dev(br111, "class", "svelte-lfm80c");
+    			add_location(br111, file, 533, 71, 20594);
+    			attr_dev(br112, "class", "svelte-lfm80c");
+    			add_location(br112, file, 534, 19, 20619);
+    			attr_dev(mark89, "class", "svelte-lfm80c");
+    			add_location(mark89, file, 535, 9, 20634);
+    			attr_dev(code30, "class", "well svelte-lfm80c");
+    			add_location(code30, file, 532, 3, 20502);
+    			attr_dev(p39, "class", "svelte-lfm80c");
+    			add_location(p39, file, 531, 2, 20494);
+    			attr_dev(div15, "class", "slider-wrapper svelte-lfm80c");
+    			add_location(div15, file, 540, 3, 20714);
+    			attr_dev(div16, "class", "relative svelte-lfm80c");
+    			add_location(div16, file, 539, 2, 20687);
+    			attr_dev(h47, "class", "svelte-lfm80c");
+    			add_location(h47, file, 559, 2, 21427);
+    			attr_dev(mark90, "class", "svelte-lfm80c");
+    			add_location(mark90, file, 561, 125, 21584);
+    			attr_dev(p40, "class", "svelte-lfm80c");
+    			add_location(p40, file, 561, 2, 21461);
+    			attr_dev(mark91, "class", "svelte-lfm80c");
+    			add_location(mark91, file, 565, 8, 21731);
+    			attr_dev(mark92, "class", "svelte-lfm80c");
+    			add_location(mark92, file, 565, 32, 21755);
+    			attr_dev(br113, "class", "svelte-lfm80c");
+    			add_location(br113, file, 565, 74, 21797);
+    			attr_dev(br114, "class", "svelte-lfm80c");
+    			add_location(br114, file, 566, 19, 21822);
+    			attr_dev(mark93, "class", "svelte-lfm80c");
+    			add_location(mark93, file, 567, 9, 21837);
+    			attr_dev(code31, "class", "well svelte-lfm80c");
+    			add_location(code31, file, 564, 3, 21702);
+    			attr_dev(p41, "class", "svelte-lfm80c");
+    			add_location(p41, file, 563, 2, 21694);
+    			attr_dev(div17, "class", "slider-wrapper svelte-lfm80c");
+    			add_location(div17, file, 572, 3, 21917);
+    			attr_dev(div18, "class", "relative svelte-lfm80c");
+    			add_location(div18, file, 571, 2, 21890);
+    			attr_dev(h48, "class", "svelte-lfm80c");
+    			add_location(h48, file, 591, 2, 22653);
+    			attr_dev(mark94, "class", "svelte-lfm80c");
+    			add_location(mark94, file, 593, 231, 22906);
+    			attr_dev(p42, "class", "svelte-lfm80c");
+    			add_location(p42, file, 593, 2, 22677);
+    			attr_dev(mark95, "class", "svelte-lfm80c");
+    			add_location(mark95, file, 597, 8, 23036);
+    			attr_dev(mark96, "class", "svelte-lfm80c");
+    			add_location(mark96, file, 597, 32, 23060);
+    			attr_dev(br115, "class", "svelte-lfm80c");
+    			add_location(br115, file, 597, 64, 23092);
+    			attr_dev(br116, "class", "svelte-lfm80c");
+    			add_location(br116, file, 598, 19, 23117);
+    			attr_dev(mark97, "class", "svelte-lfm80c");
+    			add_location(mark97, file, 599, 9, 23132);
+    			attr_dev(code32, "class", "well svelte-lfm80c");
+    			add_location(code32, file, 596, 3, 23007);
+    			attr_dev(p43, "class", "svelte-lfm80c");
+    			add_location(p43, file, 595, 2, 22999);
+    			attr_dev(div19, "class", "slider-wrapper svelte-lfm80c");
+    			add_location(div19, file, 604, 3, 23212);
+    			attr_dev(div20, "class", "relative svelte-lfm80c");
+    			add_location(div20, file, 603, 2, 23185);
+    			attr_dev(div21, "class", "block svelte-lfm80c");
+    			add_location(div21, file, 524, 1, 20228);
+    			attr_dev(div22, "class", "wrapper svelte-lfm80c");
+    			add_location(div22, file, 48, 0, 1450);
+    			attr_dev(div23, "class", "cards svelte-lfm80c");
+    			add_location(div23, file, 625, 0, 23953);
+    			attr_dev(h22, "class", "svelte-lfm80c");
+    			add_location(h22, file, 658, 1, 25028);
+    			attr_dev(p44, "class", "svelte-lfm80c");
+    			add_location(p44, file, 661, 2, 25075);
+    			attr_dev(strong0, "class", "svelte-lfm80c");
+    			add_location(strong0, file, 664, 3, 25158);
+    			attr_dev(strong1, "class", "svelte-lfm80c");
+    			add_location(strong1, file, 664, 29, 25184);
+    			attr_dev(strong2, "class", "svelte-lfm80c");
+    			add_location(strong2, file, 664, 54, 25209);
+    			attr_dev(code33, "class", "svelte-lfm80c");
+    			add_location(code33, file, 666, 3, 25244);
+    			attr_dev(code34, "class", "svelte-lfm80c");
+    			add_location(code34, file, 666, 20, 25261);
+    			attr_dev(strong3, "class", "svelte-lfm80c");
+    			add_location(strong3, file, 666, 35, 25276);
+    			attr_dev(code35, "class", "svelte-lfm80c");
+    			add_location(code35, file, 667, 3, 25342);
+    			attr_dev(code36, "class", "svelte-lfm80c");
+    			add_location(code36, file, 667, 21, 25360);
+    			attr_dev(strong4, "class", "svelte-lfm80c");
+    			add_location(strong4, file, 667, 39, 25378);
+    			attr_dev(code37, "class", "svelte-lfm80c");
+    			add_location(code37, file, 668, 3, 25473);
+    			attr_dev(code38, "class", "svelte-lfm80c");
+    			add_location(code38, file, 668, 35, 25505);
+    			attr_dev(strong5, "class", "svelte-lfm80c");
+    			add_location(strong5, file, 668, 52, 25522);
+    			attr_dev(code39, "class", "svelte-lfm80c");
+    			add_location(code39, file, 669, 3, 25585);
+    			attr_dev(code40, "class", "svelte-lfm80c");
+    			add_location(code40, file, 669, 26, 25608);
+    			attr_dev(strong6, "class", "svelte-lfm80c");
+    			add_location(strong6, file, 669, 42, 25624);
+    			attr_dev(code41, "class", "svelte-lfm80c");
+    			add_location(code41, file, 670, 3, 25709);
+    			attr_dev(code42, "class", "svelte-lfm80c");
+    			add_location(code42, file, 670, 29, 25735);
+    			attr_dev(strong7, "class", "svelte-lfm80c");
+    			add_location(strong7, file, 670, 44, 25750);
+    			attr_dev(code43, "class", "svelte-lfm80c");
+    			add_location(code43, file, 671, 3, 25811);
+    			attr_dev(code44, "class", "svelte-lfm80c");
+    			add_location(code44, file, 671, 22, 25830);
+    			attr_dev(strong8, "class", "svelte-lfm80c");
+    			add_location(strong8, file, 671, 38, 25846);
+    			attr_dev(code45, "class", "svelte-lfm80c");
+    			add_location(code45, file, 672, 3, 25907);
+    			attr_dev(code46, "class", "svelte-lfm80c");
+    			add_location(code46, file, 672, 28, 25932);
+    			attr_dev(strong9, "class", "svelte-lfm80c");
+    			add_location(strong9, file, 672, 43, 25947);
+    			attr_dev(code47, "class", "svelte-lfm80c");
+    			add_location(code47, file, 673, 3, 26036);
+    			attr_dev(code48, "class", "svelte-lfm80c");
+    			add_location(code48, file, 673, 25, 26058);
+    			attr_dev(strong10, "class", "svelte-lfm80c");
+    			add_location(strong10, file, 673, 40, 26073);
+    			attr_dev(code49, "class", "svelte-lfm80c");
+    			add_location(code49, file, 674, 3, 26150);
+    			attr_dev(code50, "class", "svelte-lfm80c");
+    			add_location(code50, file, 674, 38, 26185);
+    			attr_dev(strong11, "class", "svelte-lfm80c");
+    			add_location(strong11, file, 674, 53, 26200);
+    			attr_dev(code51, "class", "svelte-lfm80c");
+    			add_location(code51, file, 675, 3, 26275);
+    			attr_dev(code52, "class", "svelte-lfm80c");
+    			add_location(code52, file, 675, 27, 26299);
+    			attr_dev(strong12, "class", "svelte-lfm80c");
+    			add_location(strong12, file, 675, 46, 26318);
+    			attr_dev(code53, "class", "svelte-lfm80c");
+    			add_location(code53, file, 676, 3, 26424);
+    			attr_dev(code54, "class", "svelte-lfm80c");
+    			add_location(code54, file, 676, 30, 26451);
+    			attr_dev(strong13, "class", "svelte-lfm80c");
+    			add_location(strong13, file, 676, 45, 26466);
+    			attr_dev(div24, "class", "table svelte-lfm80c");
+    			add_location(div24, file, 663, 2, 25134);
+    			attr_dev(div25, "class", "block svelte-lfm80c");
+    			add_location(div25, file, 660, 1, 25052);
+    			attr_dev(h23, "class", "svelte-lfm80c");
+    			add_location(h23, file, 680, 1, 26576);
+    			attr_dev(p45, "class", "svelte-lfm80c");
+    			add_location(p45, file, 683, 2, 26622);
+    			attr_dev(strong14, "class", "svelte-lfm80c");
+    			add_location(strong14, file, 686, 3, 26696);
+    			attr_dev(strong15, "class", "svelte-lfm80c");
+    			add_location(strong15, file, 686, 25, 26718);
+    			attr_dev(strong16, "class", "svelte-lfm80c");
+    			add_location(strong16, file, 686, 53, 26746);
+    			attr_dev(code55, "class", "svelte-lfm80c");
+    			add_location(code55, file, 688, 3, 26781);
+    			attr_dev(code56, "class", "svelte-lfm80c");
+    			add_location(code56, file, 688, 25, 26803);
+    			attr_dev(strong17, "class", "svelte-lfm80c");
+    			add_location(strong17, file, 688, 44, 26822);
+    			attr_dev(div26, "class", "table svelte-lfm80c");
+    			add_location(div26, file, 685, 2, 26672);
+    			attr_dev(div27, "class", "block svelte-lfm80c");
+    			add_location(div27, file, 682, 1, 26599);
+    			attr_dev(h24, "class", "svelte-lfm80c");
+    			add_location(h24, file, 692, 1, 26909);
+    			attr_dev(p46, "class", "svelte-lfm80c");
+    			add_location(p46, file, 695, 2, 26952);
+    			attr_dev(strong18, "class", "svelte-lfm80c");
+    			add_location(strong18, file, 698, 3, 27014);
+    			attr_dev(strong19, "class", "svelte-lfm80c");
+    			add_location(strong19, file, 698, 25, 27036);
+    			attr_dev(strong20, "class", "svelte-lfm80c");
+    			add_location(strong20, file, 698, 43, 27054);
+    			attr_dev(code57, "class", "svelte-lfm80c");
+    			add_location(code57, file, 700, 3, 27089);
+    			attr_dev(code58, "class", "svelte-lfm80c");
+    			add_location(code58, file, 700, 20, 27106);
+    			attr_dev(strong21, "class", "svelte-lfm80c");
+    			add_location(strong21, file, 700, 34, 27120);
+    			attr_dev(div28, "class", "table svelte-lfm80c");
+    			add_location(div28, file, 697, 2, 26990);
+    			attr_dev(div29, "class", "block svelte-lfm80c");
+    			add_location(div29, file, 694, 1, 26929);
+    			attr_dev(a1, "href", "https://github.com/Mitcheljager");
+    			attr_dev(a1, "class", "svelte-lfm80c");
+    			add_location(a1, file, 705, 10, 27242);
+    			attr_dev(div30, "class", "block svelte-lfm80c");
+    			add_location(div30, file, 704, 1, 27211);
+    			attr_dev(div31, "class", "wrapper svelte-lfm80c");
+    			add_location(div31, file, 657, 0, 25004);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -6374,12 +8376,12 @@ var app = (function () {
     			append_dev(header, t2);
     			mount_component(tinyslider0, header, null);
     			insert_dev(target, t3, anchor);
-    			insert_dev(target, div15, anchor);
-    			append_dev(div15, div0);
+    			insert_dev(target, div22, anchor);
+    			append_dev(div22, div0);
     			append_dev(div0, p0);
     			append_dev(div0, t5);
     			append_dev(div0, p1);
-    			append_dev(p1, a);
+    			append_dev(p1, a0);
     			append_dev(div0, t7);
     			append_dev(div0, h20);
     			append_dev(div0, t9);
@@ -6408,10 +8410,10 @@ var app = (function () {
     			append_dev(code3, t28);
     			append_dev(code3, mark6);
     			append_dev(code3, t30);
-    			append_dev(div15, t31);
-    			append_dev(div15, h21);
-    			append_dev(div15, t33);
-    			append_dev(div15, div1);
+    			append_dev(div22, t31);
+    			append_dev(div22, h21);
+    			append_dev(div22, t33);
+    			append_dev(div22, div1);
     			append_dev(div1, p4);
     			append_dev(div1, t35);
     			append_dev(div1, p5);
@@ -6431,8 +8433,8 @@ var app = (function () {
     			append_dev(code4, t44);
     			append_dev(div1, t45);
     			mount_component(tinyslider1, div1, null);
-    			append_dev(div15, t46);
-    			append_dev(div15, div5);
+    			append_dev(div22, t46);
+    			append_dev(div22, div5);
     			append_dev(div5, h30);
     			append_dev(div5, t48);
     			append_dev(div5, p6);
@@ -6682,8 +8684,8 @@ var app = (function () {
     			append_dev(div5, button1);
     			append_dev(div5, t217);
     			append_dev(div5, button2);
-    			append_dev(div15, t219);
-    			append_dev(div15, div6);
+    			append_dev(div22, t219);
+    			append_dev(div22, div6);
     			append_dev(div6, h31);
     			append_dev(div6, t221);
     			append_dev(div6, p17);
@@ -6757,8 +8759,8 @@ var app = (function () {
     			append_dev(code21, t271);
     			append_dev(div6, t272);
     			mount_component(tinyslider7, div6, null);
-    			append_dev(div15, t273);
-    			append_dev(div15, div7);
+    			append_dev(div22, t273);
+    			append_dev(div22, div7);
     			append_dev(div7, h32);
     			append_dev(div7, t275);
     			append_dev(div7, p23);
@@ -6784,8 +8786,8 @@ var app = (function () {
     			append_dev(code22, t288);
     			append_dev(div7, t289);
     			mount_component(tinyslider8, div7, null);
-    			append_dev(div15, t290);
-    			append_dev(div15, div11);
+    			append_dev(div22, t290);
+    			append_dev(div22, div11);
     			append_dev(div11, h33);
     			append_dev(div11, t292);
     			append_dev(div11, p25);
@@ -6824,42 +8826,42 @@ var app = (function () {
     			append_dev(code25, t314);
     			append_dev(code25, br82);
     			append_dev(code25, t315);
-    			append_dev(code25, mark56);
-    			append_dev(code25, t317);
     			append_dev(code25, br83);
-    			append_dev(div11, t318);
+    			append_dev(code25, t316);
+    			append_dev(code25, mark56);
+    			append_dev(code25, t318);
+    			append_dev(code25, br84);
+    			append_dev(div11, t319);
     			append_dev(div11, p28);
-    			append_dev(div11, t320);
+    			append_dev(div11, t321);
     			append_dev(div11, div8);
     			mount_component(tinyslider9, div8, null);
-    			append_dev(div11, t321);
+    			append_dev(div11, t322);
     			append_dev(div11, p29);
-    			append_dev(p29, t322);
+    			append_dev(p29, t323);
     			append_dev(p29, mark57);
-    			append_dev(p29, t324);
+    			append_dev(p29, t325);
     			append_dev(p29, mark58);
-    			append_dev(p29, t326);
+    			append_dev(p29, t327);
     			append_dev(p29, mark59);
-    			append_dev(p29, t328);
+    			append_dev(p29, t329);
     			append_dev(p29, mark60);
-    			append_dev(p29, t330);
-    			append_dev(div11, t331);
+    			append_dev(p29, t331);
+    			append_dev(div11, t332);
     			append_dev(div11, p30);
     			append_dev(p30, code26);
-    			append_dev(code26, t332);
+    			append_dev(code26, t333);
     			append_dev(code26, mark61);
-    			append_dev(code26, t334);
+    			append_dev(code26, t335);
     			append_dev(code26, mark62);
-    			append_dev(code26, t336);
-    			append_dev(code26, br84);
     			append_dev(code26, t337);
     			append_dev(code26, br85);
     			append_dev(code26, t338);
     			append_dev(code26, br86);
     			append_dev(code26, t339);
-    			append_dev(code26, mark63);
-    			append_dev(code26, t341);
     			append_dev(code26, br87);
+    			append_dev(code26, t340);
+    			append_dev(code26, mark63);
     			append_dev(code26, t342);
     			append_dev(code26, br88);
     			append_dev(code26, t343);
@@ -6873,31 +8875,328 @@ var app = (function () {
     			append_dev(code26, t347);
     			append_dev(code26, br93);
     			append_dev(code26, t348);
+    			append_dev(code26, br94);
+    			append_dev(code26, t349);
     			append_dev(code26, mark64);
-    			append_dev(code26, t350);
-    			append_dev(div11, t351);
+    			append_dev(code26, t351);
+    			append_dev(div11, t352);
     			append_dev(div11, div10);
     			append_dev(div10, div9);
     			mount_component(tinyslider10, div9, null);
-    			append_dev(div15, t352);
-    			append_dev(div15, div12);
-    			mount_component(tinyslider11, div12, null);
-    			append_dev(div15, t353);
-    			append_dev(div15, div14);
+    			append_dev(div22, t353);
+    			append_dev(div22, div14);
+    			append_dev(div14, h34);
+    			append_dev(div14, t355);
+    			append_dev(div14, p31);
+    			append_dev(div14, t357);
+    			append_dev(div14, h44);
+    			append_dev(div14, t359);
+    			append_dev(div14, p32);
+    			append_dev(p32, t360);
+    			append_dev(p32, mark65);
+    			append_dev(p32, t362);
+    			append_dev(div14, t363);
+    			append_dev(div14, p33);
+    			append_dev(p33, code27);
+    			append_dev(code27, t364);
+    			append_dev(code27, mark66);
+    			append_dev(code27, t366);
+    			append_dev(code27, mark67);
+    			append_dev(code27, t368);
+    			append_dev(code27, br95);
+    			append_dev(code27, t369);
+    			append_dev(code27, br96);
+    			append_dev(code27, t370);
+    			append_dev(code27, mark68);
+    			append_dev(code27, t372);
+    			append_dev(div14, t373);
+    			append_dev(div14, h45);
+    			append_dev(div14, t375);
+    			append_dev(div14, p34);
+    			append_dev(p34, t376);
+    			append_dev(p34, mark69);
+    			append_dev(p34, t378);
+    			append_dev(p34, mark70);
+    			append_dev(p34, t380);
+    			append_dev(p34, mark71);
+    			append_dev(p34, t382);
+    			append_dev(p34, mark72);
+    			append_dev(p34, t384);
+    			append_dev(div14, t385);
+    			append_dev(div14, p35);
+    			append_dev(p35, code28);
+    			append_dev(code28, t386);
+    			append_dev(code28, br97);
+    			append_dev(code28, t387);
+    			append_dev(code28, mark73);
+    			append_dev(code28, t389);
+    			append_dev(code28, br98);
+    			append_dev(code28, t390);
+    			append_dev(code28, mark74);
+    			append_dev(code28, t392);
+    			append_dev(code28, br99);
+    			append_dev(code28, t393);
+    			append_dev(code28, br100);
+    			append_dev(code28, t394);
+    			append_dev(code28, br101);
+    			append_dev(code28, t395);
+    			append_dev(code28, mark75);
+    			append_dev(code28, t397);
+    			append_dev(code28, mark76);
+    			append_dev(code28, t399);
+    			append_dev(code28, br102);
+    			append_dev(code28, t400);
+    			append_dev(code28, br103);
+    			append_dev(code28, t401);
+    			append_dev(code28, mark77);
+    			append_dev(code28, t403);
+    			append_dev(div14, t404);
+    			append_dev(div14, p36);
+    			append_dev(p36, t405);
+    			append_dev(p36, mark78);
+    			append_dev(p36, t407);
+    			append_dev(p36, mark79);
+    			append_dev(p36, t409);
+    			append_dev(p36, mark80);
+    			append_dev(p36, t411);
+    			append_dev(div14, t412);
+    			append_dev(div14, p37);
+    			append_dev(p37, code29);
+    			append_dev(code29, t413);
+    			append_dev(code29, br104);
+    			append_dev(code29, t414);
+    			append_dev(code29, mark81);
+    			append_dev(code29, br105);
+    			append_dev(code29, t416);
+    			append_dev(code29, mark82);
+    			append_dev(code29, t418);
+    			append_dev(code29, br106);
+    			append_dev(code29, t419);
+    			append_dev(code29, br107);
+    			append_dev(code29, t420);
+    			append_dev(code29, br108);
+    			append_dev(code29, t421);
+    			append_dev(code29, mark83);
+    			append_dev(code29, t423);
+    			append_dev(code29, mark84);
+    			append_dev(code29, t425);
+    			append_dev(code29, br109);
+    			append_dev(code29, t426);
+    			append_dev(code29, br110);
+    			append_dev(code29, t427);
+    			append_dev(code29, mark85);
+    			append_dev(code29, t429);
+    			append_dev(div14, t430);
     			append_dev(div14, div13);
-    			mount_component(tinyslider12, div13, null);
-    			insert_dev(target, t354, anchor);
-    			insert_dev(target, div16, anchor);
-    			mount_component(tinyslider13, div16, null);
-    			insert_dev(target, t355, anchor);
-    			insert_dev(target, div17, anchor);
+    			append_dev(div13, div12);
+    			mount_component(tinyslider11, div12, null);
+    			append_dev(div22, t431);
+    			append_dev(div22, div21);
+    			append_dev(div21, h35);
+    			append_dev(div21, t433);
+    			append_dev(div21, h46);
+    			append_dev(div21, t435);
+    			append_dev(div21, p38);
+    			append_dev(p38, t436);
+    			append_dev(p38, mark86);
+    			append_dev(p38, t438);
+    			append_dev(div21, t439);
+    			append_dev(div21, p39);
+    			append_dev(p39, code30);
+    			append_dev(code30, t440);
+    			append_dev(code30, mark87);
+    			append_dev(code30, t442);
+    			append_dev(code30, mark88);
+    			append_dev(code30, t444);
+    			append_dev(code30, br111);
+    			append_dev(code30, t445);
+    			append_dev(code30, br112);
+    			append_dev(code30, t446);
+    			append_dev(code30, mark89);
+    			append_dev(code30, t448);
+    			append_dev(div21, t449);
+    			append_dev(div21, div16);
+    			append_dev(div16, div15);
+    			mount_component(tinyslider12, div15, null);
+    			append_dev(div21, t450);
+    			append_dev(div21, h47);
+    			append_dev(div21, t452);
+    			append_dev(div21, p40);
+    			append_dev(p40, t453);
+    			append_dev(p40, mark90);
+    			append_dev(p40, t455);
+    			append_dev(div21, t456);
+    			append_dev(div21, p41);
+    			append_dev(p41, code31);
+    			append_dev(code31, t457);
+    			append_dev(code31, mark91);
+    			append_dev(code31, t459);
+    			append_dev(code31, mark92);
+    			append_dev(code31, t461);
+    			append_dev(code31, br113);
+    			append_dev(code31, t462);
+    			append_dev(code31, br114);
+    			append_dev(code31, t463);
+    			append_dev(code31, mark93);
+    			append_dev(code31, t465);
+    			append_dev(div21, t466);
+    			append_dev(div21, div18);
+    			append_dev(div18, div17);
+    			mount_component(tinyslider13, div17, null);
+    			append_dev(div21, t467);
+    			append_dev(div21, h48);
+    			append_dev(div21, t469);
+    			append_dev(div21, p42);
+    			append_dev(p42, t470);
+    			append_dev(p42, mark94);
+    			append_dev(p42, t472);
+    			append_dev(div21, t473);
+    			append_dev(div21, p43);
+    			append_dev(p43, code32);
+    			append_dev(code32, t474);
+    			append_dev(code32, mark95);
+    			append_dev(code32, t476);
+    			append_dev(code32, mark96);
+    			append_dev(code32, t478);
+    			append_dev(code32, br115);
+    			append_dev(code32, t479);
+    			append_dev(code32, br116);
+    			append_dev(code32, t480);
+    			append_dev(code32, mark97);
+    			append_dev(code32, t482);
+    			append_dev(div21, t483);
+    			append_dev(div21, div20);
+    			append_dev(div20, div19);
+    			mount_component(tinyslider14, div19, null);
+    			insert_dev(target, t484, anchor);
+    			insert_dev(target, div23, anchor);
+    			mount_component(tinyslider15, div23, null);
+    			insert_dev(target, t485, anchor);
+    			insert_dev(target, div31, anchor);
+    			append_dev(div31, h22);
+    			append_dev(div31, t487);
+    			append_dev(div31, div25);
+    			append_dev(div25, p44);
+    			append_dev(div25, t489);
+    			append_dev(div25, div24);
+    			append_dev(div24, strong0);
+    			append_dev(div24, t491);
+    			append_dev(div24, strong1);
+    			append_dev(div24, t493);
+    			append_dev(div24, strong2);
+    			append_dev(div24, t495);
+    			append_dev(div24, code33);
+    			append_dev(div24, t497);
+    			append_dev(div24, code34);
+    			append_dev(div24, t499);
+    			append_dev(div24, strong3);
+    			append_dev(div24, t501);
+    			append_dev(div24, code35);
+    			append_dev(div24, t503);
+    			append_dev(div24, code36);
+    			append_dev(div24, t505);
+    			append_dev(div24, strong4);
+    			append_dev(div24, t507);
+    			append_dev(div24, code37);
+    			append_dev(div24, t509);
+    			append_dev(div24, code38);
+    			append_dev(div24, t511);
+    			append_dev(div24, strong5);
+    			append_dev(div24, t513);
+    			append_dev(div24, code39);
+    			append_dev(div24, t515);
+    			append_dev(div24, code40);
+    			append_dev(div24, t517);
+    			append_dev(div24, strong6);
+    			append_dev(div24, t519);
+    			append_dev(div24, code41);
+    			append_dev(div24, t521);
+    			append_dev(div24, code42);
+    			append_dev(div24, t523);
+    			append_dev(div24, strong7);
+    			append_dev(div24, t525);
+    			append_dev(div24, code43);
+    			append_dev(div24, t527);
+    			append_dev(div24, code44);
+    			append_dev(div24, t529);
+    			append_dev(div24, strong8);
+    			append_dev(div24, t531);
+    			append_dev(div24, code45);
+    			append_dev(div24, t533);
+    			append_dev(div24, code46);
+    			append_dev(div24, t535);
+    			append_dev(div24, strong9);
+    			append_dev(div24, t537);
+    			append_dev(div24, code47);
+    			append_dev(div24, t539);
+    			append_dev(div24, code48);
+    			append_dev(div24, t541);
+    			append_dev(div24, strong10);
+    			append_dev(div24, t543);
+    			append_dev(div24, code49);
+    			append_dev(div24, t545);
+    			append_dev(div24, code50);
+    			append_dev(div24, t547);
+    			append_dev(div24, strong11);
+    			append_dev(div24, t549);
+    			append_dev(div24, code51);
+    			append_dev(div24, t551);
+    			append_dev(div24, code52);
+    			append_dev(div24, t553);
+    			append_dev(div24, strong12);
+    			append_dev(div24, t555);
+    			append_dev(div24, code53);
+    			append_dev(div24, t557);
+    			append_dev(div24, code54);
+    			append_dev(div24, t559);
+    			append_dev(div24, strong13);
+    			append_dev(div31, t561);
+    			append_dev(div31, h23);
+    			append_dev(div31, t563);
+    			append_dev(div31, div27);
+    			append_dev(div27, p45);
+    			append_dev(div27, t565);
+    			append_dev(div27, div26);
+    			append_dev(div26, strong14);
+    			append_dev(div26, t567);
+    			append_dev(div26, strong15);
+    			append_dev(div26, t569);
+    			append_dev(div26, strong16);
+    			append_dev(div26, t571);
+    			append_dev(div26, code55);
+    			append_dev(div26, t573);
+    			append_dev(div26, code56);
+    			append_dev(div26, t575);
+    			append_dev(div26, strong17);
+    			append_dev(div31, t577);
+    			append_dev(div31, h24);
+    			append_dev(div31, t579);
+    			append_dev(div31, div29);
+    			append_dev(div29, p46);
+    			append_dev(div29, t581);
+    			append_dev(div29, div28);
+    			append_dev(div28, strong18);
+    			append_dev(div28, t583);
+    			append_dev(div28, strong19);
+    			append_dev(div28, t584);
+    			append_dev(div28, strong20);
+    			append_dev(div28, t586);
+    			append_dev(div28, code57);
+    			append_dev(div28, t588);
+    			append_dev(div28, code58);
+    			append_dev(div28, t589);
+    			append_dev(div28, strong21);
+    			append_dev(div31, t591);
+    			append_dev(div31, div30);
+    			append_dev(div30, t592);
+    			append_dev(div30, a1);
     			current = true;
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(button0, "click", /*click_handler_5*/ ctx[23], false, false, false),
-    					listen_dev(button1, "click", /*click_handler_6*/ ctx[24], false, false, false),
-    					listen_dev(button2, "click", /*click_handler_7*/ ctx[25], false, false, false)
+    					listen_dev(button0, "click", /*click_handler_5*/ ctx[24], false, false, false),
+    					listen_dev(button1, "click", /*click_handler_6*/ ctx[25], false, false, false),
+    					listen_dev(button2, "click", /*click_handler_7*/ ctx[26], false, false, false)
     				];
 
     				mounted = true;
@@ -6906,114 +9205,140 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const tinyslider0_changes = {};
 
-    			if (dirty[2] & /*$$scope*/ 512) {
+    			if (dirty[2] & /*$$scope*/ 524288) {
     				tinyslider0_changes.$$scope = { dirty, ctx };
     			}
 
     			tinyslider0.$set(tinyslider0_changes);
     			const tinyslider1_changes = {};
 
-    			if (dirty[2] & /*$$scope*/ 512) {
+    			if (dirty[2] & /*$$scope*/ 524288) {
     				tinyslider1_changes.$$scope = { dirty, ctx };
     			}
 
     			tinyslider1.$set(tinyslider1_changes);
     			const tinyslider2_changes = {};
 
-    			if (dirty[0] & /*setIndex, currentIndex*/ 6 | dirty[2] & /*$$scope*/ 512) {
+    			if (dirty[0] & /*setIndex, currentIndex*/ 24 | dirty[2] & /*$$scope*/ 524288) {
     				tinyslider2_changes.$$scope = { dirty, ctx };
     			}
 
     			tinyslider2.$set(tinyslider2_changes);
     			const tinyslider3_changes = {};
 
-    			if (dirty[0] & /*currentIndex, setIndex*/ 6 | dirty[2] & /*$$scope*/ 512) {
+    			if (dirty[0] & /*currentIndex, setIndex*/ 24 | dirty[2] & /*$$scope*/ 524288) {
     				tinyslider3_changes.$$scope = { dirty, ctx };
     			}
 
     			tinyslider3.$set(tinyslider3_changes);
     			const tinyslider4_changes = {};
 
-    			if (dirty[0] & /*currentIndex, setIndex*/ 6 | dirty[2] & /*$$scope*/ 512) {
+    			if (dirty[0] & /*currentIndex, setIndex*/ 24 | dirty[2] & /*$$scope*/ 524288) {
     				tinyslider4_changes.$$scope = { dirty, ctx };
     			}
 
     			tinyslider4.$set(tinyslider4_changes);
     			const tinyslider5_changes = {};
 
-    			if (dirty[2] & /*$$scope*/ 512) {
+    			if (dirty[2] & /*$$scope*/ 524288) {
     				tinyslider5_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_setIndex && dirty[0] & /*setIndex*/ 2) {
+    			if (!updating_setIndex && dirty[0] & /*setIndex*/ 8) {
     				updating_setIndex = true;
-    				tinyslider5_changes.setIndex = /*setIndex*/ ctx[1];
+    				tinyslider5_changes.setIndex = /*setIndex*/ ctx[3];
     				add_flush_callback(() => updating_setIndex = false);
     			}
 
-    			if (!updating_currentIndex && dirty[0] & /*currentIndex*/ 4) {
+    			if (!updating_currentIndex && dirty[0] & /*currentIndex*/ 16) {
     				updating_currentIndex = true;
-    				tinyslider5_changes.currentIndex = /*currentIndex*/ ctx[2];
+    				tinyslider5_changes.currentIndex = /*currentIndex*/ ctx[4];
     				add_flush_callback(() => updating_currentIndex = false);
     			}
 
     			tinyslider5.$set(tinyslider5_changes);
     			const tinyslider6_changes = {};
 
-    			if (dirty[0] & /*sliderWidth*/ 8192 | dirty[2] & /*$$scope*/ 512) {
+    			if (dirty[0] & /*sliderWidth*/ 4 | dirty[2] & /*$$scope*/ 524288) {
     				tinyslider6_changes.$$scope = { dirty, ctx };
     			}
 
     			tinyslider6.$set(tinyslider6_changes);
     			const tinyslider7_changes = {};
 
-    			if (dirty[0] & /*sliderWidth*/ 8192 | dirty[2] & /*$$scope*/ 512) {
+    			if (dirty[0] & /*sliderWidth*/ 4 | dirty[2] & /*$$scope*/ 524288) {
     				tinyslider7_changes.$$scope = { dirty, ctx };
     			}
 
     			tinyslider7.$set(tinyslider7_changes);
     			const tinyslider8_changes = {};
 
-    			if (dirty[2] & /*$$scope*/ 512) {
+    			if (dirty[2] & /*$$scope*/ 524288) {
     				tinyslider8_changes.$$scope = { dirty, ctx };
     			}
 
     			tinyslider8.$set(tinyslider8_changes);
     			const tinyslider9_changes = {};
 
-    			if (dirty[0] & /*setIndex, currentIndex, portaitItems, sliderWidth*/ 8199 | dirty[2] & /*$$scope*/ 512) {
+    			if (dirty[0] & /*setIndex, currentIndex, sliderWidth*/ 28 | dirty[1] & /*reachedEnd*/ 32768 | dirty[2] & /*$$scope*/ 524288) {
     				tinyslider9_changes.$$scope = { dirty, ctx };
     			}
 
     			tinyslider9.$set(tinyslider9_changes);
     			const tinyslider10_changes = {};
 
-    			if (dirty[0] & /*setIndex, currentIndex, portaitItems*/ 7 | dirty[1] & /*shown*/ 64 | dirty[2] & /*$$scope*/ 512) {
+    			if (dirty[0] & /*setIndex, currentIndex*/ 24 | dirty[1] & /*reachedEnd, shown*/ 49152 | dirty[2] & /*$$scope*/ 524288) {
     				tinyslider10_changes.$$scope = { dirty, ctx };
     			}
 
     			tinyslider10.$set(tinyslider10_changes);
     			const tinyslider11_changes = {};
 
-    			if (dirty[0] & /*currentIndex, setIndex, sliderWidth*/ 8198 | dirty[2] & /*$$scope*/ 512) {
+    			if (dirty[0] & /*setIndex, currentIndex, portaitItems*/ 25 | dirty[1] & /*shown*/ 16384 | dirty[2] & /*$$scope*/ 524288) {
     				tinyslider11_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_distanceToEnd && dirty[0] & /*distanceToEnd*/ 2) {
+    				updating_distanceToEnd = true;
+    				tinyslider11_changes.distanceToEnd = /*distanceToEnd*/ ctx[1];
+    				add_flush_callback(() => updating_distanceToEnd = false);
+    			}
+
+    			if (!updating_sliderWidth && dirty[0] & /*sliderWidth*/ 4) {
+    				updating_sliderWidth = true;
+    				tinyslider11_changes.sliderWidth = /*sliderWidth*/ ctx[2];
+    				add_flush_callback(() => updating_sliderWidth = false);
     			}
 
     			tinyslider11.$set(tinyslider11_changes);
     			const tinyslider12_changes = {};
 
-    			if (dirty[2] & /*$$scope*/ 512) {
+    			if (dirty[0] & /*setIndex, currentIndex*/ 24 | dirty[2] & /*$$scope*/ 524288) {
     				tinyslider12_changes.$$scope = { dirty, ctx };
     			}
 
     			tinyslider12.$set(tinyslider12_changes);
     			const tinyslider13_changes = {};
 
-    			if (dirty[0] & /*setIndex, currentIndex*/ 6 | dirty[1] & /*reachedEnd, shown*/ 192 | dirty[2] & /*$$scope*/ 512) {
+    			if (dirty[0] & /*setIndex, currentIndex*/ 24 | dirty[1] & /*reachedEnd*/ 32768 | dirty[2] & /*$$scope*/ 524288) {
     				tinyslider13_changes.$$scope = { dirty, ctx };
     			}
 
     			tinyslider13.$set(tinyslider13_changes);
+    			const tinyslider14_changes = {};
+
+    			if (dirty[0] & /*setIndex, currentIndex*/ 24 | dirty[1] & /*reachedEnd*/ 32768 | dirty[2] & /*$$scope*/ 524288) {
+    				tinyslider14_changes.$$scope = { dirty, ctx };
+    			}
+
+    			tinyslider14.$set(tinyslider14_changes);
+    			const tinyslider15_changes = {};
+
+    			if (dirty[0] & /*setIndex, currentIndex*/ 24 | dirty[1] & /*reachedEnd, shown*/ 49152 | dirty[2] & /*$$scope*/ 524288) {
+    				tinyslider15_changes.$$scope = { dirty, ctx };
+    			}
+
+    			tinyslider15.$set(tinyslider15_changes);
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -7031,6 +9356,8 @@ var app = (function () {
     			transition_in(tinyslider11.$$.fragment, local);
     			transition_in(tinyslider12.$$.fragment, local);
     			transition_in(tinyslider13.$$.fragment, local);
+    			transition_in(tinyslider14.$$.fragment, local);
+    			transition_in(tinyslider15.$$.fragment, local);
     			current = true;
     		},
     		o: function outro(local) {
@@ -7048,13 +9375,15 @@ var app = (function () {
     			transition_out(tinyslider11.$$.fragment, local);
     			transition_out(tinyslider12.$$.fragment, local);
     			transition_out(tinyslider13.$$.fragment, local);
+    			transition_out(tinyslider14.$$.fragment, local);
+    			transition_out(tinyslider15.$$.fragment, local);
     			current = false;
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(header);
     			destroy_component(tinyslider0);
     			if (detaching) detach_dev(t3);
-    			if (detaching) detach_dev(div15);
+    			if (detaching) detach_dev(div22);
     			destroy_component(tinyslider1);
     			destroy_component(tinyslider2);
     			destroy_component(tinyslider3);
@@ -7067,11 +9396,13 @@ var app = (function () {
     			destroy_component(tinyslider10);
     			destroy_component(tinyslider11);
     			destroy_component(tinyslider12);
-    			if (detaching) detach_dev(t354);
-    			if (detaching) detach_dev(div16);
     			destroy_component(tinyslider13);
-    			if (detaching) detach_dev(t355);
-    			if (detaching) detach_dev(div17);
+    			destroy_component(tinyslider14);
+    			if (detaching) detach_dev(t484);
+    			if (detaching) detach_dev(div23);
+    			destroy_component(tinyslider15);
+    			if (detaching) detach_dev(t485);
+    			if (detaching) detach_dev(div31);
     			mounted = false;
     			run_all(dispose);
     		}
@@ -7109,6 +9440,7 @@ var app = (function () {
     	const fixedItems5 = getItems("food-drink", "200x300");
     	const fixedItems6 = getItems("experimental", "508x350");
     	const fixedItems7 = getItems("fashion", "200x300", 20);
+    	const fixedItems8 = getItems("nature", "200x300");
     	const headerItems = getItems("3d-render", "200x150", 30);
     	const cardItems = getItems("architecture", "320x180", 20);
     	let portaitItems = getItems("food-drink", "200x300");
@@ -7135,12 +9467,12 @@ var app = (function () {
 
     	function tinyslider5_setIndex_binding(value) {
     		setIndex = value;
-    		$$invalidate(1, setIndex);
+    		$$invalidate(3, setIndex);
     	}
 
     	function tinyslider5_currentIndex_binding(value) {
     		currentIndex = value;
-    		$$invalidate(2, currentIndex);
+    		$$invalidate(4, currentIndex);
     	}
 
     	const click_handler_5 = () => setIndex(2);
@@ -7150,12 +9482,28 @@ var app = (function () {
     	const click_handler_9 = (setIndex, currentIndex) => setIndex(currentIndex + 1);
     	const click_handler_10 = (setIndex, currentIndex) => setIndex(currentIndex - 2);
     	const click_handler_11 = (setIndex, currentIndex) => setIndex(currentIndex + 2);
-    	const click_handler_12 = (setIndex, i) => setIndex(i);
-    	const focus_handler_1 = (setIndex, i) => setIndex(i);
-    	const click_handler_13 = () => console.log('click');
-    	const click_handler_14 = (setIndex, currentIndex) => setIndex(currentIndex - 2);
-    	const click_handler_15 = (setIndex, currentIndex) => setIndex(currentIndex + 2);
-    	const click_handler_16 = () => console.log('click');
+    	const click_handler_12 = (setIndex, currentIndex) => setIndex(currentIndex - 2);
+    	const click_handler_13 = (setIndex, currentIndex) => setIndex(currentIndex + 2);
+
+    	function tinyslider11_distanceToEnd_binding(value) {
+    		distanceToEnd = value;
+    		$$invalidate(1, distanceToEnd);
+    	}
+
+    	function tinyslider11_sliderWidth_binding(value) {
+    		sliderWidth = value;
+    		$$invalidate(2, sliderWidth);
+    	}
+
+    	const click_handler_14 = (setIndex, currentIndex) => setIndex(currentIndex - 1);
+    	const click_handler_15 = (setIndex, currentIndex) => setIndex(currentIndex + 1);
+    	const click_handler_16 = (setIndex, currentIndex) => setIndex(currentIndex - 1);
+    	const click_handler_17 = (setIndex, currentIndex) => setIndex(currentIndex + 1);
+    	const click_handler_18 = (setIndex, currentIndex) => setIndex(currentIndex - 1);
+    	const click_handler_19 = (setIndex, currentIndex) => setIndex(currentIndex + 1);
+    	const click_handler_20 = (setIndex, currentIndex) => setIndex(currentIndex - 2);
+    	const click_handler_21 = (setIndex, currentIndex) => setIndex(currentIndex + 2);
+    	const click_handler_22 = () => console.log('click');
 
     	$$self.$capture_state = () => ({
     		Arrow,
@@ -7168,6 +9516,7 @@ var app = (function () {
     		fixedItems5,
     		fixedItems6,
     		fixedItems7,
+    		fixedItems8,
     		headerItems,
     		cardItems,
     		portaitItems,
@@ -7180,10 +9529,10 @@ var app = (function () {
 
     	$$self.$inject_state = $$props => {
     		if ('portaitItems' in $$props) $$invalidate(0, portaitItems = $$props.portaitItems);
-    		if ('setIndex' in $$props) $$invalidate(1, setIndex = $$props.setIndex);
-    		if ('currentIndex' in $$props) $$invalidate(2, currentIndex = $$props.currentIndex);
-    		if ('sliderWidth' in $$props) $$invalidate(13, sliderWidth = $$props.sliderWidth);
-    		if ('distanceToEnd' in $$props) $$invalidate(36, distanceToEnd = $$props.distanceToEnd);
+    		if ('setIndex' in $$props) $$invalidate(3, setIndex = $$props.setIndex);
+    		if ('currentIndex' in $$props) $$invalidate(4, currentIndex = $$props.currentIndex);
+    		if ('sliderWidth' in $$props) $$invalidate(2, sliderWidth = $$props.sliderWidth);
+    		if ('distanceToEnd' in $$props) $$invalidate(1, distanceToEnd = $$props.distanceToEnd);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -7191,7 +9540,7 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty[0] & /*portaitItems*/ 1) {
+    		if ($$self.$$.dirty[0] & /*distanceToEnd, sliderWidth, portaitItems*/ 7) {
     			if (distanceToEnd < sliderWidth) $$invalidate(0, portaitItems = [
     				...portaitItems,
     				...getItems("food-drink", "200x300", 10, portaitItems.length)
@@ -7201,6 +9550,8 @@ var app = (function () {
 
     	return [
     		portaitItems,
+    		distanceToEnd,
+    		sliderWidth,
     		setIndex,
     		currentIndex,
     		items,
@@ -7213,7 +9564,6 @@ var app = (function () {
     		fixedItems7,
     		headerItems,
     		cardItems,
-    		sliderWidth,
     		click_handler,
     		func,
     		click_handler_1,
@@ -7231,11 +9581,18 @@ var app = (function () {
     		click_handler_10,
     		click_handler_11,
     		click_handler_12,
-    		focus_handler_1,
     		click_handler_13,
+    		tinyslider11_distanceToEnd_binding,
+    		tinyslider11_sliderWidth_binding,
     		click_handler_14,
     		click_handler_15,
-    		click_handler_16
+    		click_handler_16,
+    		click_handler_17,
+    		click_handler_18,
+    		click_handler_19,
+    		click_handler_20,
+    		click_handler_21,
+    		click_handler_22
     	];
     }
 
