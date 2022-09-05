@@ -10,6 +10,7 @@
 	const fixedItems5 = getItems("food-drink", "200x300")
 	const fixedItems6 = getItems("experimental", "508x350")
 	const fixedItems7 = getItems("fashion", "200x300", 20)
+	const fixedItems8 = getItems("nature", "200x300")
 	const headerItems = getItems("3d-render", "200x150", 30)
 	const cardItems = getItems("architecture", "320x180", 20)
 	let portaitItems = getItems("food-drink", "200x300")
@@ -129,7 +130,7 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button on:click=&#123;() =&gt; <mark>setIndex</mark>(<mark>currentIndex</mark> - 1)&#125;&gt;...&lt;/button&gt; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125; <br>
 				<br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if <mark>currentIndex</mark> &lt; portaitItems.length - 1&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if <mark>currentIndex</mark> &lt; items.length - 1&#125; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button on:click=&#123;() =&gt; <mark>setIndex</mark>(<mark>currentIndex</mark> + 1)&#125;&gt;...&lt;/button&gt; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125; <br>
 				&nbsp;&nbsp;&lt;/svelte:fragment&gt; <br>
@@ -373,7 +374,7 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
 				&nbsp;&nbsp;&#123;/each&#125;<br>
 				<br>
-				&nbsp;&nbsp;...
+				&nbsp;&nbsp;...<br>
 				&lt;/<mark>TinySlider</mark>&gt;<br>
 			</code>
 		</p>
@@ -383,7 +384,7 @@
 		</p>
 
 		<div class="relative">
-			<TinySlider let:setIndex let:currentIndex let:sliderWidth>
+			<TinySlider let:setIndex let:currentIndex let:sliderWidth let:reachedEnd>
 				{#each fixedItems6 as item, i}
 					<div style:width="{sliderWidth}px">
 						{#if currentIndex + 1 >= i}
@@ -397,7 +398,7 @@
 						<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
 					{/if}
 
-					{#if currentIndex < portaitItems.length - 1}
+					{#if !reachedEnd}
 						<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
 					{/if}
 				</svelte:fragment>
@@ -426,7 +427,7 @@
 
 		<div class="relative">
 			<div class="slider-wrapper">
-				<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown>
+				<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown let:reachedEnd>
 					{#each fixedItems7 as item, index}
 						<div class="item" style:--width="200px" style:--height="300px">
 							{#if shown.includes(index)}
@@ -440,7 +441,7 @@
 							<button class="arrow left" on:click={() => setIndex(currentIndex - 2)}><Arrow /></button>
 						{/if}
 
-						{#if currentIndex < portaitItems.length - 1}
+						{#if !reachedEnd}
 							<button class="arrow right" on:click={() => setIndex(currentIndex + 2)}><Arrow direction="right" /></button>
 						{/if}
 					</svelte:fragment>
@@ -450,39 +451,174 @@
 	</div>
 
 	<div class="block">
-		<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:sliderWidth>
-			{#each fixedItems5 as item}
-				<div
-					class="item"
-					style:--width="{sliderWidth}px"
-					style:--height="400px">
-					<img loading="lazy" src={item} alt="" />
-				</div>
-			{/each}
+		<h3>Infinite Loading</h3>
 
-			<div slot="controls" class="thumbnails">
-				{#each items as item, i}
-					<button
-						class="thumbnail"
-						class:active={i == currentIndex}
-						on:click={() => setIndex(i)}
-						on:focus={() => setIndex(i)}>
-						<img loading="lazy" src={item} alt="" height=60 />
-					</button>
-				{/each}
+		<p>There are several properties you could use to implement infinite loading, meaning we load more items in when the user has scroll (almost) to the end of the slider.</p>
+
+		<h4>Event</h4>
+
+		<p>You could use the event <mark>on:end</mark>, which fires when the user has reached the end of the slider based on pixels and not on currentIndex.</p>
+
+		<p>
+			<code class="well">
+				&lt;<mark>TinySlider</mark> <mark>on:end</mark>=&#123;() =&gt; console.log('Reached end')&#125;&gt;<br>
+				&nbsp;&nbsp;...<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			</code>
+		</p>
+
+		<h4>Properties</h4>
+
+		<p>Similarity to the event you could use the property <mark>reachedEnd</mark>. This turns to true at the same time <mark>on:end</mark> is fired. Once again this can be set using either <mark>let:reachedEnd</mark> or <mark>bind:reachedEnd</mark>.</p>
+
+		<p>
+			<code class="well">
+				&lt;script&gt;<br>
+				&nbsp;&nbsp;let <mark>reachedEnd</mark> = false<br>
+				&nbsp;&nbsp;$: if (<mark>reachedEnd</mark>) console.log('Reached end')<br>
+				&lt;/script&gt;<br>
+				<br>
+				&lt;<mark>TinySlider</mark> <mark>bind:reachedEnd</mark>&gt;<br>
+				&nbsp;&nbsp;...<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			</code>
+		</p>
+
+		<p>You might want to load more items before the user actually reaches the end to make it actually feel infinite. This could be achieved with the <mark>distanceToEnd</mark> property. Once again this can be set using either <mark>let:distanceToEnd</mark> or <mark>bind:distanceToEnd</mark>.</p>
+
+		<p>
+			<code class="well">
+				&lt;script&gt;<br>
+				&nbsp;&nbsp;let <mark>distanceToEnd</mark><br>
+				&nbsp;&nbsp;$: if (<mark>distanceToEnd && distanceToEnd &lt; 500</mark>) console.log('Load more')<br>
+				&lt;/script&gt;<br>
+				<br>
+				&lt;<mark>TinySlider</mark> <mark>bind:distanceToEnd</mark>&gt;<br>
+				&nbsp;&nbsp;...<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			</code>
+		</p>
+
+		<div class="relative">
+			<div class="slider-wrapper">
+				<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown bind:distanceToEnd bind:sliderWidth>
+					{#each portaitItems as item, index}
+						<div class="item" style:--width="200px" style:--height="300px">
+							{#if shown.includes(index)}
+							<img src={item} alt="" />
+							{/if}
+						</div>
+					{/each}
+
+					<svelte:fragment slot="controls">
+						{#if currentIndex > 0}
+							<button class="arrow left" on:click={() => setIndex(currentIndex - 2)}><Arrow /></button>
+						{/if}
+
+						<button class="arrow right" on:click={() => setIndex(currentIndex + 2)}><Arrow direction="right" /></button>
+					</svelte:fragment>
+				</TinySlider>
 			</div>
-		</TinySlider>
+		</div>
 	</div>
 
 	<div class="block">
-		<div class="slider-wrapper">
-			<TinySlider gap="0.5rem" fill={false}>
-				{#each { length: 20 } as _}
-					<div class="item" style:--width="200px" style:--height="200px" on:click={() => console.log('click')}>
-						<a href="https://google.com" target="_blank">Link</a>
-					</div>
-				{/each}
-			</TinySlider>
+		<h3>Other</h3>
+
+		<h4>Fill</h4>
+
+		<p>When showing multiple slides at once by default the slider will always fill out the full width when reaching the end. This behaviour can be disabled using <mark>fill=&#123;false&#125;</mark>.</p>
+
+		<p>
+			<code class="well">
+				&lt;<mark>TinySlider</mark> <mark>fill</mark>=&#123;false&#125;&gt;<br>
+				&nbsp;&nbsp;...<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			</code>
+		</p>
+
+		<div class="relative">
+			<div class="slider-wrapper">
+				<TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex>
+					{#each { length: 10 } as _}
+						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px" />
+					{/each}
+
+					<svelte:fragment slot="controls">
+						{#if currentIndex > 0}
+							<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
+						{/if}
+
+						{#if currentIndex < 9}
+							<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
+						{/if}
+					</svelte:fragment>
+				</TinySlider>
+			</div>
+		</div>
+
+		<h4>Transition Duration</h4>
+
+		<p>The slider will always snap to the left side of one of the slides. The speed at which this happens can be set using the <mark>transitionDuration</mark> property. This value is given in milliseconds. This defaults to 300.</p>
+
+		<p>
+			<code class="well">
+				&lt;<mark>TinySlider</mark> <mark>transitionDuration</mark>="1000"&gt;<br>
+				&nbsp;&nbsp;...<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			</code>
+		</p>
+
+		<div class="relative">
+			<div class="slider-wrapper">
+				<TinySlider gap="0.5rem" transitionDuration="1000" let:setIndex let:currentIndex let:reachedEnd>
+					{#each { length: 10 } as _}
+						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px" />
+					{/each}
+
+					<svelte:fragment slot="controls">
+						{#if currentIndex > 0}
+							<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
+						{/if}
+
+						{#if !reachedEnd}
+							<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
+						{/if}
+					</svelte:fragment>
+				</TinySlider>
+			</div>
+		</div>
+
+		<h4>Threshold</h4>
+
+		<p>When dragging the slider it will not transition to the next slide until a certain threshold has been passed to prevent accidental sliding. This also determines when a link or click event is disabled. This can be set using the <mark>treshold</mark> property. This value is given in pixels. This defaults to 30.</p>
+
+		<p>
+			<code class="well">
+				&lt;<mark>TinySlider</mark> <mark>threshold</mark>="100"&gt;<br>
+				&nbsp;&nbsp;...<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			</code>
+		</p>
+
+		<div class="relative">
+			<div class="slider-wrapper">
+				<TinySlider gap="0.5rem" threshold="100" let:setIndex let:currentIndex let:reachedEnd>
+					{#each { length: 10 } as _}
+						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px" />
+					{/each}
+
+					<svelte:fragment slot="controls">
+						{#if currentIndex > 0}
+							<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
+						{/if}
+
+						{#if !reachedEnd}
+							<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
+						{/if}
+					</svelte:fragment>
+				</TinySlider>
+			</div>
 		</div>
 	</div>
 </div>
@@ -520,7 +656,55 @@
 </div>
 
 <div class="wrapper">
+	<h2>Properties</h2>
 
+	<div class="block">
+		<p>This is a list of all configurable properties.</p>
+
+		<div class="table">
+			<strong>Property</strong> <strong>Default</strong> <strong>Description</strong>
+
+			<code>gap</code> <code>0</code> <strong>Gap between each item. Can be any CSS value.</strong>
+			<code>fill</code> <code>true</code> <strong>Boolean to set whether the slider is always filled fully when at the end.</strong>
+			<code>transitionDuration</code> <code>300</code> <strong>Transition between items in milliseconds.</strong>
+			<code>threshold</code> <code>30</code> <strong>Value in pixels for when you navigate when using drag controls.</strong>
+			<code>currentIndex</code> <code>0</code> <strong>Index of the current slide (Read only).</strong>
+			<code>shown</code> <code>[]</code> <strong>Array of all shown indexes (Read only).</strong>
+			<code>sliderWidth</code> <code>0</code> <strong>Box width in pixels of the slider as it is on the page (Read only).</strong>
+			<code>maxWidth</code> <code>0</code> <strong>Full width in pixels of all items together (Read only).</strong>
+			<code>currentScrollPosition</code> <code>0</code> <strong>Current position in the slider in pixels (Read only).</strong>
+			<code>reachedEnd</code> <code>false</code> <strong>Boolean that is set to true when you have reached the end of the slider (Read only).</strong>
+			<code>distanceToEnd</code> <code>0</code> <strong>Distance in pixels until you reach the end of the slider (Read only).</strong>
+		</div>
+	</div>
+
+	<h2>Functions</h2>
+
+	<div class="block">
+		<p>This is a list of exported functions.</p>
+
+		<div class="table">
+			<strong>Name</strong> <strong>Properties</strong> <strong>Description</strong>
+
+			<code>setIndex</code> <code>index</code> <strong>Used to set the slider to the specified index.</strong>
+		</div>
+	</div>
+
+	<h2>Events</h2>
+
+	<div class="block">
+		<p>This is a list of events.</p>
+
+		<div class="table">
+			<strong>Name</strong> <strong></strong> <strong>Description</strong>
+
+			<code>end</code> <code></code> <strong>Fired when the end of the slider has been reached.</strong>
+		</div>
+	</div>
+
+	<div class="block">
+		Made by <a href="https://github.com/Mitcheljager">Mitchel Jager</a>
+	</div>
 </div>
 
 
@@ -769,6 +953,7 @@
 		border-radius: 50%;
 		background: var(--text-color-lightest);
 		transform: translateX(-50%) translateY(-50%);
+		opacity: 0.75;
 		font-size: 1.5rem;
 		line-height: 1.5rem;
 		font-family: inherit;
@@ -789,7 +974,7 @@
 	}
 
 	.arrow:hover {
-		background: var(--text-color-light);
+		opacity: 1;
 	}
 
 	.arrow.right {
