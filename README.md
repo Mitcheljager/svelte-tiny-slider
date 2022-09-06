@@ -1,12 +1,12 @@
 # Svelte Tiny Slider
 
+Svelte Tiny Slider is an easy to use highly customizable and unopinionated carousel or slider. There is little to no styling and how you structure your content is up to you. Images, videos, or any other element will work. Works with touch and keyboard controls. Made with accessiblity in mind.
+
 [![npm version](https://badgen.net/npm/v/svelte-tiny-slider)](https://www.npmjs.com/package/svelte-tiny-slider)
 [![npm downloads](https://badgen.net/npm/dt/svelte-tiny-slider)](https://www.npmjs.com/package/svelte-tiny-slider)
 [![bundle size](https://badgen.net/bundlephobia/minzip/svelte-tiny-slider)](https://bundlephobia.com/package/svelte-tiny-slider)
 
-Svelte Tiny Slider is an easy to use highly customizable and unopinionated carousel or slider. There is little to no styling and how you structure your content is up to you. Images, videos, or any other element will work. Works with touch and keyboard controls. Made with accessiblity in mind.
-
-The package is less than 250 bytes gzipped ([https://bundlephobia.com/package/svelte-tiny-slider](Bundlephobia)) and has no dependencies.
+The package is less than 250 bytes gzipped ([Bundlephopbia](https://bundlephobia.com/package/svelte-tiny-slider)) and has no dependencies.
 
 **Demo and Docs**: https://mitcheljager.github.io/svelte-tiny-slider/
 
