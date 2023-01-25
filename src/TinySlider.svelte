@@ -41,9 +41,9 @@
   }
 
   function down(event) {
-    event.preventDefault()
-
     if (!isCurrentSlider(event.target)) return
+
+    event.preventDefault()
 
     movementStartX = event.pageX || event.touches[0].pageX
     isDragging = true
