@@ -70,13 +70,9 @@
 
     passedThreshold = Math.abs(currentScrollPosition - finalScrollPosition) > threshold
 
-    if (event.touches?.length) {
-      event.pageX = event.touches[0].pageX
-      event.movementX = event.touches[0].pageX - movementStartX
-    }
+    let pageX = event.pageX || event.touches[0].pageX
 
-
-    setScrollPosition(finalScrollPosition + (movementStartX - event.pageX))
+    setScrollPosition(finalScrollPosition + (movementStartX - pageX))
     setShown()
   }
 
