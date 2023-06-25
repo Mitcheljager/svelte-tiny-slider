@@ -75,10 +75,6 @@
       event.movementX = event.touches[0].pageX - movementStartX
     }
 
-    if (event.pageX + event.movementX < 0 || event.pageX + event.movementX > window.innerWidth) {
-      up()
-      return
-    }
 
     setScrollPosition(finalScrollPosition + (movementStartX - event.pageX))
     setShown()
@@ -194,8 +190,10 @@
     touch-action: pan-y;
   }
 
-  .slider.passed-threshold {
-    pointer-events: none;
+  @media (pointer: fine) {
+    .slider.passed-threshold {
+      pointer-events: none;
+    }
   }
 
   .slider-content {
