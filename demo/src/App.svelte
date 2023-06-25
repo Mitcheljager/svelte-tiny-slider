@@ -47,7 +47,7 @@
 
 <div class="wrapper">
 	<div class="block">
-		<p>Svelte Tiny Slider is an easy to use highly customizable and unopinionated carousel or slider. There is little to no styling and how you structure your content is up to you. Images, videos, or any other element will work. Works with touch and keyboard controls. Made with accessiblity in mind.</p>
+		<p>Svelte Tiny Slider is an easy to use highly customizable and unopinionated carousel or slider. There is little to no styling and how you structure your content is up to you. Images, videos, or any other element will work. Works with touch and keyboard controls. Made with accessibility in mind.</p>
 
 		<p>The package is less than 250 bytes gzipped (<a target="_blank" href="https://bundlephobia.com/package/svelte-tiny-slider">Bundlephobia</a>) and has no dependencies.</p>
 
