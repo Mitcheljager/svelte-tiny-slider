@@ -191,6 +191,7 @@
 <style>
   .slider {
     overflow-x: hidden;
+    touch-action: pan-y;
   }
 
   .slider.passed-threshold {
