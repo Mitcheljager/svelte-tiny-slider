@@ -888,6 +888,7 @@
 	}
 
 	.dot {
+		flex: 0 0 0.75rem;
 		width: 0.75rem;
 		height: 0.75rem;
 		border: 0;
@@ -1053,37 +1054,11 @@
 		transform: scale(0.95);
 	}
 
-	.buttons {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0 0.5rem;
-	}
-
-	.button-code-group {
-		display: grid;
-		grid-template-columns: 7rem auto;
-		align-items: center;
-		gap: 1rem;
-		margin: 0.5rem 0;
-	}
-
-	.button-code-group button {
-		width: 100%;
-	}
-
-	.button-code-group code {
-		margin: 0;
-	}
-
 	.well {
 		padding: .35rem .5rem;
 		border-radius: .5rem;
 		border: 1px solid var(--border-color);
 		background: var(--bg-well);
-	}
-
-	.header {
-		margin: 6rem 0 0;
 	}
 
 	:global(.header svg) {
@@ -1100,16 +1075,6 @@
 	.block {
 		padding: 3rem 0;
 		border-bottom: 1px solid var(--border-color);
-	}
-
-	.description {
-		margin-bottom: 1rem;
-	}
-
-	@media (min-width: 600px) {
-		.description {
-			margin-bottom: 0;
-		}
 	}
 
 	.table {
