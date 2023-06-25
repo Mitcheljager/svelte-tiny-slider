@@ -28,7 +28,7 @@
   $: if (contentElement) distanceToEnd = maxWidth - currentScrollPosition - sliderWidth
 
   onMount(createResizeObserver)
-  onDestroy(() => observer.disconnect(contentElement))
+  onDestroy(() => { if (observer) observer.disconnect(contentElement) })
 
   export function setIndex(i) {
     const length = contentElement.children.length
