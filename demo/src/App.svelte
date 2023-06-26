@@ -932,8 +932,7 @@
 		filter: brightness(1.2);
 	}
 
-	.thumbnail.active,
-	.thumbnail:focus {
+	.thumbnail.active {
 		outline: 2px solid white;
 		outline-offset: 2px;
 	}
