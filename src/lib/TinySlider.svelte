@@ -161,9 +161,8 @@
   on:touchmove={move}
   on:keydown={keydown} />
 
-
-
 <div class="slider" class:dragging={isDragging} class:passed-threshold={passedThreshold} bind:this={sliderElement} bind:clientWidth={sliderWidth} tabindex="-1">
+  <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
   <div
     bind:this={contentElement}
     tabindex="0"
@@ -175,10 +174,7 @@
   </div>
 </div>
 
-<slot name="controls" />
-
-
-
+<slot name="controls" {sliderWidth} {shown} {currentIndex} {setIndex} {currentScrollPosition} {maxWidth} {reachedEnd} {distanceToEnd} />
 
 <style>
   .slider {

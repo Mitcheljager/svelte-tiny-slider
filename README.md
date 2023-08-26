@@ -4,7 +4,7 @@ Svelte Tiny Slider is an easy to use highly customizable and unopinionated carou
 
 [![npm version](https://badgen.net/npm/v/svelte-tiny-slider)](https://www.npmjs.com/package/svelte-tiny-slider)
 [![npm downloads](https://badgen.net/npm/dt/svelte-tiny-slider)](https://www.npmjs.com/package/svelte-tiny-slider)
-[![bundle size](https://badgen.net/bundlephobia/minzip/svelte-tiny-slider)](https://bundlephobia.com/package/svelte-tiny-slider)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/svelte-tiny-slider)](https://bundlephobia.com/package/svelte-tiny-slider)
 
 The package is less than 250 bytes gzipped ([Bundlephopbia](https://bundlephobia.com/package/svelte-tiny-slider)) and has no dependencies.
 
@@ -14,15 +14,15 @@ The package is less than 250 bytes gzipped ([Bundlephopbia](https://bundlephobia
 
 Install using Yarn or NPM.
 ```js
-yarn add svelte-tiny-slider
+yarn add svelte-tiny-slider --dev
 ```
 ```js
-npm install --save svelte-tiny-slider
+npm install svelte-tiny-slider --save-dev
 ```
 
 Include the component in your app.
 ```js
-import { TinySlider } from "svelte-tiny-slider"
+import TinySlider from "svelte-tiny-slider"
 ```
 ```svelte
 <TinySlider>

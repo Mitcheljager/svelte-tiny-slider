@@ -1,6 +1,6 @@
 <script>
 	import Arrow from "./Arrow.svelte"
-	import { TinySlider } from "svelte-tiny-slider"
+	import TinySlider from "$lib/TinySlider.svelte"
 
 	const items = getItems("editorial")
 	const fixedItems = getItems("editorial", "508x350")
@@ -33,8 +33,6 @@
 		portaitItems = [...portaitItems, ...getItems("food-drink", "200x300", 10, portaitItems.length)]
 </script>
 
-
-
 <header>
 	<h1><mark>Svelte</mark>&nbsp;Tiny&nbsp;Slider</h1>
 
@@ -58,17 +56,17 @@
 		<p>Install using Yarn or NPM.</p>
 
 		<code class="well">
-			yarn add <mark>svelte-tiny-slider</mark>
+			yarn add <mark>svelte-tiny-slider</mark> --dev
 		</code>
 
 		<code class="well">
-			npm install --save <mark>svelte-tiny-slider</mark>
+			npm install <mark>svelte-tiny-slider</mark> --save-dev
 		</code>
 
 		<p>Include the slider in your app.</p>
 
 		<code class="well">
-			import &#123; <mark>TinySlider</mark> &#125; from "<mark>svelte-tiny-slider</mark>"
+			import <mark>TinySlider</mark> from "<mark>svelte-tiny-slider</mark>"
 		</code>
 
 		<code class="well">
@@ -103,8 +101,7 @@
 	<div class="block">
 		<h3>Controls</h3>
 
-		<p>
-			From this point there are several options to add any kind of controls you can think of. There two ways you can add controls. Either via slot props or via exported props using two way binds.
+		<p>From this point there are several options to add any kind of controls you can think of. There two ways you can add controls. Either via slot props or via exported props using two way binds.</p>
 
 		<h4>Controls via slot props</h4>
 
@@ -121,12 +118,12 @@
 
 		<p>
 			<code class="well">
-				&lt;<mark>TinySlider</mark> let:<mark>setIndex</mark> let:<mark>currentIndex</mark>&gt; <br>
+				&lt;<mark>TinySlider</mark> <br>
 				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
 				&nbsp;&nbsp;&#123;/each&#125; <br>
 				<br>
-				&nbsp;&nbsp;&lt;svelte:fragment slot="<mark>controls</mark>"&gt; <br>
+				&nbsp;&nbsp;&lt;svelte:fragment slot="<mark>controls</mark>" let:<mark>setIndex</mark> let:<mark>currentIndex</mark>&gt;&gt; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if <mark>currentIndex</mark> &gt; 0&#125; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button on:click=&#123;() =&gt; <mark>setIndex</mark>(<mark>currentIndex</mark> - 1)&#125;&gt;...&lt;/button&gt; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125; <br>
@@ -140,12 +137,12 @@
 		</p>
 
 		<div class="relative">
-			<TinySlider let:setIndex let:currentIndex>
+			<TinySlider>
 				{#each fixedItems2 as item}
 					<img src={item} alt="" />
 				{/each}
 
-				<svelte:fragment slot="controls">
+				<svelte:fragment slot="controls" let:setIndex let:currentIndex>
 					{#if currentIndex > 0}
 						<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
 					{/if}
@@ -161,12 +158,12 @@
 
 		<p>
 			<code class="well">
-				&lt;<mark>TinySlider</mark> let:<mark>setIndex</mark> let:<mark>currentIndex</mark>&gt; <br>
+				&lt;<mark>TinySlider</mark>&gt; <br>
 				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
 				&nbsp;&nbsp;&#123;/each&#125; <br>
 				<br>
-				&nbsp;&nbsp;&lt;div slot="controls"&gt;<br>
+				&nbsp;&nbsp;&lt;div slot="controls" let:<mark>setIndex</mark> let:<mark>currentIndex</mark>&gt;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#each items as _, i&#125;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class:active=&#123;i == <mark>currentIndex</mark>&#125;<br>
@@ -178,12 +175,12 @@
 		</p>
 
 		<div class="relative">
-			<TinySlider let:setIndex let:currentIndex>
+			<TinySlider>
 				{#each fixedItems4 as item}
 					<img src={item} alt="" />
 				{/each}
 
-				<div slot="controls" class="dots">
+				<div slot="controls" class="dots" let:setIndex let:currentIndex>
 					{#each fixedItems4 as _, i}
 						<button
 							class="dot"
@@ -198,12 +195,12 @@
 
 		<p>
 			<code class="well">
-				&lt;<mark>TinySlider</mark> let:<mark>setIndex</mark> let:<mark>currentIndex</mark>&gt; <br>
+				&lt;<mark>TinySlider</mark>&gt; <br>
 				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
 				&nbsp;&nbsp;&#123;/each&#125; <br>
 				<br>
-				&nbsp;&nbsp;&lt;div slot="controls"&gt;<br>
+				&nbsp;&nbsp;&lt;div slot="controls" let:<mark>setIndex</mark> let:<mark>currentIndex</mark>&gt;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#each items as _, i&#125;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class:active=&#123;i == <mark>currentIndex</mark>&#125;<br>
@@ -218,12 +215,12 @@
 		</p>
 
 		<div class="relative">
-			<TinySlider let:setIndex let:currentIndex>
+			<TinySlider>
 				{#each fixedItems3 as item}
 					<img src={item} alt="" />
 				{/each}
 
-				<div slot="controls" class="thumbnails grid">
+				<div slot="controls" class="thumbnails grid" let:setIndex let:currentIndex>
 					{#each fixedItems3 as item, i}
 						<button
 							class="thumbnail"
@@ -385,7 +382,7 @@
 		</p>
 
 		<div class="relative">
-			<TinySlider let:setIndex let:currentIndex let:sliderWidth let:reachedEnd>
+			<TinySlider let:sliderWidth let:currentIndex>
 				{#each fixedItems6 as item, i}
 					<div style:width="{sliderWidth}px">
 						{#if currentIndex + 1 >= i}
@@ -394,7 +391,7 @@
 					</div>
 				{/each}
 
-				<svelte:fragment slot="controls">
+				<svelte:fragment slot="controls" let:reachedEnd let:setIndex let:currentIndex>
 					{#if currentIndex > 0}
 						<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
 					{/if}
@@ -428,7 +425,7 @@
 
 		<div class="relative">
 			<div class="slider-wrapper">
-				<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown let:reachedEnd>
+				<TinySlider gap="0.5rem" let:shown>
 					{#each fixedItems7 as item, index}
 						<div class="item" style:--width="200px" style:--height="300px">
 							{#if shown.includes(index)}
@@ -437,7 +434,7 @@
 						</div>
 					{/each}
 
-					<svelte:fragment slot="controls">
+					<svelte:fragment slot="controls" let:reachedEnd let:setIndex let:currentIndex>
 						{#if currentIndex > 0}
 							<button class="arrow left" on:click={() => setIndex(currentIndex - 2)}><Arrow /></button>
 						{/if}
@@ -502,7 +499,7 @@
 
 		<div class="relative">
 			<div class="slider-wrapper">
-				<TinySlider gap="0.5rem" let:setIndex let:currentIndex let:shown bind:distanceToEnd bind:sliderWidth>
+				<TinySlider gap="0.5rem" bind:distanceToEnd bind:sliderWidth let:shown>
 					{#each portaitItems as item, index}
 						<div class="item" style:--width="200px" style:--height="300px">
 							{#if shown.includes(index)}
@@ -511,7 +508,7 @@
 						</div>
 					{/each}
 
-					<svelte:fragment slot="controls">
+					<svelte:fragment slot="controls" let:setIndex let:currentIndex>
 						{#if currentIndex > 0}
 							<button class="arrow left" on:click={() => setIndex(currentIndex - 2)}><Arrow /></button>
 						{/if}
@@ -540,12 +537,12 @@
 
 		<div class="relative">
 			<div class="slider-wrapper">
-				<TinySlider gap="0.5rem" fill={false} let:setIndex let:currentIndex>
+				<TinySlider gap="0.5rem" fill={false}>
 					{#each { length: 10 } as _}
 						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px" />
 					{/each}
 
-					<svelte:fragment slot="controls">
+					<svelte:fragment slot="controls" let:setIndex let:currentIndex>
 						{#if currentIndex > 0}
 							<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
 						{/if}
@@ -572,12 +569,12 @@
 
 		<div class="relative">
 			<div class="slider-wrapper">
-				<TinySlider gap="0.5rem" transitionDuration="1000" let:setIndex let:currentIndex let:reachedEnd>
+				<TinySlider gap="0.5rem" transitionDuration="1000">
 					{#each { length: 10 } as _}
 						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px" />
 					{/each}
 
-					<svelte:fragment slot="controls">
+					<svelte:fragment slot="controls" let:setIndex let:currentIndex let:reachedEnd>
 						{#if currentIndex > 0}
 							<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
 						{/if}
@@ -592,7 +589,7 @@
 
 		<h4>Threshold</h4>
 
-		<p>When dragging the slider it will not transition to the next slide until a certain threshold has been passed to prevent accidental sliding. This also determines when a link or click event is disabled. This can be set using the <mark>treshold</mark> property. This value is given in pixels. This defaults to 30.</p>
+		<p>When dragging the slider it will not transition to the next slide until a certain threshold has been passed to prevent accidental sliding. This also determines when a link or click event is disabled. This can be set using the <mark>threshold</mark> property. This value is given in pixels. This defaults to 30.</p>
 
 		<p>
 			<code class="well">
@@ -604,12 +601,12 @@
 
 		<div class="relative">
 			<div class="slider-wrapper">
-				<TinySlider gap="0.5rem" threshold="100" let:setIndex let:currentIndex let:reachedEnd>
+				<TinySlider gap="0.5rem" threshold="100">
 					{#each { length: 10 } as _}
 						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px" />
 					{/each}
 
-					<svelte:fragment slot="controls">
+					<svelte:fragment slot="controls" let:setIndex let:currentIndex let:reachedEnd>
 						{#if currentIndex > 0}
 							<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
 						{/if}
@@ -625,8 +622,10 @@
 </div>
 
 <div class="cards">
-	<TinySlider gap="1rem" let:setIndex let:currentIndex let:shown let:reachedEnd>
+	<TinySlider gap="1rem" let:shown>
 		{#each cardItems as item, index}
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<!-- svelte-ignore a11y-no-static-element-interactions -->
 			<div class="card" on:click={() => console.log('click')}>
 				<a class="thumbnail" href="https://google.com" target="_blank">
 					{#if [index, index + 1, index - 1].some(i => shown.includes(i))}
@@ -640,11 +639,12 @@
 					I am some description to some topic that spans multiple lines.
 				</p>
 
+				<!-- svelte-ignore a11y-invalid-attribute -->
 				<a class="button" href="#" on:click|preventDefault>Take me there!</a>
 			</div>
 		{/each}
 
-		<svelte:fragment slot="controls">
+		<svelte:fragment slot="controls" let:reachedEnd let:setIndex let:currentIndex>
 			{#if currentIndex > 0}
 				<button class="arrow left" on:click={() => setIndex(currentIndex - 2)}><Arrow /></button>
 			{/if}
@@ -708,8 +708,6 @@
 	</div>
 </div>
 
-
-
 <style>
 	:global(:root) {
 		--primary: #ff3e00;
@@ -768,12 +766,6 @@
 		overflow: hidden;
 		border-radius: 0.25rem;
 	}
-
-	:global(.slider:focus-within),
-	.slider-wrapper:focus-within {
-    outline: 2px solid white;
-		outline-offset: 2px;
-  }
 
 	img {
 		display: block;
@@ -977,6 +969,11 @@
 	.arrow:hover {
 		opacity: 1;
 	}
+
+	.arrow:focus-within {
+    outline: 2px solid white;
+		outline-offset: 2px;
+  }
 
 	.arrow.right {
 		left: auto;
