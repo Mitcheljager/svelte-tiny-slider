@@ -2,7 +2,7 @@
   import { createEventDispatcher } from "svelte"
   import { onMount, onDestroy } from "svelte"
 
-  export let gap = 0
+  export let gap = "0"
   export let fill = true
   export let transitionDuration = 300
   export let threshold = 30
