@@ -10,6 +10,7 @@
 	const fixedItems5 = getItems("food-drink", "200x300")
 	const fixedItems6 = getItems("experimental", "508x350")
 	const fixedItems7 = getItems("fashion", "200x300", 20)
+	const fixedItems8 = getItems("abstract", "508x350")
 	const headerItems = getItems("3d-render", "200x150", 30)
 	const cardItems = getItems("architecture", "320x180", 20)
 	let portaitItems = getItems("food-drink", "200x300")
@@ -28,6 +29,8 @@
 
 	let sliderWidth
 	let distanceToEnd
+
+	let thumbnailsSetIndex
 
 	$: if (distanceToEnd < sliderWidth)
 		portaitItems = [...portaitItems, ...getItems("food-drink", "200x300", 10, portaitItems.length)]
@@ -233,6 +236,70 @@
 				</div>
 			</TinySlider>
 		</div>
+
+		<p>We can go one level deeper and use a slider for the controls of our slider. Here we are using the on:<mark>change</mark> event to move the thumbnails slider when the main slider also moves.</p>
+
+		<div class="relative">
+			<TinySlider on:change={({ detail }) => thumbnailsSetIndex(detail)}>
+				{#each fixedItems8 as item}
+					<img src={item} alt="" />
+				{/each}
+
+				<div slot="controls" class="thumbnails relative" let:setIndex let:currentIndex let:reachedEnd>
+					<TinySlider gap="0.5rem" let:sliderWidth bind:setIndex={thumbnailsSetIndex}>
+						{#each fixedItems8 as item, i}
+							<button
+								class="thumbnail inset"
+								class:active={i == currentIndex}
+								style:width="calc((({sliderWidth}px - 2rem) / 5))"
+								on:click={() => setIndex(i)}
+								on:focus={() => setIndex(i)}>
+								<img src={item} alt="" />
+							</button>
+						{/each}
+					</TinySlider>
+
+					{#if currentIndex > 0}
+						<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
+					{/if}
+
+					{#if !reachedEnd}
+						<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
+					{/if}
+				</div>
+			</TinySlider>
+		</div>
+
+		<p>
+			<code class="well">
+				&lt;<mark>TinySlider</mark> on:<mark>change</mark>=&#123;(&#123; detail &#125;) => thumbnailsSetIndex(detail)&#125;&gt;<br>
+				&nbsp;&nbsp;&#123;#each items as item&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt;<br>
+				&nbsp;&nbsp;&#123;/each&#125;<br>
+				<br>
+				&nbsp;&nbsp;&lt;div slot="controls" let:setIndex let:currentIndex let:reachedEnd&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;<mark>TinySlider</mark> gap="0.5rem" bind:setIndex=&#123;thumbnailsSetIndex&#125;&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;#each items as item, i&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class:active=&#123;i == currentIndex&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on:click=&#123;() =&gt; setIndex(i)&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on:focus=&#123;() =&gt; setIndex(i)&#125;&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;/each&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<mark>TinySlider</mark>&gt;<br>
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if currentIndex &gt; 0&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button ...&gt;...&lt;/button&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125;<br>
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if !reachedEnd&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button ...&gt;...&lt;/button&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125;<br>
+				&nbsp;&nbsp;&lt;/div&gt;<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			</code>
+		</p>
 
 		<h4>Controls via exported props</h4>
 
@@ -700,6 +767,7 @@
 			<strong>Name</strong> <strong></strong> <strong>Description</strong>
 
 			<code>end</code> <code></code> <strong>Fired when the end of the slider has been reached.</strong>
+			<code>change</code> <code></code> <strong>Fired when the slider changes it's index. The detail prop of the event is the current index.</strong>
 		</div>
 	</div>
 
@@ -924,14 +992,33 @@
 		filter: brightness(1.2);
 	}
 
-	.thumbnail.active {
+	.thumbnail.active:not(.inset) {
 		outline: 2px solid white;
 		outline-offset: 2px;
 	}
 
+	.thumbnail.active.inset {
+		position: relative;
+	}
+
+	.thumbnail.active.inset::before {
+		content: "";
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border-radius: 0.25rem;
+		box-shadow: inset 0 0 0 2px white;
+		z-index: 2;
+		pointer-events: none;
+	}
+
 	.thumbnail img {
 		display: block;
-		width: auto;
+		width: 100%;
+		height: auto;
 	}
 
 	.arrow {
