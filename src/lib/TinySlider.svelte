@@ -87,6 +87,7 @@
 
   function snapToPosition({ setIndex = -1, direction = 1 } = {}) {
     const offsets = getItemOffsets()
+    const startIndex = currentIndex
 
     currentIndex = 0
 
@@ -104,6 +105,8 @@
     currentIndex = Math.min(i, getContentChildren().length - 1)
     setScrollPosition(offsets[currentIndex], true)
     finalScrollPosition = currentScrollPosition
+
+    if (currentIndex != startIndex) dispatch('change', currentIndex)
   }
 
   function setScrollPosition(left, limit = false) {
