@@ -22,7 +22,7 @@ npm install svelte-tiny-slider --save-dev
 
 Include the component in your app.
 ```js
-import TinySlider from "svelte-tiny-slider"
+import { TinySlider } from "svelte-tiny-slider"
 ```
 ```svelte
 <TinySlider>

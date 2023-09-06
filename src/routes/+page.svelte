@@ -69,7 +69,7 @@
 		<p>Include the slider in your app.</p>
 
 		<code class="well">
-			import <mark>TinySlider</mark> from "<mark>svelte-tiny-slider</mark>"
+			import &#123; <mark>TinySlider</mark> &#125; from "<mark>svelte-tiny-slider</mark>"
 		</code>
 
 		<code class="well">
