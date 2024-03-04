@@ -1,6 +1,6 @@
 {
 	"name": "svelte-tiny-slider",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
@@ -53,14 +53,14 @@
 	"main": "./dist/index.d.ts",
 	"type": "module",
 	"description": "A lightweight unopinionated slider or carousel that gives you the tools you need to create the slider that fits your needs.",
-  "keywords": [
-    "slider",
-    "carousel",
-    "gallery"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Mitcheljager/svelte-tiny-slider"
-  },
-  "homepage": "https://mitcheljager.github.io/svelte-tiny-slider/"
+	"keywords": [
+		"slider",
+		"carousel",
+		"gallery"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Mitcheljager/svelte-tiny-slider"
+	},
+	"homepage": "https://mitcheljager.github.io/svelte-tiny-slider/"
 }
