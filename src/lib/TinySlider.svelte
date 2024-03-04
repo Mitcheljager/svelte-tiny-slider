@@ -1,4 +1,5 @@
 <script>
+	import { BROWSER } from "esm-env"
   import { createEventDispatcher } from "svelte"
   import { onMount, onDestroy } from "svelte"
 
@@ -138,6 +139,8 @@
   }
 
   function createResizeObserver() {
+    if (!BROWSER) return
+
     observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
