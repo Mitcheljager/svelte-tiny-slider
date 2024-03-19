@@ -156,8 +156,6 @@
   }
 </script>
 
-
-
 <svelte:window
   on:mousedown={down}
   on:mouseup={up}
