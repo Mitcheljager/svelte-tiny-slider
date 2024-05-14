@@ -118,7 +118,7 @@
     setScrollPosition(offsets[currentIndex], true)
     finalScrollPosition = currentScrollPosition
 
-    if (change && currentIndex != startIndex) change()
+    if (change && currentIndex != startIndex) change(currentIndex)
   }
 
   function setScrollPosition(left, limit = false) {
