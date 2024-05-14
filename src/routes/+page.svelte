@@ -1,5 +1,6 @@
 <script>
 	import Arrow from "./Arrow.svelte"
+	import CodeBlock from "./CodeBlock.svelte"
 	import TinySlider from "$lib/TinySlider.svelte"
 
 	const items = getItems("editorial")
@@ -13,7 +14,8 @@
 	const fixedItems8 = getItems("abstract", "508x350")
 	const headerItems = getItems("3d-render", "200x150", 30)
 	const cardItems = getItems("architecture", "320x180", 20)
-	let portaitItems = getItems("food-drink", "200x300")
+
+	let portaitItems = $state.frozen(getItems("food-drink", "200x300"))
 
 	function getItems(subject, size = "", count = 10, from = 0) {
 		const array = []
@@ -24,16 +26,15 @@
 		return array
 	}
 
-	let setIndex
-	let currentIndex
+	let slider
+	let thumbnailsSlider
 
-	let sliderWidth
-	let distanceToEnd
+	let shown = $state([])
 
-	let thumbnailsSetIndex
-
-	$: if (distanceToEnd < sliderWidth)
+	$effect(() => {
+		if (shown.length < portaitItems.length) return
 		portaitItems = [...portaitItems, ...getItems("food-drink", "200x300", 10, portaitItems.length)]
+	})
 </script>
 
 <header>
@@ -52,31 +53,45 @@
 
 		<p>The package is less than 250 bytes gzipped (<a target="_blank" href="https://bundlephobia.com/package/svelte-tiny-slider">Bundlephobia</a>) and has no dependencies.</p>
 
+		<p>This page contains code examples for both Svelte 4 and Svelte 5. Text descriptions are written with Svelte 4 in mind until Svelte 5 is officially released.</p>
+
 		<p><a target="_blank" href="https://github.com/Mitcheljager/svelte-tiny-slider">GitHub</a></p>
 
 		<h2>Installation</h2>
 
 		<p>Install using Yarn or NPM.</p>
 
-		<code class="well">
-			yarn add <mark>svelte-tiny-slider</mark> --dev
-		</code>
+		<CodeBlock>
+			{#snippet svelte4()}
+				yarn add <mark>svelte-tiny-slider</mark> --dev
+			{/snippet}
+		</CodeBlock>
 
-		<code class="well">
-			npm install <mark>svelte-tiny-slider</mark> --save-dev
-		</code>
+		<CodeBlock>
+			{#snippet svelte4()}
+				npm install <mark>svelte-tiny-slider@^1.0.0</mark> --save-dev
+			{/snippet}
+
+			{#snippet svelte5()}
+				npm install <mark>svelte-tiny-slider@^2.0.0</mark> --save-dev
+			{/snippet}
+		</CodeBlock>
 
 		<p>Include the slider in your app.</p>
 
-		<code class="well">
-			import &#123; <mark>TinySlider</mark> &#125; from "<mark>svelte-tiny-slider</mark>"
-		</code>
+		<CodeBlock>
+			{#snippet svelte4()}
+				import &#123; <mark>TinySlider</mark> &#125; from "<mark>svelte-tiny-slider</mark>"
+			{/snippet}
+		</CodeBlock>
 
-		<code class="well">
-			&lt;<mark>TinySlider</mark>&gt;
-				...
-			&lt;/<mark>TinySlider</mark>&gt;
-		</code>
+		<CodeBlock>
+			{#snippet svelte4()}
+				&lt;<mark>TinySlider</mark>&gt;
+					...
+				&lt;/<mark>TinySlider</mark>&gt;
+			{/snippet}
+		</CodeBlock>
 	</div>
 
 	<h2>Usage</h2>
@@ -84,15 +99,15 @@
 	<div class="block">
 		<p>In it's most basic state the slider is just a horizontal carousel that can only be controlled through dragging the image either with your mouse or with touch controls. The carousel items can be whatever you want them to be, in this case we're using images.</p>
 
-		<p>
-			<code class="well">
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;<mark>TinySlider</mark>&gt; <br>
 				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
 				&nbsp;&nbsp;&#123;/each&#125; <br>
 				&lt;/<mark>TinySlider</mark>&gt;
-			</code>
-		</p>
+			{/snippet}
+		</CodeBlock>
 
 		<TinySlider>
 			{#each fixedItems as item}
@@ -119,14 +134,14 @@
 			In this example we are using <code class="inline">svelte:fragment</code> but it could be any element you want it to be. Styling isn't included in this code example.
 		</p>
 
-		<p>
-			<code class="well">
-				&lt;<mark>TinySlider</mark> <br>
+		<CodeBlock>
+			{#snippet svelte4()}
+				&lt;<mark>TinySlider</mark>&gt; <br>
 				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
 				&nbsp;&nbsp;&#123;/each&#125; <br>
 				<br>
-				&nbsp;&nbsp;&lt;svelte:fragment slot="<mark>controls</mark>" let:<mark>setIndex</mark> let:<mark>currentIndex</mark>&gt;&gt; <br>
+				&nbsp;&nbsp;&lt;svelte:fragment slot="<mark>controls</mark>" let:<mark>setIndex</mark> let:<mark>currentIndex</mark>&gt; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if <mark>currentIndex</mark> &gt; 0&#125; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button on:click=&#123;() =&gt; <mark>setIndex</mark>(<mark>currentIndex</mark> - 1)&#125;&gt;...&lt;/button&gt; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125; <br>
@@ -136,8 +151,26 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125; <br>
 				&nbsp;&nbsp;&lt;/svelte:fragment&gt; <br>
 				&lt;/<mark>TinySlider</mark>&gt;
-			</code>
-		</p>
+			{/snippet}
+
+			{#snippet svelte5()}
+				&lt;<mark>TinySlider</mark>&gt; <br>
+				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
+				&nbsp;&nbsp;&#123;/each&#125; <br>
+				<br>
+				&nbsp;&nbsp;&#123;#snippet <mark>controls</mark>(&#123; <mark>setIndex</mark>, <mark>currentIndex</mark> &#125;)&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if <mark>currentIndex</mark> &gt; 0&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onclick=&#123;() =&gt; <mark>setIndex</mark>(<mark>currentIndex</mark> - 1)&#125;&gt;...&lt;/button&gt; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125; <br>
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if <mark>currentIndex</mark> &lt; items.length - 1&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button onclick=&#123;() =&gt; <mark>setIndex</mark>(<mark>currentIndex</mark> + 1)&#125;&gt;...;&lt;/button&gt; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125; <br>
+				&nbsp;&nbsp;&#123;/snippet&#125; <br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			{/snippet}
+		</CodeBlock>
 
 		<div class="relative">
 			<TinySlider>
@@ -145,28 +178,28 @@
 					<img src={item} alt="" />
 				{/each}
 
-				<svelte:fragment slot="controls" let:setIndex let:currentIndex>
+				{#snippet controls({ setIndex, currentIndex })}
 					{#if currentIndex > 0}
-						<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
+						<button class="arrow left" onclick={() => setIndex(currentIndex - 1)}><Arrow /></button>
 					{/if}
 
 					{#if currentIndex < items.length - 1}
-						<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
+						<button class="arrow right" onclick={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
 					{/if}
-				</svelte:fragment>
+				{/snippet}
 			</TinySlider>
 		</div>
 
 		<p>We could use the same props to implement some type of dots navigation.</p>
 
-		<p>
-			<code class="well">
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;<mark>TinySlider</mark>&gt; <br>
 				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
 				&nbsp;&nbsp;&#123;/each&#125; <br>
 				<br>
-				&nbsp;&nbsp;&lt;div slot="controls" let:<mark>setIndex</mark> let:<mark>currentIndex</mark>&gt;<br>
+				&nbsp;&nbsp;&lt;div slot="<mark>controls</mark>" let:<mark>setIndex</mark> let:<mark>currentIndex</mark>&gt;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#each items as _, i&#125;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class:active=&#123;i == <mark>currentIndex</mark>&#125;<br>
@@ -174,8 +207,24 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/each&#125;<br>
 				&nbsp;&nbsp;&lt;/div&gt;<br>
 				&lt;/<mark>TinySlider</mark>&gt;
-			</code>
-		</p>
+			{/snippet}
+
+			{#snippet svelte5()}
+				&lt;<mark>TinySlider</mark>&gt; <br>
+				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
+				&nbsp;&nbsp;&#123;/each&#125; <br>
+				<br>
+				&nbsp;&nbsp;&#123;#snippet <mark>controls</mark>(&#123; <mark>setIndex</mark>, <mark>currentIndex</mark> &#125;)&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#each items as _, i&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class:active=&#123;i == <mark>currentIndex</mark>&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on:click=&#123;() =&gt; <mark>setIndex</mark>(i)&#125; /&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/each&#125;<br>
+				&nbsp;&nbsp;&#123;/snippet&#125; <br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			{/snippet}
+		</CodeBlock>
 
 		<div class="relative">
 			<TinySlider>
@@ -183,27 +232,29 @@
 					<img src={item} alt="" />
 				{/each}
 
-				<div slot="controls" class="dots" let:setIndex let:currentIndex>
-					{#each fixedItems4 as _, i}
-						<button
-							class="dot"
-							class:active={i == currentIndex}
-							on:click={() => setIndex(i)} />
-					{/each}
-				</div>
+				{#snippet controls({ setIndex, currentIndex })}
+					<div class="dots">
+						{#each fixedItems4 as _, i}
+							<button
+								class="dot"
+								class:active={i == currentIndex}
+								onclick={() => setIndex(i)} />
+						{/each}
+					</div>
+				{/snippet}
 			</TinySlider>
 		</div>
 
 		<p>In a similar way we can also add thumbnail navigation.</p>
 
-		<p>
-			<code class="well">
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;<mark>TinySlider</mark>&gt; <br>
 				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
 				&nbsp;&nbsp;&#123;/each&#125; <br>
 				<br>
-				&nbsp;&nbsp;&lt;div slot="controls" let:<mark>setIndex</mark> let:<mark>currentIndex</mark>&gt;<br>
+				&nbsp;&nbsp;&lt;div slot="<mark>controls</mark>" let:<mark>setIndex</mark> let:<mark>currentIndex</mark>&gt;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#each items as _, i&#125;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class:active=&#123;i == <mark>currentIndex</mark>&#125;<br>
@@ -214,8 +265,27 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/each&#125;<br>
 				&nbsp;&nbsp;&lt;/div&gt;<br>
 				&lt;/<mark>TinySlider</mark>&gt;
-			</code>
-		</p>
+			{/snippet}
+
+			{#snippet svelte5()}
+				&lt;<mark>TinySlider</mark>&gt; <br>
+				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
+				&nbsp;&nbsp;&#123;/each&#125; <br>
+				<br>
+				&nbsp;&nbsp;&#123;#snippet <mark>controls</mark>(&#123; <mark>setIndex</mark>, <mark>currentIndex</mark> &#125;)&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#each items as _, i&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class:active=&#123;i == <mark>currentIndex</mark>&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on:click=&#123;() =&gt; <mark>setIndex</mark>(i)&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on:focus=&#123;() =&gt; <mark>setIndex</mark>(i)&#125;&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" height=60 /&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/each&#125;<br>
+				&nbsp;&nbsp;&#123;/snippet&#125; <br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			{/snippet}
+		</CodeBlock>
 
 		<div class="relative">
 			<TinySlider>
@@ -223,61 +293,32 @@
 					<img src={item} alt="" />
 				{/each}
 
-				<div slot="controls" class="thumbnails grid" let:setIndex let:currentIndex>
-					{#each fixedItems3 as item, i}
-						<button
-							class="thumbnail"
-							class:active={i == currentIndex}
-							on:click={() => setIndex(i)}
-							on:focus={() => setIndex(i)}>
-							<img src={item} alt="" height=60 />
-						</button>
-					{/each}
-				</div>
+				{#snippet controls({ setIndex, currentIndex })}
+					<div class="thumbnails grid">
+						{#each fixedItems3 as item, i}
+							<button
+								class="thumbnail"
+								class:active={i == currentIndex}
+								onclick={() => setIndex(i)}
+								onfocus={() => setIndex(i)}>
+								<img src={item} alt="" height=60 />
+							</button>
+						{/each}
+					</div>
+				{/snippet}
 			</TinySlider>
 		</div>
 
 		<p>We can go one level deeper and use a slider for the controls of our slider. Here we are using the on:<mark>change</mark> event to move the thumbnails slider when the main slider also moves.</p>
 
-		<div class="relative">
-			<TinySlider on:change={({ detail }) => thumbnailsSetIndex(detail)}>
-				{#each fixedItems8 as item}
-					<img src={item} alt="" />
-				{/each}
-
-				<div slot="controls" class="thumbnails relative" let:setIndex let:currentIndex let:reachedEnd>
-					<TinySlider gap="0.5rem" let:sliderWidth bind:setIndex={thumbnailsSetIndex}>
-						{#each fixedItems8 as item, i}
-							<button
-								class="thumbnail inset"
-								class:active={i == currentIndex}
-								style:width="calc((({sliderWidth}px - 2rem) / 5))"
-								on:click={() => setIndex(i)}
-								on:focus={() => setIndex(i)}>
-								<img src={item} alt="" />
-							</button>
-						{/each}
-					</TinySlider>
-
-					{#if currentIndex > 0}
-						<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
-					{/if}
-
-					{#if !reachedEnd}
-						<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
-					{/if}
-				</div>
-			</TinySlider>
-		</div>
-
-		<p>
-			<code class="well">
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;<mark>TinySlider</mark> on:<mark>change</mark>=&#123;(&#123; detail &#125;) => thumbnailsSetIndex(detail)&#125;&gt;<br>
 				&nbsp;&nbsp;&#123;#each items as item&#125;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt;<br>
 				&nbsp;&nbsp;&#123;/each&#125;<br>
 				<br>
-				&nbsp;&nbsp;&lt;div slot="controls" let:setIndex let:currentIndex let:reachedEnd&gt;<br>
+				&nbsp;&nbsp;&lt;div slot="<mark>controls</mark>" let:setIndex let:currentIndex let:reachedEnd&gt;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;<mark>TinySlider</mark> gap="0.5rem" bind:setIndex=&#123;thumbnailsSetIndex&#125;&gt;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;#each items as item, i&#125;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
@@ -298,15 +339,81 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125;<br>
 				&nbsp;&nbsp;&lt;/div&gt;<br>
 				&lt;/<mark>TinySlider</mark>&gt;
-			</code>
-		</p>
+			{/snippet}
+
+			{#snippet svelte5()}
+				&lt;<mark>TinySlider</mark> <mark>change</mark>=&#123;(index) => thumbnailsSlider.setIndex(index)&#125;&gt; <br>
+				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
+				&nbsp;&nbsp;&#123;/each&#125; <br>
+				<br>
+				&nbsp;&nbsp;&#123;#snippet <mark>controls</mark>(&#123; setIndex, currentIndex, reachedEnd &#125;)&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;<mark>TinySlider</mark> gap="0.5rem" bind:this=&#123;thumbnailsSlider&#125;&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;#snippet children(&#123; sliderWidth &#125;)&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;#each items as item, i&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class:active=&#123;i == currentIndex&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onclick=&#123;() =&gt; setIndex(i)&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onfocus=&#123;() =&gt; setIndex(i)&#125;&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/button&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;/each&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;/snippet&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<mark>TinySlider</mark>&gt;<br>
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if currentIndex &gt; 0&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button ...&gt;...&lt;/button&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125;<br>
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if !reachedEnd&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button ...&gt;...&lt;/button&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125;<br>
+				&nbsp;&nbsp;&lt;/div&gt;<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			{/snippet}
+		</CodeBlock>
+
+		<div class="relative">
+			<TinySlider change={(index) => thumbnailsSlider.setIndex(index)}>
+				{#each fixedItems8 as item}
+					<img src={item} alt="" />
+				{/each}
+
+				{#snippet controls({ setIndex, currentIndex, reachedEnd })}
+					<div class="thumbnails relative">
+						<TinySlider gap="0.5rem" bind:this={thumbnailsSlider}>
+							{#snippet children({ sliderWidth })}
+								{#each fixedItems8 as item, i}
+									<button
+										class="thumbnail inset"
+										class:active={i == currentIndex}
+										style:width="calc((({sliderWidth}px - 2rem) / 5))"
+										onclick={() => setIndex(i)}
+										onfocus={() => setIndex(i)}>
+										<img src={item} alt="" />
+									</button>
+								{/each}
+							{/snippet}
+						</TinySlider>
+
+						{#if currentIndex > 0}
+							<button class="arrow left" onclick={() => setIndex(currentIndex - 1)}><Arrow /></button>
+						{/if}
+
+						{#if !reachedEnd}
+							<button class="arrow right" onclick={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
+						{/if}
+					</div>
+				{/snippet}
+			</TinySlider>
+		</div>
 
 		<h4>Controls via exported props</h4>
 
 		<p>You don't have to control the component from a slot, you can control it from anywhere using two way binds. Declare any variable you want and bind them using <code class="inline">bind</code> instead of <code class="inline">let</code>. The variable <code class="inline">currentIndex</code> can not be directly modified, it should only be used as a reference.</p>
 
-		<p>
-			<code class="well">
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;script&gt;<br>
 				&nbsp;&nbsp;let <mark>setIndex</mark><br>
 				&lt;/script&gt;<br>
@@ -320,10 +427,26 @@
 				&lt;button on:click=&#123;() =&gt; <mark>setIndex</mark>(2)&#125;&gt;...&lt;/button&gt;<br>
 				&lt;button on:click=&#123;() =&gt; <mark>setIndex</mark>(5)&#125;&gt;...&lt;/button&gt;<br>
 				&lt;button on:click=&#123;() =&gt; <mark>setIndex</mark>(9)&#125;&gt;...&lt;/button&gt;<br>
-			</code>
-		</p>
+			{/snippet}
 
-		<TinySlider bind:setIndex bind:currentIndex>
+			{#snippet svelte5()}
+				&lt;script&gt;<br>
+				&nbsp;&nbsp;let <mark>slider</mark><br>
+				&lt;/script&gt;<br>
+				<br>
+				&lt;<mark>TinySlider</mark> bind:this=&#123;<mark>slider</mark>&#125;&gt; <br>
+				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
+				&nbsp;&nbsp;&#123;/each&#125; <br>
+				&lt;/<mark>TinySlider</mark>&gt;<br>
+				<br>
+				&lt;button onclick=&#123;() =&gt; <mark>slider.setIndex</mark>(2)&#125;&gt;...&lt;/button&gt;<br>
+				&lt;button onclick=&#123;() =&gt; <mark>slider.setIndex</mark>(5)&#125;&gt;...&lt;/button&gt;<br>
+				&lt;button onclick=&#123;() =&gt; <mark>slider.setIndex</mark>(9)&#125;&gt;...&lt;/button&gt;<br>
+			{/snippet}
+		</CodeBlock>
+
+		<TinySlider bind:this={slider}>
 			{#each fixedItems4 as item}
 				<img src={item} alt="" />
 			{/each}
@@ -331,9 +454,9 @@
 
 		<p>These buttons are not in a <code class="inline">slot</code> and could be placed anywhere on your page.</p>
 
-		<button class="button" on:click={() => setIndex(2)}>Set index to 2</button>
-		<button class="button" on:click={() => setIndex(5)}>Set index to 5</button>
-		<button class="button" on:click={() => setIndex(9)}>Set index to 9</button>
+		<button class="button" onclick={() => slider.setIndex(2)}>Set index to 2</button>
+		<button class="button" onclick={() => slider.setIndex(5)}>Set index to 5</button>
+		<button class="button" onclick={() => slider.setIndex(9)}>Set index to 9</button>
 	</div>
 
 
@@ -346,21 +469,32 @@
 
 		<p>So far we've only been using one slide at a time. The number of sliders shown is not controlled by a prop, instead you can do it via css. To help you out there's the slot prop <code class="inline">sliderWidth</code>. This is simply the document width of the slider element. Setting the width of your items to <code class="inline">sliderWidth / 3</code> would cause 3 items to show at once. Once again this could be done with a slot prop or a two way bind, which ever you prefer.</p>
 
-		<p>
-			<code class="well">
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;<mark>TinySlider</mark> let:<mark>sliderWidth</mark>&gt;<br>
 				&nbsp;&nbsp;&#123;#each items as item&#125;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; width=&#123;<mark>sliderWidth</mark> / 3&#125; /&gt;<br>
 				&nbsp;&nbsp;&#123;/each&#125;<br>
 				&lt;/<mark>TinySlider</mark>&gt;
-			</code>
-		</p>
+			{/snippet}
 
+			{#snippet svelte5()}
+				&lt;<mark>TinySlider</mark>&gt;<br>
+				&nbsp;&nbsp;&#123;#snippet children(&#123; <mark>sliderWidth</mark> &#125;)&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#each items as item&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; width=&#123;<mark>sliderWidth</mark> / 3&#125; /&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/each&#125;<br>
+				&nbsp;&nbsp;&#123;/snippet&#125;<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			{/snippet}
+		</CodeBlock>
 
 		<TinySlider let:sliderWidth>
-			{#each fixedItems5 as item}
-				<img loading="lazy" src={item} alt="" width={sliderWidth / 3} />
-			{/each}
+			{#snippet children({ sliderWidth })}
+				{#each fixedItems5 as item}
+					<img loading="lazy" src={item} alt="" width={sliderWidth / 3} />
+				{/each}
+			{/snippet}
 		</TinySlider>
 
 		<h4>Gap</h4>
@@ -368,30 +502,35 @@
 		<p>
 			The gap prop allows you to set a gap between items. All this does is set the css property <code class="inline">gap</code>, so alternatively you could do something like:
 		</p>
-			<code class="well">
+
+		<CodeBlock>
+			{#snippet svelte4()}
 				:global(.slider-content) &#123; <br>
 				&nbsp;&nbsp;gap: 10px; <br>
 				&#125;
-			</code>
+			{/snippet}
+		</CodeBlock>
 
 		<p>
 			But using the <code class="inline">gap</code> prop might be more convenient. Accepts any css value.
 		</p>
 
-		<p>
-			<code class="well">
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;<mark>TinySlider</mark> <mark>gap</mark>="10px"&gt; <br>
 				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... <br>
 				&nbsp;&nbsp;&#123;/each&#125; <br>
 				&lt;/<mark>TinySlider</mark>&gt;
-			</code>
-		</p>
+			{/snippet}
+		</CodeBlock>
 
-		<TinySlider gap="10px" let:sliderWidth>
-			{#each fixedItems5 as item}
-				<img loading="lazy" src={item} alt="" width={(sliderWidth - 20) / 3} />
-			{/each}
+		<TinySlider gap="10px">
+			{#snippet children({ sliderWidth })}
+				{#each fixedItems5 as item}
+					<img loading="lazy" src={item} alt="" width={(sliderWidth - 20) / 3} />
+				{/each}
+			{/snippet}
 		</TinySlider>
 	</div>
 
@@ -400,8 +539,8 @@
 
 		<p>We've been using images as examples so far, but the content can be anything. Any direct child of the slider will be considered a slide. Links and click events will not fire while dragging to prevent accidental clicks.</p>
 
-		<p>
-			<code class="well">
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;<mark>TinySlider</mark> gap="0.5rem"&gt;<br>
 				&nbsp;&nbsp;&#123;#each &#123; length: 20 &#125; as _&#125;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="item"&gt;<br>
@@ -409,8 +548,8 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
 				&nbsp;&nbsp;&#123;/each&#125;<br>
 				&lt;/<mark>TinySlider</mark>&gt;
-			</code>
-		</p>
+			{/snippet}
+		</CodeBlock>
 
 		<TinySlider gap="0.5rem">
 			{#each { length: 20 } as _}
@@ -426,10 +565,10 @@
 
 		<p>When using images you might want to lazy load any images that are not visible. This can be done using native <code class="inline">loading="lazy"</code>, but this comes with some drawbacks. To overcome these drawback there are several properties you can use.</p>
 
-		<p>For a simple slider you might use <code class="inline">currentIndex</code> to hide any images that are above the current index.
+		<p>For a simple slider you might use <code class="inline">currentIndex</code> to hide any images that are above the current index.</p>
 
-		<p>
-			<code class="well">
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;<mark>TinySlider</mark> let:<mark>currentIndex</mark>&gt;<br>
 				&nbsp;&nbsp;&#123;#each items as item, i&#125;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
@@ -441,32 +580,50 @@
 				<br>
 				&nbsp;&nbsp;...<br>
 				&lt;/<mark>TinySlider</mark>&gt;<br>
-			</code>
-		</p>
+			{/snippet}
+
+			{#snippet svelte5()}
+				&lt;<mark>TinySlider</mark>&gt;<br>
+				&nbsp;&nbsp;&#123;#snippet children(&#123; <mark>currentIndex</mark> &#125;)&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#each items as item, i&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if <mark>currentIndex + 1 &gt;= i</mark>&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/each&#125;<br>
+				&nbsp;&nbsp;&#123;/snippet&#125;
+				<br>
+				&nbsp;&nbsp;...<br>
+				&lt;/<mark>TinySlider</mark>&gt;<br>
+			{/snippet}
+		</CodeBlock>
 
 		<p>
 			Note how this is using currentIndex + 1 to preload one image ahead.
 		</p>
 
 		<div class="relative">
-			<TinySlider let:sliderWidth let:currentIndex>
-				{#each fixedItems6 as item, i}
-					<div style:width="{sliderWidth}px">
-						{#if currentIndex + 1 >= i}
-							<img src={item} alt="" />
-						{/if}
-					</div>
-				{/each}
+			<TinySlider>
+				{#snippet children({ sliderWidth, currentIndex })}
+					{#each fixedItems6 as item, i}
+						<div style:width="{sliderWidth}px">
+							{#if currentIndex + 1 >= i}
+								<img src={item} alt="" />
+							{/if}
+						</div>
+					{/each}
+				{/snippet}
 
-				<svelte:fragment slot="controls" let:reachedEnd let:setIndex let:currentIndex>
+				{#snippet controls({ reachedEnd, setIndex, currentIndex })}
 					{#if currentIndex > 0}
-						<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
+						<button class="arrow left" onclick={() => setIndex(currentIndex - 1)}><Arrow /></button>
 					{/if}
 
 					{#if !reachedEnd}
-						<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
+						<button class="arrow right" onclick={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
 					{/if}
-				</svelte:fragment>
+				{/snippet}
 			</TinySlider>
 		</div>
 
@@ -474,8 +631,8 @@
 			For sliders with multiple slides shown at once it might get more complicated when using <mark>currentIndex</mark>, especially when you might have different amounts of slides depending on the screen size. For that purpose you could use the <mark>shown</mark> property. This property returns an array of all indexes that have been onscreen at some point. Just like before this can be used either as <mark>let:shown</mark> or <mark>bind:shown</mark>.
 		</p>
 
-		<p>
-			<code class="well">
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;<mark>TinySlider</mark> let:<mark>shown</mark>&gt;<br>
 				&nbsp;&nbsp;&#123;#each items as item, index&#125;<br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
@@ -487,29 +644,47 @@
 				<br>
 				&nbsp;&nbsp;...<br>
 				&lt;/<mark>TinySlider</mark>&gt;
-			</code>
-		</p>
+			{/snippet}
+
+			{#snippet svelte5()}
+				&lt;<mark>TinySlider</mark>&gt;<br>
+				&nbsp;&nbsp;&#123;#snippet children(&#123; <mark>shown</mark> &#125;)&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;#each items as item, i&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;#if <mark>shown</mark>.includes(index)&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;/if&#125;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&#123;/each&#125;<br>
+				&nbsp;&nbsp;&#123;/snippet&#125;
+				<br>
+				&nbsp;&nbsp;...<br>
+				&lt;/<mark>TinySlider</mark>&gt;<br>
+			{/snippet}
+		</CodeBlock>
 
 		<div class="relative">
 			<div class="slider-wrapper">
-				<TinySlider gap="0.5rem" let:shown>
-					{#each fixedItems7 as item, index}
-						<div class="item" style:--width="200px" style:--height="300px">
-							{#if shown.includes(index)}
-								<img src={item} alt="" />
-							{/if}
-						</div>
-					{/each}
+				<TinySlider gap="0.5rem">
+					{#snippet children({ shown })}
+						{#each fixedItems7 as item, index}
+							<div class="item" style:--width="200px" style:--height="300px">
+								{#if shown.includes(index)}
+									<img src={item} alt="" />
+								{/if}
+							</div>
+						{/each}
+					{/snippet}
 
-					<svelte:fragment slot="controls" let:reachedEnd let:setIndex let:currentIndex>
+					{#snippet controls({ reachedEnd, setIndex, currentIndex })}
 						{#if currentIndex > 0}
-							<button class="arrow left" on:click={() => setIndex(currentIndex - 2)}><Arrow /></button>
+							<button class="arrow left" onclick={() => setIndex(currentIndex - 2)}><Arrow /></button>
 						{/if}
 
 						{#if !reachedEnd}
-							<button class="arrow right" on:click={() => setIndex(currentIndex + 2)}><Arrow direction="right" /></button>
+							<button class="arrow right" onclick={() => setIndex(currentIndex + 2)}><Arrow direction="right" /></button>
 						{/if}
-					</svelte:fragment>
+					{/snippet}
 				</TinySlider>
 			</div>
 		</div>
@@ -524,20 +699,26 @@
 
 		<p>You could use the event <mark>on:end</mark>, which fires when the user has reached the end of the slider based on pixels and not on currentIndex.</p>
 
-		<p>
-			<code class="well">
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;<mark>TinySlider</mark> <mark>on:end</mark>=&#123;() =&gt; console.log('Reached end')&#125;&gt;<br>
 				&nbsp;&nbsp;...<br>
 				&lt;/<mark>TinySlider</mark>&gt;
-			</code>
-		</p>
+			{/snippet}
+
+			{#snippet svelte5()}
+				&lt;<mark>TinySlider</mark> <mark>end</mark>=&#123;() =&gt; console.log('Reached end')&#125;&gt;<br>
+				&nbsp;&nbsp;...<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			{/snippet}
+		</CodeBlock>
 
 		<h4>Properties</h4>
 
 		<p>Similarity to the event you could use the property <mark>reachedEnd</mark>. This turns to true at the same time <mark>on:end</mark> is fired. Once again this can be set using either <mark>let:reachedEnd</mark> or <mark>bind:reachedEnd</mark>.</p>
 
-		<p>
-			<code class="well">
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;script&gt;<br>
 				&nbsp;&nbsp;let <mark>reachedEnd</mark> = false<br>
 				&nbsp;&nbsp;$: if (<mark>reachedEnd</mark>) console.log('Reached end')<br>
@@ -546,13 +727,24 @@
 				&lt;<mark>TinySlider</mark> <mark>bind:reachedEnd</mark>&gt;<br>
 				&nbsp;&nbsp;...<br>
 				&lt;/<mark>TinySlider</mark>&gt;
-			</code>
-		</p>
+			{/snippet}
 
-		<p>You might want to load more items before the user actually reaches the end to make it actually feel infinite. This could be achieved with the <mark>distanceToEnd</mark> property. Once again this can be set using either <mark>let:distanceToEnd</mark> or <mark>bind:distanceToEnd</mark>.</p>
+			{#snippet svelte5()}
+				&lt;script&gt;<br>
+				&nbsp;&nbsp;let <mark>reachedEnd</mark> = $state(false)<br>
+				&nbsp;&nbsp;$effect(() => &#123; if (<mark>reachedEnd</mark>) console.log('Reached end') &#125;)<br>
+				&lt;/script&gt;<br>
+				<br>
+				&lt;<mark>TinySlider</mark> <mark>bind:reachedEnd</mark>&gt;<br>
+				&nbsp;&nbsp;...<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			{/snippet}
+		</CodeBlock>
 
-		<p>
-			<code class="well">
+		<p>You might want to load more items before the user actually reaches the end to make it actually feel infinite. This could be achieved with the <mark>distanceToEnd</mark> or <mark>shown</mark> property. Once again this can be set using either <mark>let:distanceToEnd</mark>, <mark>bind:distanceToEnd</mark>.</p>
+
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;script&gt;<br>
 				&nbsp;&nbsp;let <mark>distanceToEnd</mark><br>
 				&nbsp;&nbsp;$: if (<mark>distanceToEnd && distanceToEnd &lt; 500</mark>) console.log('Load more')<br>
@@ -561,27 +753,41 @@
 				&lt;<mark>TinySlider</mark> <mark>bind:distanceToEnd</mark>&gt;<br>
 				&nbsp;&nbsp;...<br>
 				&lt;/<mark>TinySlider</mark>&gt;
-			</code>
-		</p>
+			{/snippet}
+
+			{#snippet svelte5()}
+				&lt;script&gt;<br>
+				&nbsp;&nbsp;let <mark>shown</mark> = $state([])<br>
+				&nbsp;&nbsp;$effect(() => &#123;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;if (<mark>shown</mark>.length &lt; items.length) return<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;console.log("load more")<br>
+				&nbsp;&nbsp;&#125;)<br>
+				&lt;/script&gt;<br>
+				<br>
+				&lt;<mark>TinySlider</mark> <mark>bind:shown</mark>&gt;<br>
+				&nbsp;&nbsp;...<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			{/snippet}
+		</CodeBlock>
 
 		<div class="relative">
 			<div class="slider-wrapper">
-				<TinySlider gap="0.5rem" bind:distanceToEnd bind:sliderWidth let:shown>
+				<TinySlider gap="0.5rem" bind:shown>
 					{#each portaitItems as item, index}
 						<div class="item" style:--width="200px" style:--height="300px">
 							{#if shown.includes(index)}
-							<img src={item} alt="" />
+								<img src={item} alt="" />
 							{/if}
 						</div>
 					{/each}
 
-					<svelte:fragment slot="controls" let:setIndex let:currentIndex>
+					{#snippet controls({ setIndex, currentIndex })}
 						{#if currentIndex > 0}
-							<button class="arrow left" on:click={() => setIndex(currentIndex - 2)}><Arrow /></button>
+							<button class="arrow left" onclick={() => setIndex(currentIndex - 2)}><Arrow /></button>
 						{/if}
 
-						<button class="arrow right" on:click={() => setIndex(currentIndex + 2)}><Arrow direction="right" /></button>
-					</svelte:fragment>
+						<button class="arrow right" onclick={() => setIndex(currentIndex + 2)}><Arrow direction="right" /></button>
+					{/snippet}
 				</TinySlider>
 			</div>
 		</div>
@@ -594,13 +800,13 @@
 
 		<p>When showing multiple slides at once by default the slider will always fill out the full width when reaching the end. This behaviour can be disabled using <mark>fill=&#123;false&#125;</mark>.</p>
 
-		<p>
-			<code class="well">
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;<mark>TinySlider</mark> <mark>fill</mark>=&#123;false&#125;&gt;<br>
 				&nbsp;&nbsp;...<br>
 				&lt;/<mark>TinySlider</mark>&gt;
-			</code>
-		</p>
+			{/snippet}
+		</CodeBlock>
 
 		<div class="relative">
 			<div class="slider-wrapper">
@@ -609,15 +815,15 @@
 						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px" />
 					{/each}
 
-					<svelte:fragment slot="controls" let:setIndex let:currentIndex>
+					{#snippet controls({ setIndex, currentIndex })}
 						{#if currentIndex > 0}
-							<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
+							<button class="arrow left" onclick={() => setIndex(currentIndex - 1)}><Arrow /></button>
 						{/if}
 
 						{#if currentIndex < 9}
-							<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
+							<button class="arrow right" onclick={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
 						{/if}
-					</svelte:fragment>
+					{/snippet}
 				</TinySlider>
 			</div>
 		</div>
@@ -626,13 +832,13 @@
 
 		<p>The slider will always snap to the left side of one of the slides. The speed at which this happens can be set using the <mark>transitionDuration</mark> property. This value is given in milliseconds. This defaults to 300.</p>
 
-		<p>
-			<code class="well">
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;<mark>TinySlider</mark> <mark>transitionDuration</mark>="1000"&gt;<br>
 				&nbsp;&nbsp;...<br>
 				&lt;/<mark>TinySlider</mark>&gt;
-			</code>
-		</p>
+			{/snippet}
+		</CodeBlock>
 
 		<div class="relative">
 			<div class="slider-wrapper">
@@ -641,15 +847,15 @@
 						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px" />
 					{/each}
 
-					<svelte:fragment slot="controls" let:setIndex let:currentIndex let:reachedEnd>
+					{#snippet controls({ setIndex, currentIndex, reachedEnd })}
 						{#if currentIndex > 0}
-							<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
+							<button class="arrow left" onclick={() => setIndex(currentIndex - 1)}><Arrow /></button>
 						{/if}
 
 						{#if !reachedEnd}
-							<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
+							<button class="arrow right" onclick={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
 						{/if}
-					</svelte:fragment>
+					{/snippet}
 				</TinySlider>
 			</div>
 		</div>
@@ -658,13 +864,13 @@
 
 		<p>When dragging the slider it will not transition to the next slide until a certain threshold has been passed to prevent accidental sliding. This also determines when a link or click event is disabled. This can be set using the <mark>threshold</mark> property. This value is given in pixels. This defaults to 30.</p>
 
-		<p>
-			<code class="well">
+		<CodeBlock>
+			{#snippet svelte4()}
 				&lt;<mark>TinySlider</mark> <mark>threshold</mark>="100"&gt;<br>
 				&nbsp;&nbsp;...<br>
 				&lt;/<mark>TinySlider</mark>&gt;
-			</code>
-		</p>
+			{/snippet}
+		</CodeBlock>
 
 		<div class="relative">
 			<div class="slider-wrapper">
@@ -673,15 +879,15 @@
 						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px" />
 					{/each}
 
-					<svelte:fragment slot="controls" let:setIndex let:currentIndex let:reachedEnd>
+					{#snippet controls({ setIndex, currentIndex, reachedEnd })}
 						{#if currentIndex > 0}
-							<button class="arrow left" on:click={() => setIndex(currentIndex - 1)}><Arrow /></button>
+							<button class="arrow left" onclick={() => setIndex(currentIndex - 1)}><Arrow /></button>
 						{/if}
 
 						{#if !reachedEnd}
-							<button class="arrow right" on:click={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
+							<button class="arrow right" onclick={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
 						{/if}
-					</svelte:fragment>
+					{/snippet}
 				</TinySlider>
 			</div>
 		</div>
@@ -689,37 +895,36 @@
 </div>
 
 <div class="cards">
-	<TinySlider gap="1rem" let:shown>
-		{#each cardItems as item, index}
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<!-- svelte-ignore a11y-no-static-element-interactions -->
-			<div class="card" on:click={() => console.log('click')}>
-				<a class="thumbnail" href="https://google.com" target="_blank">
-					{#if [index, index + 1, index - 1].some(i => shown.includes(i))}
-						<img loading="lazy" src={item} alt="" />
-					{/if}
-				</a>
+	<TinySlider gap="1rem">
+		{#snippet children({ shown })}
+			{#each cardItems as item, index}
+				<div class="card" onclick={() => console.log('click')}>
+					<a class="thumbnail" href="https://google.com" target="_blank">
+						{#if [index, index + 1, index - 1].some(i => shown.includes(i))}
+							<img loading="lazy" src={item} alt="" />
+						{/if}
+					</a>
 
-				<a class="title" href="https://google.com" target="_blank">Card with links</a>
+					<a class="title" href="https://google.com" target="_blank">Card with links</a>
 
-				<p>
-					I am some description to some topic that spans multiple lines.
-				</p>
+					<p>
+						I am some description to some topic that spans multiple lines.
+					</p>
 
-				<!-- svelte-ignore a11y-invalid-attribute -->
-				<a class="button" href="#" on:click|preventDefault>Take me there!</a>
-			</div>
-		{/each}
+					<a class="button" href="#" onclick={event => event.preventDefault()}>Take me there!</a>
+				</div>
+			{/each}
+		{/snippet}
 
-		<svelte:fragment slot="controls" let:reachedEnd let:setIndex let:currentIndex>
+		{#snippet controls({ setIndex, currentIndex, reachedEnd })}
 			{#if currentIndex > 0}
-				<button class="arrow left" on:click={() => setIndex(currentIndex - 2)}><Arrow /></button>
+				<button class="arrow left" onclick={() => setIndex(currentIndex - 2)}><Arrow /></button>
 			{/if}
 
 			{#if !reachedEnd}
-				<button class="arrow right" on:click={() => setIndex(currentIndex + 2)}><Arrow direction="right" /></button>
+				<button class="arrow right" onclick={() => setIndex(currentIndex + 2)}><Arrow direction="right" /></button>
 			{/if}
-		</svelte:fragment>
+		{/snippet}
 	</TinySlider>
 </div>
 
@@ -963,15 +1168,16 @@
 		background: white;
 	}
 
-	.thumbnails {
+	.thumbnails :global(.slider-content) {
 		display: flex;
-		flex-wrap: wrap;
 		gap: 0.5rem;
 		padding: 0.5rem 0;
 	}
 
 	.thumbnails.grid {
 		display: grid;
+		gap: 0.5rem;
+		padding: 0.5rem 0;
 		grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
 	}
 
@@ -1135,13 +1341,6 @@
 
 	.button:active {
 		transform: scale(0.95);
-	}
-
-	.well {
-		padding: .35rem .5rem;
-		border-radius: .5rem;
-		border: 1px solid var(--border-color);
-		background: var(--bg-well);
 	}
 
 	:global(.header svg) {
