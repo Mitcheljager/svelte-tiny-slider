@@ -173,7 +173,7 @@
     class="slider-content"
     style:transform="translateX({currentScrollPosition * -1}px)"
     style:transition-duration="{isDragging ? 0 : transitionDuration}ms"
-    style:--gap={parseInt(gap || "0") ? gap : null}>
+    style:--gap={parseFloat(gap || "0") ? gap : null}>
     <slot {sliderWidth} {shown} {currentIndex} {setIndex} {currentScrollPosition} {maxWidth} {reachedEnd} {distanceToEnd} />
   </div>
 </div>
