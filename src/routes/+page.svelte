@@ -63,7 +63,11 @@
 
 		<CodeBlock>
 			{#snippet svelte4()}
-				yarn add <mark>svelte-tiny-slider</mark> --dev
+				yarn add <mark>svelte-tiny-slider@^1.0.0</mark> --dev
+			{/snippet}
+
+			{#snippet svelte5()}
+				yarn add <mark>svelte-tiny-slider@^2.0.0</mark> --dev
 			{/snippet}
 		</CodeBlock>
 
