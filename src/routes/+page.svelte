@@ -3,24 +3,24 @@
 	import CodeBlock from "./CodeBlock.svelte"
 	import TinySlider from "$lib/TinySlider.svelte"
 
-	const items = getItems("editorial")
-	const fixedItems = getItems("editorial", "508x350")
-	const fixedItems2 = getItems("food", "508x350")
-	const fixedItems3 = getItems("3d-render", "508x350")
-	const fixedItems4 = getItems("nature", "508x350")
-	const fixedItems5 = getItems("food-drink", "200x300")
-	const fixedItems6 = getItems("experimental", "508x350")
-	const fixedItems7 = getItems("fashion", "200x300", 20)
-	const fixedItems8 = getItems("abstract", "508x350")
-	const headerItems = getItems("3d-render", "200x150", 30)
-	const cardItems = getItems("architecture", "320x180", 20)
+	const items = getItems("editorial", "508/350")
+	const fixedItems = getItems("editorial", "508/350")
+	const fixedItems2 = getItems("food", "508/350")
+	const fixedItems3 = getItems("3d-render", "508/350")
+	const fixedItems4 = getItems("nature", "508/350")
+	const fixedItems5 = getItems("food-drink", "200/300")
+	const fixedItems6 = getItems("experimental", "508/350")
+	const fixedItems7 = getItems("fashion", "200/300", 20)
+	const fixedItems8 = getItems("abstract", "508/350")
+	const headerItems = getItems("3d-render", "200/150", 30)
+	const cardItems = getItems("architecture", "320/180", 20)
 
-	let portaitItems = $state.frozen(getItems("food-drink", "200x300"))
+	let portaitItems = $state.frozen(getItems("food-drink", "200/300"))
 
 	function getItems(subject, size = "", count = 10, from = 0) {
 		const array = []
 		for (let i = 1; i <= count; i++) {
-			array.push(`https://source.unsplash.com/random${size ? `/${size}` : ''}?${subject}&${from + i}`)
+			array.push(`https://picsum.photos/seed/${subject}+${from + i}/${size}`)
 		}
 
 		return array
