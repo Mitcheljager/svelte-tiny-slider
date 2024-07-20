@@ -14,10 +14,12 @@ The package is less than 250 bytes gzipped ([Bundlephopbia](https://bundlephobia
 
 Install using Yarn or NPM.
 ```js
-yarn add svelte-tiny-slider --dev
+yarn add svelte-tiny-slider@^1.0.0 --dev // Svelte 4
+yarn add svelte-tiny-slider@^2.0.0 --dev // Svelte 5
 ```
 ```js
-npm install svelte-tiny-slider --save-dev
+npm install svelte-tiny-slider@^1.0.0 --save-dev // Svelte 4
+npm install svelte-tiny-slider@^2.0.0 --save-dev // Svelte 5
 ```
 
 Include the component in your app.
