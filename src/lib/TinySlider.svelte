@@ -1,8 +1,5 @@
 <script>
-  import { run } from 'svelte/legacy'
-
 	import { BROWSER } from "esm-env"
-  import { createEventDispatcher } from "svelte"
   import { onMount, onDestroy } from "svelte"
 
   /** @type {{gap?: string, fill?: boolean, transitionDuration?: number, threshold?: number, currentIndex?: number, shown?: any, sliderWidth?: number, currentScrollPosition?: number, maxWidth?: number, reachedEnd?: boolean, distanceToEnd?: number, end?: function, change?: function, children?: import('svelte').Snippet<[any]>, controls?: import('svelte').Snippet<[any]>}} */
@@ -31,8 +28,6 @@
   let sliderElement = $state()
   let contentElement = $state()
   let observer
-
-  const dispatch = createEventDispatcher()
 
   $effect(() => {
     if (contentElement) setShown()
@@ -180,6 +175,7 @@
 
 <div class="slider" class:dragging={isDragging} class:passed-threshold={passedThreshold} bind:this={sliderElement} bind:clientWidth={sliderWidth} tabindex="-1">
   <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
   <div
     bind:this={contentElement}
     tabindex="0"
