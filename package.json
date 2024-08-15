@@ -1,6 +1,6 @@
 {
 	"name": "svelte-tiny-slider",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
@@ -26,7 +26,7 @@
 		"!dist/**/*.spec.*"
 	],
 	"peerDependencies": {
-		"svelte": "^5.0.0"
+		"svelte": ">=5.0.0"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-static": "^3.0.2",
