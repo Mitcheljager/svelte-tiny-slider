@@ -15,7 +15,15 @@
 	const headerItems = getItems("3d-render", "200/150", 30)
 	const cardItems = getItems("architecture", "320/180", 20)
 
-	let portaitItems = $state.frozen(getItems("food-drink", "200/300"))
+	let portaitItems = $state(getItems("food-drink", "200/300"))
+	let slider
+	let thumbnailsSlider
+	let shown = $state([])
+
+	$effect(() => {
+		if (shown.length < portaitItems.length) return
+		portaitItems = [...portaitItems, ...getItems("food-drink", "200x300", 10, portaitItems.length)]
+	})
 
 	function getItems(subject, size = "", count = 10, from = 0) {
 		const array = []
@@ -25,16 +33,6 @@
 
 		return array
 	}
-
-	let slider
-	let thumbnailsSlider
-
-	let shown = $state([])
-
-	$effect(() => {
-		if (shown.length < portaitItems.length) return
-		portaitItems = [...portaitItems, ...getItems("food-drink", "200x300", 10, portaitItems.length)]
-	})
 </script>
 
 <header>
