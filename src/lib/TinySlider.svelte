@@ -1,32 +1,38 @@
 <script>
 	import { BROWSER } from "esm-env"
-  import { createEventDispatcher } from "svelte"
   import { onMount, onDestroy } from "svelte"
 
-  export let gap = "0"
-  export let fill = true
-  export let transitionDuration = 300
-  export let threshold = 30
-  export let currentIndex = 0
-  export let shown = []
-  export let sliderWidth = 0
-  export let currentScrollPosition = 0
-  export let maxWidth = 0
-  export let reachedEnd = false
-  export let distanceToEnd = 0
+  /** @type {{gap?: string, fill?: boolean, transitionDuration?: number, threshold?: number, currentIndex?: number, shown?: any, sliderWidth?: number, currentScrollPosition?: number, maxWidth?: number, reachedEnd?: boolean, distanceToEnd?: number, end?: function, change?: function, children?: import('svelte').Snippet<[any]>, controls?: import('svelte').Snippet<[any]>}} */
+  let {
+    gap = "0",
+    fill = true,
+    transitionDuration = 300,
+    threshold = 30,
+    currentIndex = $bindable(0),
+    shown = $bindable([]),
+    sliderWidth = $bindable(0),
+    currentScrollPosition = $bindable(0),
+    maxWidth = $bindable(0),
+    reachedEnd = $bindable(false),
+    distanceToEnd = $bindable(0),
+    end = () => null,
+    change = () => null,
+    children,
+    controls
+  } = $props();
 
-  let isDragging = false
-  let passedThreshold = false
+  let isDragging = $state(false)
+  let passedThreshold = $state(false)
   let movementStartX = 0
   let finalScrollPosition = 0
-  let sliderElement
-  let contentElement
+  let sliderElement = $state()
+  let contentElement = $state()
   let observer
 
-  const dispatch = createEventDispatcher()
-
-  $: if (contentElement) setShown()
-  $: if (contentElement) distanceToEnd = maxWidth - currentScrollPosition - sliderWidth
+  $effect(() => {
+    if (contentElement) setShown()
+    if (contentElement) distanceToEnd = maxWidth - currentScrollPosition - sliderWidth
+  })
 
   onMount(createResizeObserver)
   onDestroy(() => { if (observer) observer.disconnect(contentElement) })
@@ -107,18 +113,20 @@
     setScrollPosition(offsets[currentIndex], true)
     finalScrollPosition = currentScrollPosition
 
-    if (currentIndex != startIndex) dispatch('change', currentIndex)
+    if (change && currentIndex != startIndex) change(currentIndex)
   }
 
   function setScrollPosition(left, limit = false) {
     currentScrollPosition = left
 
-    const end = maxWidth - sliderWidth
+    const endSize = maxWidth - sliderWidth
 
-    reachedEnd = currentScrollPosition >= end
+    reachedEnd = currentScrollPosition >= endSize
     if (!reachedEnd) return
-    dispatch("end")
-    if (fill && limit) currentScrollPosition = end
+
+    if (end) end()
+
+    if (fill && limit) currentScrollPosition = endSize
   }
 
   function setShown() {
@@ -157,16 +165,17 @@
 </script>
 
 <svelte:window
-  on:mousedown={down}
-  on:mouseup={up}
-  on:mousemove={move}
-  on:touchstart={down}
-  on:touchend={up}
-  on:touchmove={move}
-  on:keydown={keydown} />
+  onmousedown={down}
+  onmouseup={up}
+  onmousemove={move}
+  ontouchstart={down}
+  ontouchend={up}
+  ontouchmove={move}
+  onkeydown={keydown} />
 
 <div class="slider" class:dragging={isDragging} class:passed-threshold={passedThreshold} bind:this={sliderElement} bind:clientWidth={sliderWidth} tabindex="-1">
   <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
   <div
     bind:this={contentElement}
     tabindex="0"
@@ -174,11 +183,11 @@
     style:transform="translateX({currentScrollPosition * -1}px)"
     style:transition-duration="{isDragging ? 0 : transitionDuration}ms"
     style:--gap={parseFloat(gap || "0") ? gap : null}>
-    <slot {sliderWidth} {shown} {currentIndex} {setIndex} {currentScrollPosition} {maxWidth} {reachedEnd} {distanceToEnd} />
+    {@render children?.({ sliderWidth, shown, currentIndex, setIndex, currentScrollPosition, maxWidth, reachedEnd, distanceToEnd })}
   </div>
 </div>
 
-<slot name="controls" {sliderWidth} {shown} {currentIndex} {setIndex} {currentScrollPosition} {maxWidth} {reachedEnd} {distanceToEnd} />
+{@render controls?.({ sliderWidth, shown, currentIndex, setIndex, currentScrollPosition, maxWidth, reachedEnd, distanceToEnd })}
 
 <style>
   .slider {
