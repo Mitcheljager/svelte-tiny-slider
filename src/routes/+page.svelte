@@ -988,7 +988,7 @@
 		--primary: #ff3e00;
 		--primary-light: #ff602b;
 		--text-color: #444;
-		--text-color-light: #999;
+		--text-color-light: #666;
 		--text-color-lightest: black;
 		--border-color: #edf3f0;
 		--bg-well: #f6fafd;
@@ -1001,7 +1001,7 @@
 			--text-color-light: #8e99af;
 			--text-color-lightest: white;
 			--border-color: #363d49;
-			--bg-well: #21242c;
+			--bg-well: #1d2027;
 			--bg-body: #16181d;
 		}
 	}
