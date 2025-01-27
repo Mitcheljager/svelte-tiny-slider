@@ -2,7 +2,26 @@
 	import { BROWSER } from "esm-env"
   import { onMount, onDestroy } from "svelte"
 
-  /** @type {{gap?: string, fill?: boolean, transitionDuration?: number, threshold?: number, currentIndex?: number, shown?: any, sliderWidth?: number, currentScrollPosition?: number, maxWidth?: number, reachedEnd?: boolean, distanceToEnd?: number, end?: function, change?: function, children?: import('svelte').Snippet<[any]>, controls?: import('svelte').Snippet<[any]>}} */
+  /**
+   * @typedef {Object} Props
+   * @property {string} [gap] The size of gap between elements, as any valid css value.
+   * @property {boolean} [fill] Whether to always fill the full width of the container when reaching the end of the slider.
+   * @property {number} [transitionDuration] The duration of the transition when sliding.
+   * @property {number} [threshold] The threshold in pixels at which to move to the next/previous item after dragging. For example, a threshold of 10 means you need to move 10 pixels before the slider moves. Any less and the slider will revert back to the current item.
+   * @property {number} [currentIndex] The index of the currently shown slide.
+   * @property {number[]} [shown] An array of all indexes that have been shown.
+   * @property {number} [sliderWidth] The width of the slider in pixels.
+   * @property {number} [currentScrollPosition] The current scroll position in pixels.
+   * @property {number} [maxWidth] The added up width of all items in the slider. The innerwidth of the slider content.
+   * @property {boolean} [reachedEnd] Indicates whether the end of the slider has been reached.
+   * @property {number} [distanceToEnd] The distance to the end of the slider in pixels
+   * @property {() => void} [end] A callback function triggered when the slider reaches the end.
+   * @property {(index: number) => void} [change] A callback function triggered when the slider changes.
+   * @property {import('svelte').Snippet<[any]>} [children] The children elements of the slider.
+   * @property {import('svelte').Snippet<[any]>} [controls] The controls for the slider.
+   */
+
+  /** @type {Props} */
   let {
     gap = "0",
     fill = true,
