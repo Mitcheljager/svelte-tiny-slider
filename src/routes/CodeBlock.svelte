@@ -1,8 +1,6 @@
 <script>
-  let {
-    svelte4,
-    svelte5
-  } = $props()
+  /** @type {{ svelte4?: import('svelte').Snippet, svelte5?: import('svelte').Snippet }} */
+  const { svelte4, svelte5 } = $props()
 
   const tabs = [
     "Svelte 4",

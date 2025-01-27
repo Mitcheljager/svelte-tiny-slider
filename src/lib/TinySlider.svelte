@@ -16,7 +16,7 @@
     reachedEnd = $bindable(false),
     distanceToEnd = $bindable(0),
     end = () => null,
-    change = () => null,
+    change = (/** @type {number} */ index) => null,
     children,
     controls
   } = $props()
@@ -120,7 +120,7 @@
 
     currentIndex = 0
 
-    let i;
+    let i
     for (i = 0; i < offsets.length; i++) {
       if (setIndex != -1) {
         if (i >= setIndex) break

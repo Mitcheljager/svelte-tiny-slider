@@ -16,8 +16,11 @@
 	const cardItems = getItems("architecture", "320/180", 20)
 
 	let portaitItems = $state(getItems("food-drink", "200/300"))
+	/** @type {any} */
 	let slider
+	/** @type {any} */
 	let thumbnailsSlider
+	/** @type {number[]} */
 	let shown = $state([])
 
 	$effect(() => {
@@ -25,6 +28,12 @@
 		portaitItems = [...portaitItems, ...getItems("food-drink", "200x300", 10, portaitItems.length)]
 	})
 
+	/**
+	 * @param {string} subject
+	 * @param {string} size
+	 * @param {number} count
+	 * @param {number} from
+	 */
 	function getItems(subject, size = "", count = 10, from = 0) {
 		const array = []
 		for (let i = 1; i <= count; i++) {
@@ -240,7 +249,8 @@
 							<button
 								class="dot"
 								class:active={i == currentIndex}
-								onclick={() => setIndex(i)} />
+								aria-label="Go to slider item {i}"
+								onclick={() => setIndex(i)}></button>
 						{/each}
 					</div>
 				{/snippet}
@@ -376,7 +386,7 @@
 		</CodeBlock>
 
 		<div class="relative">
-			<TinySlider change={(index) => thumbnailsSlider.setIndex(index)}>
+			<TinySlider change={(/** @type {any} */ index) => thumbnailsSlider.setIndex(index)}>
 				{#each fixedItems8 as item}
 					<img src={item} alt="" />
 				{/each}
@@ -491,7 +501,7 @@
 			{/snippet}
 		</CodeBlock>
 
-		<TinySlider let:sliderWidth>
+		<TinySlider>
 			{#snippet children({ sliderWidth })}
 				{#each fixedItems5 as item}
 					<img loading="lazy" src={item} alt="" width={sliderWidth / 3} />
@@ -814,7 +824,7 @@
 			<div class="slider-wrapper">
 				<TinySlider gap="0.5rem" fill={false}>
 					{#each { length: 10 } as _}
-						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px" />
+						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px"></div>
 					{/each}
 
 					{#snippet controls({ setIndex, currentIndex })}
@@ -844,9 +854,9 @@
 
 		<div class="relative">
 			<div class="slider-wrapper">
-				<TinySlider gap="0.5rem" transitionDuration="1000">
+				<TinySlider gap="0.5rem" transitionDuration={1000}>
 					{#each { length: 10 } as _}
-						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px" />
+						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px"></div>
 					{/each}
 
 					{#snippet controls({ setIndex, currentIndex, reachedEnd })}
@@ -876,9 +886,9 @@
 
 		<div class="relative">
 			<div class="slider-wrapper">
-				<TinySlider gap="0.5rem" threshold="100">
+				<TinySlider gap="0.5rem" threshold={100}>
 					{#each { length: 10 } as _}
-						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px" />
+						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px"></div>
 					{/each}
 
 					{#snippet controls({ setIndex, currentIndex, reachedEnd })}
@@ -900,7 +910,9 @@
 	<TinySlider gap="1rem">
 		{#snippet children({ shown })}
 			{#each cardItems as item, index}
-				<div class="card" onclick={() => console.log('click')}>
+				<!-- svelte-ignore a11y_click_events_have_key_events -->
+				<!-- svelte-ignore a11y_no_static_element_interactions -->
+				<div class="card" onclick={() => console.log("click")}>
 					<a class="thumbnail" href="https://google.com" target="_blank">
 						{#if [index, index + 1, index - 1].some(i => shown.includes(i))}
 							<img loading="lazy" src={item} alt="" />
@@ -913,6 +925,7 @@
 						I am some description to some topic that spans multiple lines.
 					</p>
 
+					<!-- svelte-ignore a11y_invalid_attribute -->
 					<a class="button" href="#" onclick={event => event.preventDefault()}>Take me there!</a>
 				</div>
 			{/each}
