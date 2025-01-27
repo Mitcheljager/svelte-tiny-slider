@@ -19,7 +19,7 @@
     change = () => null,
     children,
     controls
-  } = $props();
+  } = $props()
 
   let isDragging = $state(false)
   let passedThreshold = $state(false)
@@ -27,7 +27,9 @@
   let finalScrollPosition = 0
   let sliderElement = $state()
   let contentElement = $state()
-  let observer
+
+  /** @type {ResizeObserver | null} */
+  let observer = null
 
   $effect(() => {
     if (contentElement) setShown()
@@ -35,9 +37,12 @@
   })
 
   onMount(createResizeObserver)
-  onDestroy(() => { if (observer) observer.disconnect(contentElement) })
+  onDestroy(() => { if (observer) observer.disconnect() })
 
-  export function setIndex(i) {
+  /**
+	 * @param {number} i
+	 */
+   export function setIndex(i) {
     const length = contentElement.children.length
 
     if (i < 0) i = 0
@@ -47,15 +52,23 @@
     setShown()
   }
 
+  /**
+   * @param {TouchEvent | MouseEvent} event
+   * @returns {void}
+	 */
   function down(event) {
-    if (!isCurrentSlider(event.target)) return
+    if (!isCurrentSlider(/** @type {Element} */ (event.target))) return
 
     event.preventDefault()
 
+    // @ts-ignore
     movementStartX = event.pageX || event.touches[0].pageX
     isDragging = true
   }
 
+  /**
+   * @returns {void}
+	 */
   function up() {
     if (!isDragging) return
 
@@ -72,17 +85,26 @@
     passedThreshold = false
   }
 
+  /**
+	 * @param {TouchEvent | MouseEvent} event
+   * @returns {void}
+	 */
   function move(event) {
     if (!isDragging) return
 
     passedThreshold = Math.abs(currentScrollPosition - finalScrollPosition) > threshold
 
+    // @ts-ignore
     let pageX = event.pageX || event.touches[0].pageX
 
     setScrollPosition(finalScrollPosition + (movementStartX - pageX))
     setShown()
   }
 
+  /**
+	 * @param {KeyboardEvent} event
+   * @returns {void}
+	 */
   function keydown(event) {
     if (!isCurrentSlider(document.activeElement)) return
 
@@ -116,6 +138,10 @@
     if (change && currentIndex != startIndex) change(currentIndex)
   }
 
+  /**
+	 * @param {number} left
+   * @param {boolean} limit
+	 */
   function setScrollPosition(left, limit = false) {
     currentScrollPosition = left
 
@@ -129,6 +155,7 @@
     if (fill && limit) currentScrollPosition = endSize
   }
 
+  /** @returns {void} */
   function setShown() {
     const offsets = getItemOffsets()
 
@@ -138,14 +165,17 @@
     })
   }
 
+  /** @returns {number[]} */
   function getItemOffsets() {
     return getContentChildren().map(item => item.offsetLeft)
   }
 
+  /** @returns {HTMLElement[]} */
   function getContentChildren() {
     return Array.from(contentElement.children).filter(c => c.src != "about:blank")
   }
 
+  /** @returns {void} */
   function createResizeObserver() {
     if (!BROWSER) return
 
@@ -159,8 +189,11 @@
     observer.observe(contentElement)
   }
 
+  /**
+	 * @param {Element | null} element
+	 */
   function isCurrentSlider(element) {
-    return element == sliderElement || element.closest(".slider") == sliderElement
+    return element === sliderElement || element?.closest(".slider") === sliderElement
   }
 </script>
 
@@ -174,7 +207,6 @@
   onkeydown={keydown} />
 
 <div class="slider" class:dragging={isDragging} class:passed-threshold={passedThreshold} bind:this={sliderElement} bind:clientWidth={sliderWidth} tabindex="-1">
-  <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
   <div
     bind:this={contentElement}
