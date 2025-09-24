@@ -1,5 +1,5 @@
 <script>
-  import { onMount, onDestroy } from "svelte"
+  import { onMount, onDestroy } from "svelte";
 
   /**
    * @typedef {Object} Props
@@ -37,38 +37,38 @@
     change = (/** @type {number} */ index) => null,
     children,
     controls
-  } = $props()
+  } = $props();
 
-  let isDragging = $state(false)
-  let passedThreshold = $state(false)
-  let movementStartX = 0
-  let finalScrollPosition = 0
-  let sliderElement = $state()
-  let contentElement = $state()
+  let isDragging = $state(false);
+  let passedThreshold = $state(false);
+  let movementStartX = 0;
+  let finalScrollPosition = 0;
+  let sliderElement = $state();
+  let contentElement = $state();
 
   /** @type {ResizeObserver | null} */
-  let observer = null
+  let observer = null;
 
   $effect(() => {
-    if (contentElement) setShown()
-    if (contentElement) distanceToEnd = maxWidth - currentScrollPosition - sliderWidth
-  })
+    if (contentElement) setShown();
+    if (contentElement) distanceToEnd = maxWidth - currentScrollPosition - sliderWidth;
+  });
 
-  onMount(createResizeObserver)
-  onDestroy(() => { if (observer) observer.disconnect() })
+  onMount(createResizeObserver);
+  onDestroy(() => { if (observer) observer.disconnect(); });
 
   /**
    * @param {number} i
    * @returns {void}
    */
    export function setIndex(i) {
-    const length = contentElement.children.length
+    const length = contentElement.children.length;
 
-    if (i < 0) i = 0
-    if (i > length - 1) i = length - 1
+    if (i < 0) i = 0;
+    if (i > length - 1) i = length - 1;
 
-    snapToPosition({ setIndex: i })
-    setShown()
+    snapToPosition({ setIndex: i });
+    setShown();
   }
 
   /**
@@ -76,32 +76,32 @@
    * @returns {void}
    */
   function down(event) {
-    if (!isCurrentSlider(/** @type {Element} */ (event.target))) return
+    if (!isCurrentSlider(/** @type {Element} */ (event.target))) return;
 
-    event.preventDefault()
+    event.preventDefault();
 
     // @ts-ignore
-    movementStartX = event.pageX || event.touches[0].pageX
-    isDragging = true
+    movementStartX = event.pageX || event.touches[0].pageX;
+    isDragging = true;
   }
 
   /**
    * @returns {void}
    */
   function up() {
-    if (!isDragging) return
+    if (!isDragging) return;
 
     if (!passedThreshold) {
-      snapToPosition({ setIndex: currentIndex })
+      snapToPosition({ setIndex: currentIndex });
     } else {
-      const difference = currentScrollPosition - finalScrollPosition
-      const direction = difference > 0 ? 1 : -1
+      const difference = currentScrollPosition - finalScrollPosition;
+      const direction = difference > 0 ? 1 : -1;
 
-      if (difference != 0) snapToPosition({ direction })
+      if (difference != 0) snapToPosition({ direction });
     }
 
-    isDragging = false
-    passedThreshold = false
+    isDragging = false;
+    passedThreshold = false;
   }
 
   /**
@@ -109,15 +109,15 @@
    * @returns {void}
    */
   function move(event) {
-    if (!isDragging) return
+    if (!isDragging) return;
 
-    passedThreshold = Math.abs(currentScrollPosition - finalScrollPosition) > threshold
+    passedThreshold = Math.abs(currentScrollPosition - finalScrollPosition) > threshold;
 
     // @ts-ignore
-    let pageX = event.pageX || event.touches[0].pageX
+    let pageX = event.pageX || event.touches[0].pageX;
 
-    setScrollPosition(finalScrollPosition + (movementStartX - pageX))
-    setShown()
+    setScrollPosition(finalScrollPosition + (movementStartX - pageX));
+    setShown();
   }
 
   /**
@@ -125,34 +125,34 @@
    * @returns {void}
    */
   function keydown(event) {
-    if (!isCurrentSlider(document.activeElement)) return
+    if (!isCurrentSlider(document.activeElement)) return;
 
-    if (event.key == "ArrowLeft") setIndex(currentIndex - 1)
-    if (event.key == "ArrowRight") setIndex(currentIndex + 1)
+    if (event.key == "ArrowLeft") setIndex(currentIndex - 1);
+    if (event.key == "ArrowRight") setIndex(currentIndex + 1);
   }
 
   function snapToPosition({ setIndex = -1, direction = 1 } = {}) {
-    const offsets = getItemOffsets()
-    const startIndex = currentIndex
+    const offsets = getItemOffsets();
+    const startIndex = currentIndex;
 
-    currentIndex = 0
+    currentIndex = 0;
 
-    let i
+    let i;
     for (i = 0; i < offsets.length; i++) {
       if (setIndex != -1) {
-        if (i >= setIndex) break
+        if (i >= setIndex) break;
       } else if (
         (direction > 0 && offsets[i] > currentScrollPosition) ||
         (direction < 0 && offsets[i + 1] > currentScrollPosition)) {
-        break
+        break;
       }
     }
 
-    currentIndex = Math.min(i, getContentChildren().length - 1)
-    setScrollPosition(offsets[currentIndex], true)
-    finalScrollPosition = currentScrollPosition
+    currentIndex = Math.min(i, getContentChildren().length - 1);
+    setScrollPosition(offsets[currentIndex], true);
+    finalScrollPosition = currentScrollPosition;
 
-    if (change && currentIndex != startIndex) change(currentIndex)
+    if (change && currentIndex != startIndex) change(currentIndex);
   }
 
   /**
@@ -161,48 +161,48 @@
    * @returns {void}
    */
   function setScrollPosition(left, limit = false) {
-    currentScrollPosition = left
+    currentScrollPosition = left;
 
-    const endSize = maxWidth - sliderWidth
+    const endSize = maxWidth - sliderWidth;
 
-    reachedEnd = currentScrollPosition >= endSize
-    if (!reachedEnd) return
+    reachedEnd = currentScrollPosition >= endSize;
+    if (!reachedEnd) return;
 
-    if (end) end()
+    if (end) end();
 
-    if (fill && limit) currentScrollPosition = endSize
+    if (fill && limit) currentScrollPosition = endSize;
   }
 
   /** @returns {void} */
   function setShown() {
-    const offsets = getItemOffsets()
+    const offsets = getItemOffsets();
 
     Array.from(offsets).forEach((offset, index) => {
-      if (currentScrollPosition + sliderWidth < offset) return
-      if (!shown.includes(index)) shown = [...shown, index]
-    })
+      if (currentScrollPosition + sliderWidth < offset) return;
+      if (!shown.includes(index)) shown = [...shown, index];
+    });
   }
 
   /** @returns {number[]} */
   function getItemOffsets() {
-    return getContentChildren().map(item => item.offsetLeft)
+    return getContentChildren().map(item => item.offsetLeft);
   }
 
   /** @returns {HTMLElement[]} */
   function getContentChildren() {
-    return Array.from(contentElement.children).filter(c => c.src != "about:blank")
+    return Array.from(contentElement.children).filter(c => c.src != "about:blank");
   }
 
   /** @returns {void} */
   function createResizeObserver() {
     observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
-        const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
-        maxWidth = contentBoxSize.inlineSize
+        const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize;
+        maxWidth = contentBoxSize.inlineSize;
       }
-    })
+    });
 
-    observer.observe(contentElement)
+    observer.observe(contentElement);
   }
 
   /**
@@ -210,7 +210,7 @@
    * @returns {boolean}
    */
   function isCurrentSlider(element) {
-    return element === sliderElement || element?.closest(".slider") === sliderElement
+    return element === sliderElement || element?.closest(".slider") === sliderElement;
   }
 </script>
 

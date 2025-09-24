@@ -1,32 +1,32 @@
 <script>
-	import Arrow from "./Arrow.svelte"
-	import CodeBlock from "./CodeBlock.svelte"
-	import TinySlider from "$lib/TinySlider.svelte"
+	import Arrow from "./Arrow.svelte";
+	import CodeBlock from "./CodeBlock.svelte";
+	import TinySlider from "$lib/TinySlider.svelte";
 
-	const items = getItems("editorial", "508/350")
-	const fixedItems = getItems("editorial", "508/350")
-	const fixedItems2 = getItems("food", "508/350")
-	const fixedItems3 = getItems("3d-render", "508/350")
-	const fixedItems4 = getItems("nature", "508/350")
-	const fixedItems5 = getItems("food-drink", "200/300")
-	const fixedItems6 = getItems("experimental", "508/350")
-	const fixedItems7 = getItems("fashion", "200/300", 20)
-	const fixedItems8 = getItems("abstract", "508/350")
-	const headerItems = getItems("3d-render", "200/150", 30)
-	const cardItems = getItems("architecture", "320/180", 20)
+	const items = getItems("editorial", "508/350");
+	const fixedItems = getItems("editorial", "508/350");
+	const fixedItems2 = getItems("food", "508/350");
+	const fixedItems3 = getItems("3d-render", "508/350");
+	const fixedItems4 = getItems("nature", "508/350");
+	const fixedItems5 = getItems("food-drink", "200/300");
+	const fixedItems6 = getItems("experimental", "508/350");
+	const fixedItems7 = getItems("fashion", "200/300", 20);
+	const fixedItems8 = getItems("abstract", "508/350");
+	const headerItems = getItems("3d-render", "200/150", 30);
+	const cardItems = getItems("architecture", "320/180", 20);
 
-	let portaitItems = $state(getItems("food-drink", "200/300"))
+	let portaitItems = $state(getItems("food-drink", "200/300"));
 	/** @type {any} */
-	let slider
+	let slider;
 	/** @type {any} */
-	let thumbnailsSlider
+	let thumbnailsSlider;
 	/** @type {number[]} */
-	let shown = $state([])
+	let shown = $state([]);
 
 	$effect(() => {
-		if (shown.length < portaitItems.length) return
-		portaitItems = [...portaitItems, ...getItems("food-drink", "200x300", 10, portaitItems.length)]
-	})
+		if (shown.length < portaitItems.length) return;
+		portaitItems = [...portaitItems, ...getItems("food-drink", "200x300", 10, portaitItems.length)];
+	});
 
 	/**
 	 * @param {string} subject
@@ -35,12 +35,12 @@
 	 * @param {number} from
 	 */
 	function getItems(subject, size = "", count = 10, from = 0) {
-		const array = []
+		const array = [];
 		for (let i = 1; i <= count; i++) {
-			array.push(`https://picsum.photos/seed/${subject}+${from + i}/${size}`)
+			array.push(`https://picsum.photos/seed/${subject}+${from + i}/${size}`);
 		}
 
-		return array
+		return array;
 	}
 </script>
 

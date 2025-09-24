@@ -1,5 +1,5 @@
 <script>
-  export let direction = "left"
+  export let direction = "left";
 </script>
 
 <svg viewBox="0 0 30.725 30.725" style:transform={direction == "right" ? "rotate(180deg)" : ""}>

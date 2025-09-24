@@ -1,13 +1,13 @@
 <script>
   /** @type {{ svelte4?: import('svelte').Snippet, svelte5?: import('svelte').Snippet }} */
-  const { svelte4, svelte5 } = $props()
+  const { svelte4, svelte5 } = $props();
 
   const tabs = [
     "Svelte 4",
     "Svelte 5"
-  ]
+  ];
 
-  let currentTab = $state(svelte5 ? "Svelte 5" : "Svelte 4")
+  let currentTab = $state(svelte5 ? "Svelte 5" : "Svelte 4");
 </script>
 
 {#if svelte4 && svelte5}

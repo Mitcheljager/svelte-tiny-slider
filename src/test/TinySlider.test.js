@@ -1,7 +1,7 @@
-import { render } from "@testing-library/svelte"
-import { describe, expect, it, beforeEach, vi } from "vitest"
+import { render } from "@testing-library/svelte";
+import { describe, expect, it, beforeEach, vi } from "vitest";
 
-import TinySlider from "$lib/TinySlider.svelte"
+import TinySlider from "$lib/TinySlider.svelte";
 
 describe("TinySlider", () => {
   beforeEach(() => {
@@ -12,11 +12,11 @@ describe("TinySlider", () => {
         unobserve: vi.fn(),
         disconnect: vi.fn()
       }))
-    })
-  })
+    });
+  });
 
   it("Should render", () => {
-    const { container } = render(TinySlider)
-    expect(container).toBeTruthy()
-  })
-})
+    const { container } = render(TinySlider);
+    expect(container).toBeTruthy();
+  });
+});

@@ -1,4 +1,4 @@
-import TinySlider from "./TinySlider.svelte"
+import TinySlider from "./TinySlider.svelte";
 
-export { TinySlider }
-export default TinySlider
+export { TinySlider };
+export default TinySlider;
