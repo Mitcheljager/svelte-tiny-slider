@@ -126,8 +126,6 @@
   function keydown(event) {
     if (!isCurrentSlider(document.activeElement)) return
 
-    if (event.key != "ArrowLeft" && event.key != "ArrowRight") return
-
     if (event.key == "ArrowLeft") setIndex(currentIndex - 1)
     if (event.key == "ArrowRight") setIndex(currentIndex + 1)
   }
