@@ -59,6 +59,7 @@
 
   /**
    * @param {number} i
+   * @returns {void}
    */
    export function setIndex(i) {
     const length = contentElement.children.length
@@ -157,6 +158,7 @@
   /**
    * @param {number} left
    * @param {boolean} limit
+   * @returns {void}
    */
   function setScrollPosition(left, limit = false) {
     currentScrollPosition = left
@@ -205,6 +207,7 @@
 
   /**
    * @param {Element | null} element
+   * @returns {boolean}
    */
   function isCurrentSlider(element) {
     return element === sliderElement || element?.closest(".slider") === sliderElement
