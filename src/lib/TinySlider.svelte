@@ -58,8 +58,8 @@
   onDestroy(() => { if (observer) observer.disconnect() })
 
   /**
-	 * @param {number} i
-	 */
+   * @param {number} i
+   */
    export function setIndex(i) {
     const length = contentElement.children.length
 
@@ -73,7 +73,7 @@
   /**
    * @param {TouchEvent | MouseEvent} event
    * @returns {void}
-	 */
+   */
   function down(event) {
     if (!isCurrentSlider(/** @type {Element} */ (event.target))) return
 
@@ -86,7 +86,7 @@
 
   /**
    * @returns {void}
-	 */
+   */
   function up() {
     if (!isDragging) return
 
@@ -104,9 +104,9 @@
   }
 
   /**
-	 * @param {TouchEvent | MouseEvent} event
+   * @param {TouchEvent | MouseEvent} event
    * @returns {void}
-	 */
+   */
   function move(event) {
     if (!isDragging) return
 
@@ -120,9 +120,9 @@
   }
 
   /**
-	 * @param {KeyboardEvent} event
+   * @param {KeyboardEvent} event
    * @returns {void}
-	 */
+   */
   function keydown(event) {
     if (!isCurrentSlider(document.activeElement)) return
 
@@ -155,9 +155,9 @@
   }
 
   /**
-	 * @param {number} left
+   * @param {number} left
    * @param {boolean} limit
-	 */
+   */
   function setScrollPosition(left, limit = false) {
     currentScrollPosition = left
 
@@ -204,8 +204,8 @@
   }
 
   /**
-	 * @param {Element | null} element
-	 */
+   * @param {Element | null} element
+   */
   function isCurrentSlider(element) {
     return element === sliderElement || element?.closest(".slider") === sliderElement
   }
