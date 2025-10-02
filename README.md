@@ -6,7 +6,7 @@ Svelte Tiny Slider is an easy to use highly customizable and unopinionated carou
 [![npm downloads](https://badgen.net/npm/dt/svelte-tiny-slider)](https://www.npmjs.com/package/svelte-tiny-slider)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/svelte-tiny-slider)](https://bundlephobia.com/package/svelte-tiny-slider)
 
-The package is less than 250 bytes gzipped ([Bundlephopbia](https://bundlephobia.com/package/svelte-tiny-slider)) and has no dependencies.
+The package is less than 1.5kb gzipped ([Bundlephopbia](https://bundlephobia.com/package/svelte-tiny-slider)) and has no dependencies.
 
 **Demo and Docs**: https://mitcheljager.github.io/svelte-tiny-slider/
 
