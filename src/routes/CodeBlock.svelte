@@ -1,4 +1,6 @@
 <script>
+	import { onMount } from "svelte";
+
   /** @type {{ svelte4?: import('svelte').Snippet, svelte5?: import('svelte').Snippet }} */
   const { svelte4, svelte5 } = $props();
 
@@ -8,12 +10,33 @@
   ];
 
   let currentTab = $state(svelte5 ? "Svelte 5" : "Svelte 4");
+
+  onMount(() => {
+    if (!svelte4 || !svelte5) return;
+
+    // @ts-ignore
+    window.addEventListener("set-svelte-version", event => currentTab = event.detail);
+
+    // @ts-ignore
+    return () => window.removeEventListener("set-svelte-version", event => currentTab = event.detail);
+  });
+
+  /**
+	 * @param {string} tab
+   * @returns {void}
+	 */
+  function setCurrentTab(tab) {
+    currentTab = tab;
+
+    const event = new CustomEvent("set-svelte-version", { detail: tab, bubbles: true });
+    window.dispatchEvent(event);
+  }
 </script>
 
 {#if svelte4 && svelte5}
   <strong class="tabs">
     {#each tabs as tab}
-      <button class="tab" class:active={currentTab === tab} onclick={() => currentTab = tab}>{tab}</button>
+      <button class="tab" class:active={currentTab === tab} onclick={() => setCurrentTab(tab)}>{tab}</button>
     {/each}
   </strong>
 {/if}
