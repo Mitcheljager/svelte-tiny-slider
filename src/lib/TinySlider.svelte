@@ -61,13 +61,12 @@
    * @param {number} i
    * @returns {void}
    */
-   export function setIndex(i) {
+  export function setIndex(i) {
     const length = contentElement.children.length;
 
-    if (i < 0) i = 0;
-    if (i > length - 1) i = length - 1;
+    const clamped = Math.max(0, Math.min(i, length - 1));
 
-    snapToPosition({ setIndex: i });
+    snapToPosition({ setIndex: clamped });
     setShown();
   }
 
