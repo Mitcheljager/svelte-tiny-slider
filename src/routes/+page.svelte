@@ -907,7 +907,7 @@
 </div>
 
 <div class="cards">
-	<TinySlider gap="1rem">
+	<TinySlider gap="1rem" allowWheel>
 		{#snippet children({ shown })}
 			{#each cardItems as item, index}
 				<!-- svelte-ignore a11y_click_events_have_key_events -->

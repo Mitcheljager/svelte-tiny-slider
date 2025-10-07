@@ -13,7 +13,8 @@
    * @property {number} [currentScrollPosition] The current scroll position in pixels.
    * @property {number} [maxWidth] The added up width of all items in the slider. The innerwidth of the slider content.
    * @property {boolean} [reachedEnd] Indicates whether the end of the slider has been reached.
-   * @property {number} [distanceToEnd] The distance to the end of the slider in pixels
+   * @property {number} [distanceToEnd] The distance to the end of the slider in pixels.
+   * @property {boolean} [allowWheel] Whether or not the user can swipe using their scroll wheel horizontally, most likely using a touchpad on a laptop.
    * @property {() => void} [end] A callback function triggered when the slider reaches the end.
    * @property {(index: number) => void} [change] A callback function triggered when the slider changes.
    * @property {import('svelte').Snippet<[any]>} [children] The children elements of the slider.
@@ -33,6 +34,7 @@
     maxWidth = $bindable(0),
     reachedEnd = $bindable(false),
     distanceToEnd = $bindable(0),
+    allowWheel = false,
     end = () => null,
     change = (/** @type {number} */ index) => null,
     children,
@@ -48,6 +50,9 @@
 
   /** @type {ResizeObserver | null} */
   let observer = null;
+
+  /** @type {string | number | undefined | null} */
+  let wheelStopTimeout = null;
 
   $effect(() => {
     if (contentElement) setShown();
@@ -117,6 +122,34 @@
 
     setScrollPosition(finalScrollPosition + (movementStartX - pageX));
     setShown();
+  }
+
+  /**
+   * @param {WheelEvent} event
+   * @returns {void}
+   */
+   function onwheel(event) {
+    if (!allowWheel) return;
+
+    // @ts-ignore
+    let { deltaX, deltaY } = event;
+
+    if (Math.abs(deltaX) < Math.abs(deltaY)) return;
+
+    event.preventDefault();
+
+    const sensitivity = 20;
+    const position = currentScrollPosition + deltaX * sensitivity * 0.02;
+
+    setScrollPosition(position);
+    setShown();
+
+    if (wheelStopTimeout) clearTimeout(wheelStopTimeout);
+
+    // @ts-ignore
+    wheelStopTimeout = setTimeout(() => {
+      snapToPosition({ direction: deltaX > 0 ? 1 : -1 });
+    }, 100)
   }
 
   /**
@@ -222,7 +255,7 @@
   ontouchmove={move}
   onkeydown={keydown} />
 
-<div class="slider" class:dragging={isDragging} class:passed-threshold={passedThreshold} bind:this={sliderElement} bind:clientWidth={sliderWidth} tabindex="-1">
+<div class="slider" class:dragging={isDragging} class:passed-threshold={passedThreshold} bind:this={sliderElement} bind:clientWidth={sliderWidth} {onwheel} tabindex="-1">
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
   <div
     bind:this={contentElement}
