@@ -149,7 +149,7 @@
     // @ts-ignore
     wheelStopTimeout = setTimeout(() => {
       snapToPosition({ direction: deltaX > 0 ? 1 : -1 });
-    }, 100)
+    }, 100);
   }
 
   /**
