@@ -64,5 +64,9 @@
 		"type": "git",
 		"url": "https://github.com/Mitcheljager/svelte-tiny-slider"
 	},
-	"homepage": "https://mitcheljager.github.io/svelte-tiny-slider/"
+	"homepage": "https://mitcheljager.github.io/svelte-tiny-slider/",
+	"dependencies": {
+		"@tailwindcss/vite": "^4.1.18",
+		"tailwindcss": "^4.1.18"
+	}
 }
