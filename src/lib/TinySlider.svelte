@@ -88,8 +88,7 @@
 
     event.preventDefault();
 
-    // @ts-ignore
-    movementStartX = event.pageX || event.touches[0].pageX;
+    movementStartX = getEventPageX(event);
     isDragging = true;
   }
 
@@ -121,9 +120,7 @@
 
     passedThreshold = Math.abs(currentScrollPosition - finalScrollPosition) > threshold;
 
-    const pageX =
-      /** @type {MouseEvent} */ (event).pageX ??
-      /** @type {TouchEvent} */ (event).touches?.[0]?.pageX;
+    const pageX = getEventPageX(event);
 
     setScrollPosition(finalScrollPosition + (movementStartX - pageX));
     setShown();
@@ -136,7 +133,7 @@
    function onwheel(event) {
     if (!allowWheel) return;
 
-    let { deltaX, deltaY } = event;
+    const { deltaX, deltaY } = event;
 
     if (Math.abs(deltaX) < Math.abs(deltaY)) return;
 
@@ -216,6 +213,17 @@
       if (currentScrollPosition + sliderWidth < offset) return;
       if (!shown.includes(index)) shown = [...shown, index];
     });
+  }
+
+  /**
+   * @param {TouchEvent | MouseEvent} event
+   * @returns {number}
+   */
+  function getEventPageX(event) {
+    return (
+      /** @type {MouseEvent} */ (event).pageX ??
+      /** @type {TouchEvent} */ (event).touches?.[0]?.pageX
+    );
   }
 
   /** @returns {number[]} */
