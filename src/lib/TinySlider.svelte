@@ -121,8 +121,9 @@
 
     passedThreshold = Math.abs(currentScrollPosition - finalScrollPosition) > threshold;
 
-    // @ts-ignore
-    let pageX = event.pageX || event.touches[0].pageX;
+    const pageX =
+      /** @type {MouseEvent} */ (event).pageX ??
+      /** @type {TouchEvent} */ (event).touches?.[0]?.pageX;
 
     setScrollPosition(finalScrollPosition + (movementStartX - pageX));
     setShown();
@@ -135,7 +136,6 @@
    function onwheel(event) {
     if (!allowWheel) return;
 
-    // @ts-ignore
     let { deltaX, deltaY } = event;
 
     if (Math.abs(deltaX) < Math.abs(deltaY)) return;
