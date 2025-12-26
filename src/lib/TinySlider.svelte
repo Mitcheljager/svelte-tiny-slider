@@ -55,7 +55,7 @@
   /** @type {ResizeObserver | null} */
   let observer = null;
 
-  /** @type {string | number | undefined | null} */
+  /** @type {ReturnType<typeof setTimeout> | null} */
   let wheelStopTimeout = null;
 
   $effect(() => {
@@ -150,7 +150,6 @@
 
     if (wheelStopTimeout) clearTimeout(wheelStopTimeout);
 
-    // @ts-ignore
     wheelStopTimeout = setTimeout(() => {
       snapToPosition({ direction: deltaX > 0 ? 1 : -1 });
     }, 100);
