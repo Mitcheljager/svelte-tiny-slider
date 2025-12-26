@@ -9,7 +9,7 @@
     "Svelte 5"
   ];
 
-  let currentTab = $state(svelte5 ? "Svelte 5" : "Svelte 4");
+  let currentTab = $derived(svelte5 ? "Svelte 5" : "Svelte 4");
 
   onMount(() => {
     if (!svelte4 || !svelte5) return;
