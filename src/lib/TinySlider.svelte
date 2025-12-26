@@ -222,7 +222,7 @@
 
   /** @returns {HTMLElement[]} */
   function getContentChildren() {
-    return Array.from(contentElement.children).filter(c => c.src != "about:blank");
+    return Array.from(contentElement.children).filter(c => c instanceof HTMLElement);
   }
 
   /** @returns {void} */
