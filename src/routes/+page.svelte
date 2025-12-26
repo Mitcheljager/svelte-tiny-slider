@@ -321,7 +321,7 @@
 			</TinySlider>
 		</div>
 
-		<p>We can go one level deeper and use a slider for the controls of our slider. Here we are using the on:<mark>change</mark> event to move the thumbnails slider when the main slider also moves.</p>
+		<p>We can go one level deeper and use a slider for the controls of our slider. Here we are using the <mark>onchange</mark> event to move the thumbnails slider when the main slider also moves.</p>
 
 		<CodeBlock>
 			{#snippet svelte4()}
@@ -354,7 +354,7 @@
 			{/snippet}
 
 			{#snippet svelte5()}
-				&lt;<mark>TinySlider</mark> <mark>change</mark>=&#123;(index) => thumbnailsSlider.setIndex(index)&#125;&gt; <br>
+				&lt;<mark>TinySlider</mark> <mark>onchange</mark>=&#123;(index) => thumbnailsSlider.setIndex(index)&#125;&gt; <br>
 				&nbsp;&nbsp;&#123;#each items as item&#125; <br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
 				&nbsp;&nbsp;&#123;/each&#125; <br>
@@ -386,7 +386,7 @@
 		</CodeBlock>
 
 		<div class="relative">
-			<TinySlider change={(/** @type {any} */ index) => thumbnailsSlider.setIndex(index)}>
+			<TinySlider onchange={(/** @type {any} */ index) => thumbnailsSlider.setIndex(index)}>
 				{#each fixedItems8 as item}
 					<img src={item} alt="" />
 				{/each}
@@ -709,7 +709,7 @@
 
 		<h4>Event</h4>
 
-		<p>You could use the event <mark>on:end</mark>, which fires when the user has reached the end of the slider based on pixels and not on currentIndex.</p>
+		<p>You could use the event <mark>onend</mark>, which fires when the user has reached the end of the slider based on pixels and not on currentIndex.</p>
 
 		<CodeBlock>
 			{#snippet svelte4()}
@@ -719,7 +719,7 @@
 			{/snippet}
 
 			{#snippet svelte5()}
-				&lt;<mark>TinySlider</mark> <mark>end</mark>=&#123;() =&gt; console.log('Reached end')&#125;&gt;<br>
+				&lt;<mark>TinySlider</mark> <mark>onend</mark>=&#123;() =&gt; console.log('Reached end')&#125;&gt;<br>
 				&nbsp;&nbsp;...<br>
 				&lt;/<mark>TinySlider</mark>&gt;
 			{/snippet}
@@ -986,8 +986,8 @@
 		<div class="table">
 			<strong>Name</strong> <strong></strong> <strong>Description</strong>
 
-			<code>end</code> <code></code> <strong>Fired when the end of the slider has been reached.</strong>
-			<code>change</code> <code></code> <strong>Fired when the slider changes it's index. The detail prop of the event is the current index.</strong>
+			<code>onend</code> <code></code> <strong>Fired when the end of the slider has been reached.</strong>
+			<code>onchange</code> <code></code> <strong>Fired when the slider changes it's index. The returned parameter of the event is the current index.</strong>
 		</div>
 	</div>
 

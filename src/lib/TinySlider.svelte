@@ -14,9 +14,11 @@
    * @property {number} [maxWidth] The added up width of all items in the slider. The innerwidth of the slider content.
    * @property {boolean} [reachedEnd] Indicates whether the end of the slider has been reached.
    * @property {number} [distanceToEnd] The distance to the end of the slider in pixels.
+   * @property {() => void} [end] Deprecated. Alias for `onend`
+   * @property {(index: number) => void} [change] Deprecated. Alias for `onchange`
    * @property {boolean} [allowWheel] Whether or not the user can swipe using their scroll wheel horizontally, most likely using a touchpad on a laptop.
-   * @property {() => void} [end] A callback function triggered when the slider reaches the end.
-   * @property {(index: number) => void} [change] A callback function triggered when the slider changes.
+   * @property {() => void} [onend] A callback function triggered when the slider reaches the end.
+   * @property {(index: number) => void} [onchange] A callback function triggered when the slider changes.
    * @property {import('svelte').Snippet<[any]>} [children] The children elements of the slider.
    * @property {import('svelte').Snippet<[any]>} [controls] The controls for the slider.
    */
@@ -37,6 +39,8 @@
     allowWheel = false,
     end = () => null,
     change = (/** @type {number} */ index) => null,
+    onend = end,
+    onchange = change,
     children,
     controls
   } = $props();
@@ -184,7 +188,7 @@
     setScrollPosition(offsets[currentIndex], true);
     finalScrollPosition = currentScrollPosition;
 
-    if (change && currentIndex != startIndex) change(currentIndex);
+    if (onchange && currentIndex != startIndex) onchange(currentIndex);
   }
 
   /**
@@ -200,7 +204,7 @@
     reachedEnd = currentScrollPosition >= endSize;
     if (!reachedEnd) return;
 
-    if (end) end();
+    if (onend) onend();
 
     if (fill && limit) currentScrollPosition = endSize;
   }

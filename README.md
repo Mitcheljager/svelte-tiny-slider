@@ -64,5 +64,5 @@ For detailed documentation on every property check out: [https://mitcheljager.gi
 
 | Name | Description |
 |---|---|
-| end | Fired when the end of the slider has been reached. |
-| change | Fired when the slider changes it's index. The detail prop of the event is the current index. |
+| onend | Fired when the end of the slider has been reached. |
+| onchange | Fired when the slider changes it's index. The returned parameter of the event is the current index. |
