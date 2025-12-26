@@ -226,7 +226,8 @@
 
   /** @returns {HTMLElement[]} */
   function getContentChildren() {
-    return Array.from(contentElement.children).filter(c => c instanceof HTMLElement);
+    // @ts-ignore
+    return Array.from(contentElement.children).filter(c => c instanceof HTMLElement).filter(c => c.src != "about:blank");
   }
 
   /** @returns {void} */
