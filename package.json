@@ -33,6 +33,7 @@
 		"@sveltejs/kit": "^2.8.0",
 		"@sveltejs/package": "^2.3.2",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0",
+		"@tailwindcss/vite": "^4.1.18",
 		"@testing-library/svelte": "^5.2.6",
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^10.0.1",
@@ -45,6 +46,7 @@
 		"publint": "^0.1.9",
 		"svelte": "^5.0.0",
 		"svelte-check": "^3.6.0",
+		"tailwindcss": "^4.1.18",
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
 		"vite": "^5.0.3",
@@ -64,9 +66,5 @@
 		"type": "git",
 		"url": "https://github.com/Mitcheljager/svelte-tiny-slider"
 	},
-	"homepage": "https://mitcheljager.github.io/svelte-tiny-slider/",
-	"dependencies": {
-		"@tailwindcss/vite": "^4.1.18",
-		"tailwindcss": "^4.1.18"
-	}
+	"homepage": "https://mitcheljager.github.io/svelte-tiny-slider/"
 }
