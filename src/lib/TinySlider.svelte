@@ -1,5 +1,5 @@
 <script>
-  import { onMount, onDestroy } from "svelte";
+  import { onMount } from "svelte";
 
   /**
    * @typedef {Object} Props
@@ -63,8 +63,11 @@
     if (contentElement) distanceToEnd = maxWidth - currentScrollPosition - sliderWidth;
   });
 
-  onMount(createResizeObserver);
-  onDestroy(() => { if (observer) observer.disconnect(); });
+  onMount(() => {
+    createResizeObserver();
+
+    return () => observer?.disconnect();
+  });
 
   /**
    * @param {number} index
