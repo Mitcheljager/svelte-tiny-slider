@@ -1,6 +1,6 @@
 {
 	"name": "svelte-tiny-slider",
-	"version": "2.4.1",
+	"version": "2.5.0",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
