@@ -67,13 +67,12 @@
   onDestroy(() => { if (observer) observer.disconnect(); });
 
   /**
-   * @param {number} i
+   * @param {number} index
    * @returns {void}
    */
-  export function setIndex(i) {
+  export function setIndex(index) {
     const length = contentElement.children.length;
-
-    const clamped = Math.max(0, Math.min(i, length - 1));
+    const clamped = Math.max(0, Math.min(index, length - 1));
 
     snapToPosition({ setIndex: clamped });
     setShown();
