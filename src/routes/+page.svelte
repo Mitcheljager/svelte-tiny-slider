@@ -25,7 +25,7 @@
 
 	$effect(() => {
 		if (shown.length < portaitItems.length) return;
-		portaitItems = [...portaitItems, ...getItems("food-drink", "200x300", 10, portaitItems.length)];
+		portaitItems = [...portaitItems, ...getItems("food-drink", "200/300", 10, portaitItems.length)];
 	});
 
 	/**
