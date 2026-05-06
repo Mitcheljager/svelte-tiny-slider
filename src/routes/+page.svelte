@@ -903,6 +903,36 @@
 				</TinySlider>
 			</div>
 		</div>
+
+		<p>Additionally you may not wish to move the slider at all until a certain threshold is passed. This may be useful when using touch controls to control how sensitive the slider is. This can be set using the <mark>moveThreshold</mark> property. This value is given in pixels. This defaults to 0.</p>
+
+		<CodeBlock>
+			{#snippet svelte4()}
+				&lt;<mark>TinySlider</mark> <mark>moveThreshold</mark>="50"&gt;<br>
+				&nbsp;&nbsp;...<br>
+				&lt;/<mark>TinySlider</mark>&gt;
+			{/snippet}
+		</CodeBlock>
+
+		<div class="relative">
+			<div class="slider-wrapper">
+				<TinySlider gap="0.5rem" moveThreshold={50}>
+					{#each { length: 10 } as _}
+						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px"></div>
+					{/each}
+
+					{#snippet controls({ setIndex, currentIndex, reachedEnd })}
+						{#if currentIndex > 0}
+							<button class="arrow left" onclick={() => setIndex(currentIndex - 1)}><Arrow /></button>
+						{/if}
+
+						{#if !reachedEnd}
+							<button class="arrow right" onclick={() => setIndex(currentIndex + 1)}><Arrow direction="right" /></button>
+						{/if}
+					{/snippet}
+				</TinySlider>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -956,6 +986,7 @@
 			<code>fill</code> <code>true</code> <strong>Boolean to set whether the slider is always filled fully when at the end.</strong>
 			<code>transitionDuration</code> <code>300</code> <strong>Transition between items in milliseconds.</strong>
 			<code>threshold</code> <code>30</code> <strong>Value in pixels for when you navigate when using drag controls.</strong>
+			<code>moveThreshold</code> <code>0</code> <strong>Value in pixels for when the slider starts to move when using drag controls.</strong>
 			<code>currentIndex</code> <code>0</code> <strong>Index of the current slide (Read only).</strong>
 			<code>shown</code> <code>[]</code> <strong>Array of all shown indexes (Read only).</strong>
 			<code>sliderWidth</code> <code>0</code> <strong>Box width in pixels of the slider as it is on the page (Read only).</strong>

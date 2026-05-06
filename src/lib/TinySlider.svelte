@@ -7,6 +7,7 @@
    * @property {boolean} [fill] Whether to always fill the full width of the container when reaching the end of the slider.
    * @property {number} [transitionDuration] The duration of the transition when sliding.
    * @property {number} [threshold] The threshold in pixels at which to move to the next/previous item after dragging. For example, a threshold of 10 means you need to move 10 pixels before the slider moves. Any less and the slider will revert back to the current item.
+   * @property {number} [moveThreshold] The threshold in pixels at which the slider will begin to move after dragging. `threshold` will only kick in after this value.
    * @property {number} [currentIndex] The index of the currently shown slide.
    * @property {number[]} [shown] An array of all indexes that have been shown.
    * @property {number} [sliderWidth] The width of the slider in pixels.
@@ -29,6 +30,7 @@
     fill = true,
     transitionDuration = 300,
     threshold = 30,
+    moveThreshold = 0,
     currentIndex = $bindable(0),
     shown = $bindable([]),
     sliderWidth = $bindable(0),
@@ -120,11 +122,15 @@
   function move(event) {
     if (!isDragging) return;
 
-    passedThreshold = Math.abs(currentScrollPosition - finalScrollPosition) > threshold;
-
     const pageX = getEventPageX(event);
+    const difference = finalScrollPosition + (movementStartX - pageX);
+    const mouseDifference = movementStartX - pageX;
 
-    setScrollPosition(finalScrollPosition + (movementStartX - pageX));
+    if (Math.abs(mouseDifference) < moveThreshold) return;
+
+    passedThreshold = Math.abs(currentScrollPosition - finalScrollPosition) > moveThreshold + threshold;
+
+    setScrollPosition(Math.abs(difference) - moveThreshold * (mouseDifference > 0 ? 1 : -1));
     setShown();
   }
 

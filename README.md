@@ -46,6 +46,7 @@ For detailed documentation on every property check out: [https://mitcheljager.gi
 | fill | true | Boolean to set whether the slider is always filled fully when at the end. |
 | transitionDuration | 300 | Transition between items in milliseconds. |
 | threshold | 30 | Value in pixels for when you navigate when using drag controls. |
+| moveThreshold | 0 | Value in pixels for when the slider starts to move when using drag controls. |
 | currentIndex | 0 | Index of the current slide (Read only). |
 | shown | [] | Array of all shown indexes (Read only). |
 | sliderWidth | 0 | Box width in pixels of the slider as it is on the page (Read only). |
