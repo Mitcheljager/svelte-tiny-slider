@@ -52,7 +52,7 @@
   } = $props();
 
   let isDragging = $state(false);
-  let isResizing = $state(false);
+  let isRepositioning = $state(false);
   let movementStartX = 0;
   let finalScrollPosition = 0;
   let sliderElement = $state();
@@ -85,6 +85,17 @@
 
     snapToPosition({ setIndex: clamped });
     setShown();
+  }
+
+  /**
+   * @returns {void}
+   */
+  export function reposition() {
+    isRepositioning = true;
+
+    setIndex(currentIndex);
+
+    requestAnimationFrame(() => isRepositioning = false);
   }
 
   /**
@@ -174,15 +185,6 @@
 
     if (event.key == "ArrowLeft") setIndex(currentIndex - 1);
     if (event.key == "ArrowRight") setIndex(currentIndex + 1);
-  }
-
-  /**
-   * @returns {void}
-   */
-  function resize() {
-    isResizing = true;
-    setIndex(currentIndex);
-    requestAnimationFrame(() => isResizing = false);
   }
 
   function snapToPosition({ setIndex = -1, direction = 1 } = {}) {
@@ -286,7 +288,7 @@
   ontouchend={up}
   ontouchmove={move}
   onkeydown={keydown}
-  onresize={resize} />
+  onresize={reposition} />
 
 <div class="slider" class:dragging={isDragging} class:passed-threshold={passedThreshold} bind:this={sliderElement} bind:clientWidth={sliderWidth} {onwheel} tabindex="-1">
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
@@ -295,7 +297,7 @@
     tabindex="0"
     class="slider-content"
     style:transform="translateX({currentScrollPosition * -1}px)"
-    style:transition-duration="{isDragging || isResizing ? 0 : transitionDuration}ms"
+    style:transition-duration="{isDragging || isRepositioning ? 0 : transitionDuration}ms"
     style:--gap={parseFloat(gap || "0") ? gap : null}>
     {@render children?.({ sliderWidth, shown, currentIndex, setIndex, currentScrollPosition, maxWidth, reachedEnd, distanceToEnd })}
   </div>

@@ -60,6 +60,7 @@ For detailed documentation on every property check out: [https://mitcheljager.gi
 | Name | Properties | Description |
 |---|---|---|
 | setIndex | index | Used to set the slider to the specified index. |
+| reposition | index | Used to manually reposition the slider without playing transitions. |
 
 #### Events
 

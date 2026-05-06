@@ -1006,6 +1006,7 @@
 			<strong>Name</strong> <strong>Properties</strong> <strong>Description</strong>
 
 			<code>setIndex</code> <code>index</code> <strong>Used to set the slider to the specified index.</strong>
+			<code>reposition</code> <code></code> <strong>Used to manually reposition the slider without playing transitions.</strong>
 		</div>
 	</div>
 
