@@ -846,7 +846,7 @@
 
 		<CodeBlock>
 			{#snippet svelte4()}
-				&lt;<mark>TinySlider</mark> <mark>transitionDuration</mark>="1000"&gt;<br>
+				&lt;<mark>TinySlider</mark> <mark>transitionDuration</mark>=&#123;1000&#125;&gt;<br>
 				&nbsp;&nbsp;...<br>
 				&lt;/<mark>TinySlider</mark>&gt;
 			{/snippet}
@@ -878,7 +878,7 @@
 
 		<CodeBlock>
 			{#snippet svelte4()}
-				&lt;<mark>TinySlider</mark> <mark>threshold</mark>="100"&gt;<br>
+				&lt;<mark>TinySlider</mark> <mark>threshold</mark>=&#123;100&#125&gt;<br>
 				&nbsp;&nbsp;...<br>
 				&lt;/<mark>TinySlider</mark>&gt;
 			{/snippet}
@@ -908,7 +908,7 @@
 
 		<CodeBlock>
 			{#snippet svelte4()}
-				&lt;<mark>TinySlider</mark> <mark>moveThreshold</mark>="50"&gt;<br>
+				&lt;<mark>TinySlider</mark> <mark>moveThreshold</mark>=&#123;50&#125&gt;<br>
 				&nbsp;&nbsp;...<br>
 				&lt;/<mark>TinySlider</mark>&gt;
 			{/snippet}
