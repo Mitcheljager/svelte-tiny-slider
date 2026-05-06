@@ -15,6 +15,8 @@
    * @property {number} [maxWidth] The added up width of all items in the slider. The innerwidth of the slider content.
    * @property {boolean} [reachedEnd] Indicates whether the end of the slider has been reached.
    * @property {number} [distanceToEnd] The distance to the end of the slider in pixels.
+   * @property {boolean} [passedThreshold] Whether or not the user has currently passed the threshold value.
+   * @property {boolean} [passedMoveThreshold] Whether or not the user has currently passed the moveThreshold value.
    * @property {() => void} [end] Deprecated. Alias for `onend`
    * @property {(index: number) => void} [change] Deprecated. Alias for `onchange`
    * @property {boolean} [allowWheel] Whether or not the user can swipe using their scroll wheel horizontally, most likely using a touchpad on a laptop.
@@ -38,6 +40,8 @@
     maxWidth = $bindable(0),
     reachedEnd = $bindable(false),
     distanceToEnd = $bindable(0),
+    passedThreshold = $bindable(false),
+    passedMoveThreshold = $bindable(false),
     allowWheel = false,
     end = () => null,
     change = (/** @type {number} */ index) => null,
