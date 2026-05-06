@@ -185,9 +185,7 @@
     for (i = 0; i < offsets.length; i++) {
       if (setIndex != -1) {
         if (i >= setIndex) break;
-      } else if (
-        (direction > 0 && offsets[i] > currentScrollPosition) ||
-        (direction < 0 && offsets[i + 1] > currentScrollPosition)) {
+      } else if ((direction > 0 && offsets[i] > currentScrollPosition) || (direction < 0 && offsets[i + 1] > currentScrollPosition)) {
         break;
       }
     }
