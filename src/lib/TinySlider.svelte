@@ -52,7 +52,6 @@
   } = $props();
 
   let isDragging = $state(false);
-  let passedThreshold = $state(false);
   let movementStartX = 0;
   let finalScrollPosition = 0;
   let sliderElement = $state();
@@ -130,9 +129,10 @@
     const difference = finalScrollPosition + (movementStartX - pageX);
     const mouseDifference = movementStartX - pageX;
 
-    if (Math.abs(mouseDifference) < moveThreshold) return;
+    passedMoveThreshold = Math.abs(mouseDifference) > moveThreshold;
+    passedThreshold = Math.abs(currentScrollPosition - finalScrollPosition) > threshold;
 
-    passedThreshold = Math.abs(currentScrollPosition - finalScrollPosition) > moveThreshold + threshold;
+    if (!passedMoveThreshold) return;
 
     setScrollPosition(Math.abs(difference) - moveThreshold * (mouseDifference > 0 ? 1 : -1));
     setShown();

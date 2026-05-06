@@ -916,7 +916,7 @@
 
 		<div class="relative">
 			<div class="slider-wrapper">
-				<TinySlider gap="0.5rem" moveThreshold={50}>
+				<TinySlider gap="0.5rem" moveThreshold={50} threshold={0}>
 					{#each { length: 10 } as _}
 						<div class="item" style:background-color="hsl({Math.floor(Math.random() * 360)}, 80%, 50%)" style:--width="200px" style:--height="200px"></div>
 					{/each}
