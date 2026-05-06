@@ -1020,6 +1020,7 @@
 
 			<code>onend</code> <code></code> <strong>Fired when the end of the slider has been reached.</strong>
 			<code>onchange</code> <code></code> <strong>Fired when the slider changes it's index. The returned parameter of the event is the current index.</strong>
+			<code>onresize</code> <code></code> <strong>Fired when the content of the slider changes in size.</strong>
 		</div>
 	</div>
 

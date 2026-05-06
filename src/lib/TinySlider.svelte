@@ -22,6 +22,7 @@
    * @property {boolean} [allowWheel] Whether or not the user can swipe using their scroll wheel horizontally, most likely using a touchpad on a laptop.
    * @property {() => void} [onend] A callback function triggered when the slider reaches the end.
    * @property {(index: number) => void} [onchange] A callback function triggered when the slider changes.
+   * @property {() => void} [onresize] A callback function triggered when the contents of the slider resize.
    * @property {import('svelte').Snippet<[any]>} [children] The children elements of the slider.
    * @property {import('svelte').Snippet<[any]>} [controls] The controls for the slider.
    */
@@ -47,6 +48,7 @@
     change = (/** @type {number} */ index) => null,
     onend = end,
     onchange = change,
+    onresize = () => null,
     children,
     controls
   } = $props();
@@ -266,6 +268,8 @@
         const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize;
         maxWidth = contentBoxSize.inlineSize;
       }
+
+      onresize();
     });
 
     observer.observe(contentElement);
