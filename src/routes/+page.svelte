@@ -108,7 +108,7 @@
 	<h2>Usage</h2>
 
 	<div class="block">
-		<p>In it's most basic state the slider is just a horizontal carousel that can only be controlled through dragging the image either with your mouse or with touch controls. The carousel items can be whatever you want them to be, in this case we're using images.</p>
+		<p>In its most basic state the slider is just a horizontal carousel that can only be controlled through dragging the image either with your mouse or with touch controls. The carousel items can be whatever you want them to be, in this case we're using images.</p>
 
 		<CodeBlock>
 			{#snippet svelte4()}
@@ -134,7 +134,7 @@
 
 		<h4>Controls via slot props</h4>
 
-		<p>The easiest way is to use <code class="inline">slot="<mark>controls</mark>"</code> and use it's slot props. There are several available props, but for controls the most relevant are:</p>
+		<p>The easiest way is to use <code class="inline">slot="<mark>controls</mark>"</code> and use its slot props. There are several available props, but for controls the most relevant are:</p>
 
 		<ul>
 			<li><mark>setIndex</mark> is a function that accepts an index of the slide you want to navigate to.</li>
