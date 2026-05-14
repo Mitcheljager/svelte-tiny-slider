@@ -148,7 +148,7 @@
 
     if (!passedMoveThreshold) return;
 
-    setScrollPosition(Math.abs(difference) - moveThreshold * (mouseDifference > 0 ? 1 : -1));
+    setScrollPosition(difference - moveThreshold * (mouseDifference > 0 ? 1 : -1));
     setShown();
   }
 
