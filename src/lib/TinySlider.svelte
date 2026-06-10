@@ -226,7 +226,7 @@
 
     if (onend) onend();
 
-    if (fill && limit) currentScrollPosition = endSize;
+    if (fill && limit) currentScrollPosition = contentElement.clientWidth < sliderWidth ? 0 : endSize;
   }
 
   /** @returns {void} */
