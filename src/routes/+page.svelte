@@ -19,6 +19,8 @@
 	/** @type {any} */
 	let slider;
 	/** @type {any} */
+	let verticalSlider;
+	/** @type {any} */
 	let thumbnailsSlider;
 	/** @type {number[]} */
 	let shown = $state([]);
@@ -546,6 +548,50 @@
 		</TinySlider>
 	</div>
 
+
+
+	<div class="block">
+		<h3>Vertical</h3>
+
+		<p>We're not limited to mere horizontal axis, we can go vertical, allowing you to go up and down rather than left and right. This allows for all other options. A wrapper with some set height is required.</p>
+
+		<CodeBlock>
+			{#snippet svelte5()}
+				&lt;div style="height: 350px;"&gt;<br>
+				&nbsp;&lt;<mark>TinySlider</mark> <mark>vertical</mark>&gt; <br>
+				&nbsp;&nbsp;&nbsp;&#123;#each items as item&#125; <br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src=&#123;item&#125; alt="" /&gt; <br>
+				&nbsp;&nbsp;&nbsp;&#123;/each&#125; <br>
+				&nbsp;&lt;/<mark>TinySlider</mark>&gt;<br>
+				&lt;/div&gt;
+			{/snippet}
+		</CodeBlock>
+
+		<div style="height: 350px; overflow-x: hidden;">
+			<TinySlider vertical bind:this={verticalSlider}>
+				{#each fixedItems as item}
+					<img src={item} alt="" />
+				{/each}
+			</TinySlider>
+		</div>
+
+		<button class="button" onclick={() => verticalSlider.setIndex(2)}>Set index to 2</button>
+		<button class="button" onclick={() => verticalSlider.setIndex(5)}>Set index to 5</button>
+		<button class="button" onclick={() => verticalSlider.setIndex(9)}>Set index to 9</button>
+
+		<p>With a gap:</p>
+
+		<div style="height: 350px; overflow-x: hidden;">
+			<TinySlider vertical gap="2rem">
+				{#each fixedItems2 as item}
+					<img src={item} alt="" />
+				{/each}
+			</TinySlider>
+		</div>
+	</div>
+
+
+
 	<div class="block">
 		<h3>Content</h3>
 
@@ -984,13 +1030,16 @@
 
 			<code>gap</code> <code>0</code> <strong>Gap between each item. Can be any CSS value.</strong>
 			<code>fill</code> <code>true</code> <strong>Boolean to set whether the slider is always filled fully when at the end.</strong>
+			<code>vertical</code> <code>false</code> <strong>Boolean to set use vertical scrolling rather than left to right.</strong>
 			<code>transitionDuration</code> <code>300</code> <strong>Transition between items in milliseconds.</strong>
 			<code>threshold</code> <code>30</code> <strong>Value in pixels for when you navigate when using drag controls.</strong>
 			<code>moveThreshold</code> <code>0</code> <strong>Value in pixels for when the slider starts to move when using drag controls.</strong>
 			<code>currentIndex</code> <code>0</code> <strong>Index of the current slide (Read only).</strong>
 			<code>shown</code> <code>[]</code> <strong>Array of all shown indexes (Read only).</strong>
 			<code>sliderWidth</code> <code>0</code> <strong>Box width in pixels of the slider as it is on the page (Read only).</strong>
+			<code>sliderHeight</code> <code>0</code> <strong>Box height in pixels of the slider as it is on the page (Read only).</strong>
 			<code>maxWidth</code> <code>0</code> <strong>Full width in pixels of all items together (Read only).</strong>
+			<code>maxHeight</code> <code>0</code> <strong>Full height in pixels of all items together (Read only).</strong>
 			<code>currentScrollPosition</code> <code>0</code> <strong>Current position in the slider in pixels (Read only).</strong>
 			<code>reachedEnd</code> <code>false</code> <strong>Boolean that is set to true when you have reached the end of the slider (Read only).</strong>
 			<code>distanceToEnd</code> <code>0</code> <strong>Distance in pixels until you reach the end of the slider (Read only).</strong>
