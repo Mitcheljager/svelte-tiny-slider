@@ -553,7 +553,7 @@
 	<div class="block">
 		<h3>Vertical</h3>
 
-		<p>We're not limited to mere horizontal axis, we can go vertical, allowing you to go up and down rather than left and right. This allows for all other options. A wrapper with some set height is required.</p>
+		<p>We're not limited to mere horizontal axes, we can go vertical, allowing you to go up and down rather than left and right. This allows for all other options. A wrapper with some set height is required.</p>
 
 		<CodeBlock>
 			{#snippet svelte5()}
