@@ -364,7 +364,7 @@
     }
   }
 
-  .vertical .slider-content {
+  .vertical > .slider-content {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
