@@ -1028,21 +1028,21 @@
 		<div class="table">
 			<strong>Property</strong> <strong>Default</strong> <strong>Description</strong>
 
-			<code>gap</code> <code>0</code> <strong>Gap between each item. Can be any CSS value.</strong>
-			<code>fill</code> <code>true</code> <strong>Boolean to set whether the slider is always filled fully when at the end.</strong>
-			<code>vertical</code> <code>false</code> <strong>Boolean to set use vertical scrolling rather than left to right.</strong>
-			<code>transitionDuration</code> <code>300</code> <strong>Transition between items in milliseconds.</strong>
-			<code>threshold</code> <code>30</code> <strong>Value in pixels for when you navigate when using drag controls.</strong>
-			<code>moveThreshold</code> <code>0</code> <strong>Value in pixels for when the slider starts to move when using drag controls.</strong>
-			<code>currentIndex</code> <code>0</code> <strong>Index of the current slide (Read only).</strong>
-			<code>shown</code> <code>[]</code> <strong>Array of all shown indexes (Read only).</strong>
-			<code>sliderWidth</code> <code>0</code> <strong>Box width in pixels of the slider as it is on the page (Read only).</strong>
-			<code>sliderHeight</code> <code>0</code> <strong>Box height in pixels of the slider as it is on the page (Read only).</strong>
-			<code>maxWidth</code> <code>0</code> <strong>Full width in pixels of all items together (Read only).</strong>
-			<code>maxHeight</code> <code>0</code> <strong>Full height in pixels of all items together (Read only).</strong>
-			<code>currentScrollPosition</code> <code>0</code> <strong>Current position in the slider in pixels (Read only).</strong>
-			<code>reachedEnd</code> <code>false</code> <strong>Boolean that is set to true when you have reached the end of the slider (Read only).</strong>
-			<code>distanceToEnd</code> <code>0</code> <strong>Distance in pixels until you reach the end of the slider (Read only).</strong>
+			<code>gap</code> <code>0</code> <span>Gap between each item. Can be any CSS value.</span>
+      <code>fill</code> <code>true</code> <span>Boolean to set whether the slider is always filled fully when at the end.</span>
+      <code>vertical</code> <code>false</code> <span>Boolean to set use vertical scrolling rather than left to right.</span>
+      <code>transitionDuration</code> <code>300</code> <span>Transition between items in milliseconds.</span>
+      <code>threshold</code> <code>30</code> <span>Value in pixels for when you navigate when using drag controls.</span>
+      <code>moveThreshold</code> <code>0</code> <span>Value in pixels for when the slider starts to move when using drag controls.</span>
+      <code>currentIndex</code> <code>0</code> <span>Index of the current slide (Read only).</span>
+      <code>shown</code> <code>[]</code> <span>Array of all shown indexes (Read only).</span>
+      <code>sliderWidth</code> <code>0</code> <span>Box width in pixels of the slider as it is on the page (Read only).</span>
+      <code>sliderHeight</code> <code>0</code> <span>Box height in pixels of the slider as it is on the page (Read only).</span>
+      <code>maxWidth</code> <code>0</code> <span>Full width in pixels of all items together (Read only).</span>
+      <code>maxHeight</code> <code>0</code> <span>Full height in pixels of all items together (Read only).</span>
+      <code>currentScrollPosition</code> <code>0</code> <span>Current position in the slider in pixels (Read only).</span>
+      <code>reachedEnd</code> <code>false</code> <span>Boolean that is set to true when you have reached the end of the slider (Read only).</span>
+      <code>distanceToEnd</code> <code>0</code> <span>Distance in pixels until you reach the end of the slider (Read only).</span>
 		</div>
 	</div>
 
@@ -1054,8 +1054,8 @@
 		<div class="table">
 			<strong>Name</strong> <strong>Properties</strong> <strong>Description</strong>
 
-			<code>setIndex</code> <code>index</code> <strong>Used to set the slider to the specified index.</strong>
-			<code>reposition</code> <code></code> <strong>Used to manually reposition the slider without playing transitions.</strong>
+			<code>setIndex</code> <code>index</code> <span>Used to set the slider to the specified index.</span>
+			<code>reposition</code> <code></code> <span>Used to manually reposition the slider without playing transitions.</span>
 		</div>
 	</div>
 
@@ -1067,9 +1067,9 @@
 		<div class="table">
 			<strong>Name</strong> <strong></strong> <strong>Description</strong>
 
-			<code>onend</code> <code></code> <strong>Fired when the end of the slider has been reached.</strong>
-			<code>onchange</code> <code></code> <strong>Fired when the slider changes it's index. The returned parameter of the event is the current index.</strong>
-			<code>onresize</code> <code></code> <strong>Fired when the content of the slider changes in size.</strong>
+			<code>onend</code> <code></code> <span>Fired when the end of the slider has been reached.</span>
+			<code>onchange</code> <code></code> <span>Fired when the slider changes it's index. The returned parameter of the event is the current index.</span>
+			<code>onresize</code> <code></code> <span>Fired when the content of the slider changes in size.</span>
 		</div>
 	</div>
 
